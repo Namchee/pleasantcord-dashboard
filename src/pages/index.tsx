@@ -1,11 +1,9 @@
-import type { NextPage } from 'next';
-
-const Home: NextPage = () => {
+function Home(): JSX.Element {
   return (
-    <div className="text-gray-500 text-6xl font-bold">
-      Hello World!
-    </div>
+    <main>
+      foo bar;
+    </main>
   );
-};
+}
 
 export default Home;
