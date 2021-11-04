@@ -1,8 +1,11 @@
 import * as React from 'react';
 
 import { useRouter } from 'next/router';
-
 import { signIn, useSession } from 'next-auth/client';
+
+import { DISCORD } from '@/constant/provider';
+
+import { AuthLoader } from '@/components/AuthLoader';
 
 function AuthGuard(
   { children }: React.PropsWithChildren<unknown>,
@@ -13,13 +16,13 @@ function AuthGuard(
   React.useEffect(() => {
     if (!loading) {
       if (!session) {
-        signIn('discord');
+        signIn(DISCORD);
       }
     }
   }, [session, loading, router]);
 
   if (loading) {
-    return <p>LOADING</p>;
+    return <AuthLoader />;
   }
 
   if (!loading && session) {

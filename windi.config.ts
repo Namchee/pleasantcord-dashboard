@@ -9,5 +9,8 @@ export default defineConfig({
     fontFamily: {
       sans: ['Public Sans', 'system-ui', 'Segoe UI', 'Arial', 'sans-serif'],
     },
+    extend: {
+      colors: require('@radix-ui/colors'),
+    },
   },
 });

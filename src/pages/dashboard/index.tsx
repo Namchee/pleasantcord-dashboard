@@ -10,6 +10,4 @@ function Dashboard(): JSX.Element {
   );
 }
 
-Dashboard.protected = true;
-
 export default Dashboard;
