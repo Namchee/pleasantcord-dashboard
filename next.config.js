@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const WindiCSSWebpackPlugin = require('windicss-webpack-plugin');
 
 /** @type {import('next').NextConfig} */
@@ -7,4 +8,4 @@ module.exports = {
     config.plugins.push(new WindiCSSWebpackPlugin());
     return config;
   },
-}
+};

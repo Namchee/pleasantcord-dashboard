@@ -10,7 +10,11 @@ export default defineConfig({
       sans: ['Public Sans', 'system-ui', 'Segoe UI', 'Arial', 'sans-serif'],
     },
     extend: {
-      colors: require('@radix-ui/colors'),
+      colors: {
+        background: '#3E3E44',
+        depth: '#34343A',
+        accent: '#3B82F6',
+      },
     },
   },
 });

@@ -11,7 +11,8 @@ function DefaultLayout({
         <title>Pleasantcord&apos;s Dashboard</title>
       </Head>
 
-      <div className="flex flex-col min-h-screen">
+      <div className="min-h-screen
+        bg-background">
         <main>
           {children}
         </main>
