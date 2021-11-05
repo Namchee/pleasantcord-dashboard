@@ -8,4 +8,16 @@ module.exports = {
     config.plugins.push(new WindiCSSWebpackPlugin());
     return config;
   },
+  i18n: {
+    locales: ['en-US'],
+    defaultLocale: 'en-US',
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/',
+        destination: '/dashboard',
+      },
+    ];
+  },
 };

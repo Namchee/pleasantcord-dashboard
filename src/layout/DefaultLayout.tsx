@@ -9,10 +9,13 @@ function DefaultLayout({
     <>
       <Head>
         <title>Pleasantcord&apos;s Dashboard</title>
+        <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+        <meta property="og:locale" content="en_US" />
       </Head>
 
       <div className="min-h-screen
-        bg-background">
+        bg-background
+        text-content">
         <main>
           {children}
         </main>
