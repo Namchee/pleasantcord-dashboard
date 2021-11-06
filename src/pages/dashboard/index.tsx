@@ -10,7 +10,9 @@ function Dashboard(): JSX.Element {
       <div className="flex-1 flex">
         <Sidenav />
         <main className="flex-1
-          flex flex-col">
+          flex flex-col
+          max-w-6xl
+          mx-auto">
           <Topnav />
           <div className="p-16">
             You are authenticated
