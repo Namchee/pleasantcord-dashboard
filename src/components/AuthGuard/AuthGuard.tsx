@@ -1,25 +1,20 @@
 import * as React from 'react';
 
-import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/client';
 
 import { DISCORD } from '@/constant/provider';
-
 import { AuthLoader } from '@/components/AuthLoader';
 
 function AuthGuard(
   { children }: React.PropsWithChildren<unknown>,
 ): JSX.Element {
   const [session, loading] = useSession();
-  const router = useRouter();
 
   React.useEffect(() => {
-    if (!loading) {
-      if (!session) {
-        signIn(DISCORD);
-      }
+    if (!loading && !session) {
+      signIn(DISCORD);
     }
-  }, [session, loading, router]);
+  }, [session, loading]);
 
   if (loading) {
     return <AuthLoader />;
@@ -29,7 +24,7 @@ function AuthGuard(
     return <>{children}</>;
   }
 
-  return <></>;
+  return <AuthLoader />;
 }
 
 export default AuthGuard;

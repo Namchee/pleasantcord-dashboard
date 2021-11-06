@@ -16,9 +16,7 @@ function DefaultLayout({
       <div className="min-h-screen
         bg-background
         text-content">
-        <main>
-          {children}
-        </main>
+        {children}
       </div>
     </>
   );
