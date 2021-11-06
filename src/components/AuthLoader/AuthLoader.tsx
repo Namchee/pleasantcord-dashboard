@@ -14,8 +14,8 @@ function AuthLoader(): JSX.Element {
   };
 
   return (
-    <div className="w-screen h-screen grid place-items-center">
-      <Lottie options={opts} width={320} height={320} speed={1.65} />
+    <div className="flex-1 grid place-items-center">
+      <Lottie options={opts} width={320} height={320} speed={1.75} />
     </div>
   );
 }
