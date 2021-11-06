@@ -9,7 +9,7 @@ function Dashboard(): JSX.Element {
     <AuthGuard>
       <div className="flex-1 flex">
         <Sidenav />
-        <main className="w-full
+        <main className="flex-1
           flex flex-col">
           <Topnav />
           <div className="p-16">

@@ -11,6 +11,7 @@ export default defineConfig({
     },
     extend: {
       colors: {
+        surface: '#504F57',
         background: '#3E3E44',
         depth: '#34343A',
         accent: '#3B82F6',
