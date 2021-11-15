@@ -4,12 +4,12 @@ import Providers from 'next-auth/providers';
 export default NextAuth({
   jwt: {
     secret: process.env.JWT_SECRET,
-    signingKey: process.env.JWT_PRIVATE_KEY,
   },
   providers: [
     Providers.Discord({
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
+      scope: 'guilds',
     }),
   ],
   callbacks: {

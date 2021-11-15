@@ -1,24 +1,14 @@
 import * as React from 'react';
 
 import { AuthGuard } from '@/components/AuthGuard';
-import { Sidenav } from '@/components/Sidenav';
-import { Topnav } from '@/components/Topnav';
+import DashboardLayout from '@/layout/DashboardLayout';
 
 function Dashboard(): JSX.Element {
   return (
     <AuthGuard>
-      <div className="flex-1 flex">
-        <Sidenav />
-        <main className="flex-1
-          flex flex-col
-          max-w-6xl
-          mx-auto">
-          <Topnav />
-          <div className="p-16">
-            You are authenticated
-          </div>
-        </main>
-      </div>
+      <DashboardLayout>
+        <p className="p-16">You are authenticated</p>
+      </DashboardLayout>
     </AuthGuard>
   );
 }
