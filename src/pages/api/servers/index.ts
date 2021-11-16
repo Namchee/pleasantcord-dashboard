@@ -12,44 +12,62 @@ async function getServers(
     secret: process.env.JWT_SECRET,
   });
 
-  if (!token) {
+  const accessToken = token?.accessToken;
+
+  if (!token || !accessToken) {
     return res.status(500).json({
       data: null,
       error: 'User is not authenticated',
     });
   }
 
-  const accessToken = token?.accessToken;
+  const result = await Promise.all([
+    fetchAdminUserServer(accessToken),
+    fetchBotServer(process.env.BOT_TOKEN as string),
+  ]);
 
-  const result = await fetch(
-    `${API_URL}/users/@me/guilds`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
+  const botServers = result[1].map((s) => s.id);
 
-  if (!result.ok) {
-    return res.status(500).json({
-      data: null,
-      error: result.statusText,
-    });
-  }
-
-  const json: Server[] = await result.json();
-  const adminServer = json.filter((s) => {
-    return isAdmin(s.permissions);
+  const servers = result[0].filter(({ id }) => {
+    return botServers.includes(id);
   });
 
   return res.status(200).json({
-    data: adminServer,
+    data: servers,
     error: null,
   });
 }
 
 function isAdmin(permission: string): boolean {
   return !!(Number(permission) & ADMIN_FLAG);
+}
+
+async function fetchAdminUserServer(token: string): Promise<Server[]> {
+  const result = await fetch(
+    `${API_URL}/users/@me/guilds`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  const servers: Server[] = await result.json();
+
+  return servers.filter(({ permissions }) => isAdmin(permissions));
+}
+
+async function fetchBotServer(token: string): Promise<Server[]> {
+  const result = await fetch(
+    `${API_URL}/users/@me/guilds`,
+    {
+      headers: {
+        Authorization: `Bot ${token}`,
+      },
+    }
+  );
+
+  return result.json();
 }
 
 export default getServers;
