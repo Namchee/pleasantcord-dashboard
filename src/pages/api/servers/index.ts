@@ -17,7 +17,7 @@ async function getServers(
   const accessToken = token?.accessToken;
 
   if (!token || !accessToken) {
-    return res.status(500).json({
+    return res.status(401).json({
       data: null,
       error: 'User is not authenticated',
     });

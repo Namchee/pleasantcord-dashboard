@@ -1,9 +1,28 @@
 import * as React from 'react';
 
+import useSWR from 'swr';
+
 import { signOut } from 'next-auth/client';
-import { Badge } from '../Badge';
+
+import * as Popover from '@radix-ui/react-popover';
+
+import { fetcher } from '@/utils/fetcher';
+
+import { Skeleton } from '@/components/Skeleton';
+import { Badge } from '@/components/Badge';
+
+import { APIResponse } from '@/entity/response';
+import { User } from '@/entity/user';
 
 function Topnav(): JSX.Element {
+  const { data } = useSWR<APIResponse<User> >('/api/user', fetcher);
+
+  React.useEffect(() => {
+    if (data) {
+      console.log(data);
+    }
+  }, [data]);
+
   return (
     <div className="w-full
       px-16
@@ -25,11 +44,7 @@ function Topnav(): JSX.Element {
           Beta
         </Badge.Grass>
       </div>
-      <button
-        className="px-4 py-2 rounded-md bg-accent text-sm tracking-tight"
-        onClick={() => signOut()}>
-        Sign out
-      </button>
+      <Skeleton className="rounded-full w-12 h-12"/>
     </div>
   );
 }
