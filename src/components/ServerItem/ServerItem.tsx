@@ -1,15 +1,17 @@
 import * as React from 'react';
 
+import { useRouter } from 'next/router';
+
 import Link from 'next/link';
-import Image from 'next/image';
+
+import * as RadixAvatar from '@radix-ui/react-avatar';
 
 import { Server } from '@/entity/server';
-import { Avatar } from '../Avatar';
-import { useRouter } from 'next/dist/client/router';
+import { Avatar } from '@/components/Avatar';
 
 export type ServerItemProps = {
   server: Server;
-}
+};
 
 function ServerItem({
   server,
@@ -28,16 +30,23 @@ function ServerItem({
       ${!isSameId && 'grayscale-75'}
       group-hover:grayscale-0`;
 
-    return server.icon ?
-      <Image
-        src={iconLink()}
-        width={40}
-        height={40}
-        alt={server.name}
-        title={server.name}
-        className={className}
-      /> :
-      <Avatar name={server.name} />;
+    return server.icon ? (
+      <RadixAvatar.Root className="flex">
+        <RadixAvatar.Image
+          width={40}
+          height={40}
+          src={iconLink()}
+          alt={server.name}
+          title={server.name}
+          className={className}
+        />
+        <RadixAvatar.Fallback>
+          <Avatar name={server.name} />
+        </RadixAvatar.Fallback>
+      </RadixAvatar.Root>
+    ) : (
+      <Avatar name={server.name} />
+    );
   };
 
   const containerClass = () => {
@@ -64,9 +73,7 @@ function ServerItem({
     <Link href={`/dashboard/${server.id}`}>
       <a className={containerClass()}>
         {avatar()}
-        <p className={textClass()}>
-          {server.name}
-        </p>
+        <p className={textClass()}>{server.name}</p>
       </a>
     </Link>
   );
