@@ -45,7 +45,7 @@ function ServerItem({
       p-2
       space-x-4
       rounded-md
-      bg-white
+      bg-content
       ${isSameId ? 'bg-opacity-5' : 'bg-opacity-0'}
       w-full
       group`;

@@ -1,7 +1,8 @@
-import { ADMIN_FLAG, API_URL } from '@/constant/api';
-import { Server } from '@/entity/server';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getToken } from 'next-auth/jwt';
+
+import { ADMIN_FLAG, API_URL } from '@/constant/api';
+import { Server } from '@/entity/server';
 
 async function getServers(
   req: NextApiRequest,
@@ -10,6 +11,7 @@ async function getServers(
   const token = await getToken({
     req,
     secret: process.env.JWT_SECRET,
+    signingKey: process.env.JWT_PRIVATE_KEY,
   });
 
   const accessToken = token?.accessToken;

@@ -17,9 +17,9 @@ function Sidenav(): JSX.Element {
     if (!data) {
       return (
         <>
-          <Skeleton className="rounded h-12 w-full" />
-          <Skeleton className="rounded h-12 w-full" />
-          <Skeleton className="rounded h-12 w-full" />
+          <Skeleton className="rounded h-14 w-full" />
+          <Skeleton className="rounded h-14 w-full" />
+          <Skeleton className="rounded h-14 w-full" />
         </>
       );
     }
