@@ -3,6 +3,7 @@ import * as React from 'react';
 import useSWR from 'swr';
 
 import { signOut } from 'next-auth/client';
+import { useSpring, animated } from 'react-spring';
 
 import * as RadixAvatar from '@radix-ui/react-avatar';
 import * as Popover from '@radix-ui/react-popover';
@@ -21,6 +22,14 @@ function getIconLink({ id, avatar }: User): string {
 
 function Profile(): JSX.Element {
   const [open, setOpen] = React.useState(false);
+  const transition = useSpring({
+    opacity: open ? 1 : 0,
+    transform: open ? 'translateY(0px)' : 'translateY(-8px)',
+    reverse: open,
+    config: {
+      duration: 125,
+    },
+  });
 
   const { data } = useSWR<APIResponse<User> >('/api/user', fetcher);
 
@@ -29,6 +38,8 @@ function Profile(): JSX.Element {
   }
 
   const { data: user } = data;
+
+  const PopoverContent = animated(Popover.Content);
 
   return (
     <Popover.Root open={open}>
@@ -53,7 +64,8 @@ function Profile(): JSX.Element {
           </RadixAvatar.Root>
         </button>
       </Popover.Trigger>
-      <Popover.Content
+      <PopoverContent
+        style={transition}
         sideOffset={8}
         collisionTolerance={12}
         onPointerDownOutside={() => setOpen(false)}>
@@ -84,7 +96,7 @@ function Profile(): JSX.Element {
           </button>
         </div>
         <Popover.Arrow offset={16} className="fill-current text-depth" />
-      </Popover.Content>
+      </PopoverContent>
     </Popover.Root>
   );
 }
