@@ -9,6 +9,7 @@ import * as RadixAvatar from '@radix-ui/react-avatar';
 import { Server } from '@/entity/server';
 import { Avatar } from '@/components/Avatar';
 import { CDN_URL } from '@/constant/api';
+import ServerItemSkeleton from './Skeleton';
 
 export type ServerItemProps = {
   server: Server;
@@ -79,5 +80,7 @@ function ServerItem({
     </Link>
   );
 }
+
+ServerItem.Skeleton = ServerItemSkeleton;
 
 export default ServerItem;

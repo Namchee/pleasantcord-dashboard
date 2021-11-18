@@ -3,7 +3,6 @@ import * as React from 'react';
 import Image from 'next/image';
 import useSWR from 'swr';
 
-import { Skeleton } from '@/components/Skeleton';
 import { ServerItem } from '@/components/ServerItem';
 
 import { fetcher } from '@/utils/fetcher';
@@ -17,9 +16,9 @@ function Sidenav(): JSX.Element {
     if (!data) {
       return (
         <>
-          <Skeleton className="rounded h-14 w-full" />
-          <Skeleton className="rounded h-14 w-full" />
-          <Skeleton className="rounded h-14 w-full" />
+          <ServerItem.Skeleton />
+          <ServerItem.Skeleton />
+          <ServerItem.Skeleton />
         </>
       );
     }
