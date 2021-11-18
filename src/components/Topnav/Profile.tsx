@@ -25,7 +25,6 @@ function Profile(): JSX.Element {
   const transition = useSpring({
     opacity: open ? 1 : 0,
     transform: open ? 'translateY(0px)' : 'translateY(-8px)',
-    reverse: open,
     config: {
       duration: 125,
     },

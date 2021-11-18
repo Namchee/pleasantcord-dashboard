@@ -25,6 +25,15 @@ function Sidenav(): JSX.Element {
 
     const { data: servers } = data;
 
+    if (!servers.length) {
+      return <p className="text-xl
+        opacity-40
+        text-center
+        py-24">
+        No managed servers
+      </p>;
+    }
+
     return servers.map((s, i) => <ServerItem key={i} server={s} />);
   };
 
