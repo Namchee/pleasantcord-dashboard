@@ -9,19 +9,19 @@ function Dashboard(): JSX.Element {
   return (
     <AuthGuard>
       <DashboardLayout>
-        <div className="mt-12 grid place-items-center">
+        <div className="grid place-items-center">
           <Image
             src="/images/landing-dashboard.svg"
-            width={240}
-            height={240}
+            width={280}
+            height={280}
             title="Select server to manage"
             alt="Select server to manage"
           />
-          <p className="mt-8 max-w-md opacity-50 text-xl">
-            To begin, select one of servers from the sidebar.
+          <p className="mt-8 max-w-md opacity-40 text-lg leading-relaxed">
+            To begin, select one of the servers from the menu
           </p>
-          <p className="max-w-md mt-2 text-sm">
-            <span className="opacity-50">
+          <p className="max-w-md text-lg">
+            <span className="opacity-40">
               Or add the bot to your server by clicking
             </span>{' '}
             <a
@@ -30,7 +30,7 @@ function Dashboard(): JSX.Element {
               className="text-accent opacity-100"
               href="https://discord.com/oauth2/authorize?client_id=750668307555942482&permissions=10240&scope=bot">
                 here
-            </a>.
+            </a>
           </p>
         </div>
       </DashboardLayout>

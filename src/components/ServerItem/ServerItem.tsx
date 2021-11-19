@@ -6,13 +6,13 @@ import Link from 'next/link';
 
 import * as RadixAvatar from '@radix-ui/react-avatar';
 
-import { Server } from '@/entity/server';
+import { PartialServer } from '@/entity/server';
 import { Avatar } from '@/components/Avatar';
 import { CDN_URL } from '@/constant/api';
 import ServerItemSkeleton from './Skeleton';
 
 export type ServerItemProps = {
-  server: Server;
+  server: PartialServer;
 };
 
 function ServerItem({

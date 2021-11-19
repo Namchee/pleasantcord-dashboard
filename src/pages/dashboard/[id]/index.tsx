@@ -1,17 +1,30 @@
 import * as React from 'react';
 
+import { useRouter } from 'next/router';
+import useSWR from 'swr';
+
 import { AuthGuard } from '@/components/AuthGuard';
 import { DashboardLayout } from '@/layout';
-import { useRouter } from 'next/dist/client/router';
+import { fetcher } from '@/utils/fetcher';
 
 function ServerDashboard(): JSX.Element {
-  const router = useRouter();
-  const { id } = router.query;
+  const { query } = useRouter();
+  const { id } = query;
+
+  const { data } = useSWR(['/api/servers', id], (url, id) => {
+    return fetcher(`${url}/${id}`);
+  });
+
+  React.useEffect(() => {
+    if (data) {
+      console.log(data);
+    }
+  }, [data]);
 
   return (
     <AuthGuard>
       <DashboardLayout>
-        <p className="p-16">Server id is <b>{id}</b></p>
+        The server id is {id}
       </DashboardLayout>
     </AuthGuard>
   );

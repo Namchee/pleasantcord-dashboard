@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getToken } from 'next-auth/jwt';
 
 import { ADMIN_FLAG, API_URL } from '@/constant/api';
-import { Server } from '@/entity/server';
+import { PartialServer } from '@/entity/server';
 
 async function getServers(
   req: NextApiRequest,
@@ -44,7 +44,7 @@ function isAdmin(permission: string): boolean {
   return !!(Number(permission) & ADMIN_FLAG);
 }
 
-async function fetchAdminUserServer(token: string): Promise<Server[]> {
+async function fetchAdminUserServer(token: string): Promise<PartialServer[]> {
   const result = await fetch(
     `${API_URL}/users/@me/guilds`,
     {
@@ -54,12 +54,12 @@ async function fetchAdminUserServer(token: string): Promise<Server[]> {
     }
   );
 
-  const servers: Server[] = await result.json();
+  const servers: PartialServer[] = await result.json();
 
   return servers.filter(({ permissions }) => isAdmin(permissions));
 }
 
-async function fetchBotServer(token: string): Promise<Server[]> {
+async function fetchBotServer(token: string): Promise<PartialServer[]> {
   const result = await fetch(
     `${API_URL}/users/@me/guilds`,
     {

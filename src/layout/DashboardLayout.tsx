@@ -18,7 +18,9 @@ function DashboardLayout({
           mx-auto"
       >
         <Topnav />
-        {children}
+        <div className="p-16">
+          {children}
+        </div>
       </main>
     </div>
   );

@@ -6,11 +6,14 @@ import useSWR from 'swr';
 import { ServerItem } from '@/components/ServerItem';
 
 import { fetcher } from '@/utils/fetcher';
-import { Server } from '@/entity/server';
+import { PartialServer } from '@/entity/server';
 import { APIResponse } from '@/entity/response';
 
 function Sidenav(): JSX.Element {
-  const { data } = useSWR<APIResponse<Server[]> >('/api/servers', fetcher);
+  const { data } = useSWR<APIResponse<PartialServer[]> >(
+    '/api/servers',
+    fetcher,
+  );
 
   const items = () => {
     if (!data) {
