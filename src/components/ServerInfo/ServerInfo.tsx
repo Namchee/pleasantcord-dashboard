@@ -42,7 +42,7 @@ function ServerInfo({
             <CheckmarkIcon className="w-5 h-5 text-accent" />
           }
         </p>
-        <p className="opacity-50 text-xl">
+        <p className="opacity-50 text-lg">
           {server.approximate_member_count} members
         </p>
       </div>

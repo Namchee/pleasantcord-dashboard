@@ -17,7 +17,7 @@ function Topnav(): JSX.Element {
         space-x-4"
       >
         <h1
-          className="text-4xl
+          className="text-2xl
           font-bold
           tracking-tight"
         >
@@ -27,6 +27,7 @@ function Topnav(): JSX.Element {
           className="text-xs
             px-2 py-1
             rounded-md
+            font-medium
             uppercase"
           label="beta"
         >
