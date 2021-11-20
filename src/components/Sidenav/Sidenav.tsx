@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import useSWR from 'swr';
 
 import { ServerItem } from '@/components/ServerItem';
@@ -10,9 +11,9 @@ import { PartialServer } from '@/entity/server';
 import { APIResponse } from '@/entity/response';
 
 function Sidenav(): JSX.Element {
-  const { data } = useSWR<APIResponse<PartialServer[]> >(
+  const { data } = useSWR<APIResponse<PartialServer[]>>(
     '/api/servers',
-    fetcher,
+    fetcher
   );
 
   const items = () => {
@@ -29,54 +30,65 @@ function Sidenav(): JSX.Element {
     const { data: servers } = data;
 
     if (!servers.length) {
-      return <p className="text-xl
+      return (
+        <p
+          className="text-xl
         opacity-40
         text-center
-        py-24">
-        No managed servers
-      </p>;
+        py-24"
+        >
+          No managed servers
+        </p>
+      );
     }
 
     return servers.map((s, i) => <ServerItem key={i} server={s} />);
   };
 
   return (
-    <nav className="bg-depth
+    <nav
+      className="bg-depth
       p-8
-      h-full">
-      <div className="flex items-center
+      h-full"
+    >
+      <Link href="/dashboard">
+        <a
+          className="flex items-center
         space-x-4
         ml-1
-        mb-12">
-        <Image
-          width={48}
-          height={48}
-          src="/images/logo-production.svg"
-          alt="pleasantcord"
-          title="pleasantcord"
-          role="banner"
-        />
-        <h1
-          className="text-2xl
+        mb-12"
+        >
+          <Image
+            width={48}
+            height={48}
+            src="/images/logo-production.svg"
+            alt="pleasantcord"
+            title="pleasantcord"
+            role="banner"
+          />
+          <h1
+            className="text-2xl
             tracking-tight
-            font-bold">
-          pleasantcord
-        </h1>
-      </div>
+            font-bold"
+          >
+            pleasantcord
+          </h1>
+        </a>
+      </Link>
 
-      <p className="uppercase
+      <p
+        className="uppercase
         text-sm
         font-bold
         tracking-wider
         opacity-60
         leading-relaxed
-        mb-4">
+        mb-4"
+      >
         Servers
       </p>
 
-      <ul className="space-y-2">
-        {items()}
-      </ul>
+      <ul className="space-y-2">{items()}</ul>
     </nav>
   );
 }

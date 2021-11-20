@@ -38,7 +38,7 @@ function ServerInfo({
             {server.name}
           </h1>
           {
-            !isVerified() &&
+            isVerified() &&
             <CheckmarkIcon className="w-5 h-5 text-accent" />
           }
         </p>
