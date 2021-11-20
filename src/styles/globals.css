@@ -4,3 +4,23 @@
   font-weight: 100 900;
   font-style: normal;
 }
+
+html, body {
+  scroll-behavior: smooth;
+}
+
+#nprogress .bar {
+  background-color: #FFA31A;
+  height: 4px;
+
+  position: fixed;
+  z-index: 1024;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+}
+
+#nprogress .peg {
+  display: none;
+}

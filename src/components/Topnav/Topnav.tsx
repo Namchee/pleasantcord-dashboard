@@ -10,7 +10,7 @@ function Topnav(): JSX.Element {
       className="w-full
       px-16
       flex items-center justify-between
-      h-30"
+      h-28"
     >
       <div
         className="flex items-center

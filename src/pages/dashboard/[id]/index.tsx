@@ -29,8 +29,28 @@ function ServerDashboard(): JSX.Element {
   return (
     <AuthGuard>
       <DashboardLayout>
-        <div>
-          {header()}
+        <div className="mb-10">{header()}</div>
+        <div className="mb-10">
+          <h2 className="font-medium text-xl">Configuration</h2>
+          <p className="opacity-50 mt-2 max-w-lg">
+            You can configure pleasantcord&apos;s behavior here
+          </p>
+        </div>
+        <div className="space-y-8 py-8">
+          <div className="grid grid-cols-[4fr,6fr]">
+            <p className="text-lg">
+              NSFW Categories
+            </p>
+            <p>bar</p>
+          </div>
+          <div className="grid grid-cols-[4fr,6fr]">
+            <p className="text-lg">NSFW Categories</p>
+            <p>bar</p>
+          </div>
+          <div className="grid grid-cols-[4fr,6fr]">
+            <p className="text-lg">NSFW Categories</p>
+            <p>bar</p>
+          </div>
         </div>
       </DashboardLayout>
     </AuthGuard>
