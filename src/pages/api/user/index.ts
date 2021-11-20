@@ -22,7 +22,7 @@ async function getCurrentUser(
     });
   }
 
-  const result = await fetch(
+  const response = await fetch(
     `${API_URL}/users/@me`,
     {
       headers: {
@@ -31,11 +31,18 @@ async function getCurrentUser(
     }
   );
 
-  const json = await result.json();
+  if (!response.ok) {
+    return res.status(response.status).json({
+      data: null,
+      error: response.statusText,
+    });
+  }
 
-  return res.status(result.ok ? 200 : 500).json({
-    data: result.ok ? json : null,
-    error: result.ok ? null : result.statusText,
+  const result = await response.json();
+
+  return res.status(200).json({
+    data: result,
+    error: null,
   });
 }
 

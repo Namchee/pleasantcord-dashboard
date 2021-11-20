@@ -66,7 +66,7 @@ function ServerItem({
     return `font-medium
       flex-1
       truncate
-      ${isSameId ? 'opacity-100' : 'opacity-60'}
+      ${isSameId ? 'opacity-100' : 'opacity-50'}
       group-hover:opacity-100
       transition-opacity`;
   };

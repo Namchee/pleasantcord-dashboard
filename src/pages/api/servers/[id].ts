@@ -32,6 +32,13 @@ async function getServerById(
     }
   );
 
+  if (!response.ok) {
+    return res.status(response.status).json({
+      data: null,
+      error: response.statusText,
+    });
+  }
+
   const result = await response.json();
 
   return res.status(200).json({

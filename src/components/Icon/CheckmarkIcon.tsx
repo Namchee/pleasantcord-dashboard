@@ -1,9 +1,12 @@
 import * as React from 'react';
 
-function CheckmarkIcon(): JSX.Element {
+import { StyleProps } from '@/common/style';
+
+function CheckmarkIcon({ className }: StyleProps): JSX.Element {
   return (
     <svg
       viewBox="0 0 15 15"
+      className={className}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >

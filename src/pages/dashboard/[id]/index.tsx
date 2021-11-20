@@ -6,6 +6,7 @@ import useSWR from 'swr';
 import { AuthGuard } from '@/components/AuthGuard';
 import { DashboardLayout } from '@/layout';
 import { fetcher } from '@/utils/fetcher';
+import { ServerInfo } from '@/components/ServerInfo';
 
 function ServerDashboard(): JSX.Element {
   const { query } = useRouter();
@@ -15,16 +16,22 @@ function ServerDashboard(): JSX.Element {
     return fetcher(`${url}/${id}`);
   });
 
-  React.useEffect(() => {
-    if (data) {
-      console.log(JSON.stringify(data, null, 2));
+  const header = () => {
+    if (!data) {
+      return <ServerInfo.Skeleton />;
     }
-  }, [data]);
+
+    const { data: server } = data;
+
+    return <ServerInfo server={server} />;
+  };
 
   return (
     <AuthGuard>
       <DashboardLayout>
-        The server id is {id}
+        <div>
+          {header()}
+        </div>
       </DashboardLayout>
     </AuthGuard>
   );
