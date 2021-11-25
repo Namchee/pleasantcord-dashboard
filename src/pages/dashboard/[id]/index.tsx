@@ -7,7 +7,7 @@ import { AuthGuard } from '@/components/AuthGuard';
 import { DashboardLayout } from '@/layout';
 import { fetcher } from '@/utils/fetcher';
 import { ServerInfo } from '@/components/ServerInfo';
-import { useForm } from 'react-hook-form';
+// import { useForm } from 'react-hook-form';
 
 function ServerDashboard(): JSX.Element {
   const { query } = useRouter();
@@ -17,7 +17,7 @@ function ServerDashboard(): JSX.Element {
     return fetcher(`${url}/${id}`);
   });
 
-  const { data: categoriesData } = useSWR('/api/categories', fetcher);
+  // const { data: categoriesData } = useSWR('/api/categories', fetcher);
 
   const header = () => {
     if (!headerData) {
