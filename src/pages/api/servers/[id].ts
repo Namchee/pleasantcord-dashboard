@@ -39,10 +39,10 @@ async function getServerById(
     });
   }
 
-  const result = await response.json();
+  const { data } = await response.json();
 
   return res.status(200).json({
-    data: result,
+    data,
     error: null,
   });
 }

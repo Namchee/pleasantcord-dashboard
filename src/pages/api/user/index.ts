@@ -1,3 +1,4 @@
+import { UnauthenticatedException } from '@/common/error';
 import { API_URL } from '@/constant/api';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -7,6 +8,34 @@ async function getCurrentUser(
   req: NextApiRequest,
   res: NextApiResponse,
 ): Promise<void> {
+  try {
+    const response = await getCurrentDiscordUser(req);
+
+    if (!response.ok) {
+      return res.status(response.status).json({
+        data: null,
+        error: response.statusText,
+      });
+    }
+
+    const result = await response.json();
+
+    return res.status(200).json({
+      data: result,
+      error: null,
+    });
+  } catch (err) {
+    const error = err as Error;
+    const unauthenticated = error instanceof UnauthenticatedException;
+
+    return res.status(unauthenticated ? 401 : 500).json({
+      data: null,
+      error: error.message,
+    });
+  }
+}
+
+export async function getCurrentDiscordUser(req: NextApiRequest) {
   const token = await getToken({
     req,
     secret: process.env.JWT_SECRET,
@@ -16,13 +45,10 @@ async function getCurrentUser(
   const accessToken = token?.accessToken;
 
   if (!token || !accessToken) {
-    return res.status(401).json({
-      data: null,
-      error: 'User is not authenticated',
-    });
+    throw new UnauthenticatedException();
   }
 
-  const response = await fetch(
+  return fetch(
     `${API_URL}/users/@me`,
     {
       headers: {
@@ -30,20 +56,6 @@ async function getCurrentUser(
       },
     }
   );
-
-  if (!response.ok) {
-    return res.status(response.status).json({
-      data: null,
-      error: response.statusText,
-    });
-  }
-
-  const result = await response.json();
-
-  return res.status(200).json({
-    data: result,
-    error: null,
-  });
 }
 
 export default getCurrentUser;
