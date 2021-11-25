@@ -30,7 +30,7 @@ function Profile(): JSX.Element {
     },
   });
 
-  const { data } = useSWR<APIResponse<User> >('/api/user', fetcher);
+  const { data } = useSWR<APIResponse<User>>('/api/user', fetcher);
 
   if (!data) {
     return <Skeleton className="rounded-full w-12 h-12" />;
@@ -42,32 +42,32 @@ function Profile(): JSX.Element {
 
   return (
     <Popover.Root open={open}>
-      <Popover.Trigger className="focus:outline-none">
-        <button
-          onPointerDown={() => setOpen(!open)}
-          className={`rounded-full
+      <Popover.Trigger
+        onPointerDown={() => setOpen(!open)}
+        className={`rounded-full
           transition-shadow
           w-12 h-12
           ${open && 'ring ring-4 ring-opacity-50'}
-          focus:(outline-none ring ring-accent ring-opacity-40 ring-4)`}>
-          <RadixAvatar.Root>
-            <RadixAvatar.Image
-              src={getIconLink(user)}
-              width={48}
-              height={48}
-              className="rounded-full shadow-inner"
-            />
-            <RadixAvatar.Fallback>
-              <Avatar rounded name={user.username} />
-            </RadixAvatar.Fallback>
-          </RadixAvatar.Root>
-        </button>
+          focus:(outline-none ring ring-accent ring-opacity-40 ring-4)`}
+      >
+        <RadixAvatar.Root>
+          <RadixAvatar.Image
+            src={getIconLink(user)}
+            width={48}
+            height={48}
+            className="rounded-full shadow-inner"
+          />
+          <RadixAvatar.Fallback>
+            <Avatar rounded name={user.username} />
+          </RadixAvatar.Fallback>
+        </RadixAvatar.Root>
       </Popover.Trigger>
       <PopoverContent
         style={transition}
         sideOffset={8}
         collisionTolerance={12}
-        onPointerDownOutside={() => setOpen(false)}>
+        onPointerDownOutside={() => setOpen(false)}
+      >
         <div className="py-6 px-8 bg-depth rounded-lg text-content">
           <p
             className="text-xs
@@ -90,7 +90,8 @@ function Profile(): JSX.Element {
               text-sm
               mt-8
               transition-shadow
-              focus:(outline-none ring ring-accent ring-opacity-50 ring-4)">
+              focus:(outline-none ring ring-accent ring-opacity-50 ring-4)"
+          >
             Sign out
           </button>
         </div>
