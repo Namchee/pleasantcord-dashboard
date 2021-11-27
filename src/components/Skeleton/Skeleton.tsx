@@ -12,6 +12,7 @@ function Skeleton(
   return (
     <div
       aria-hidden="true"
+      aria-busy="true"
       className={style()} />
   );
 }

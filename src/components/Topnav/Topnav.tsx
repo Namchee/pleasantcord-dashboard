@@ -17,7 +17,8 @@ function Topnav(): JSX.Element {
         space-x-4"
       >
         <h1
-          className="text-2xl
+          className="text-28px
+          leading-relaxed
           font-bold
           tracking-tight"
         >

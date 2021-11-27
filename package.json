@@ -8,6 +8,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.8.3",
     "@radix-ui/react-avatar": "^0.1.1",
     "@radix-ui/react-checkbox": "^0.1.1",
     "@radix-ui/react-popover": "^0.1.1",
@@ -19,7 +20,8 @@
     "react-hook-form": "^7.20.2",
     "react-lottie": "^1.2.3",
     "react-spring": "^9.3.0",
-    "swr": "^1.0.1"
+    "swr": "^1.0.1",
+    "zod": "^3.11.6"
   },
   "devDependencies": {
     "@types/node": "16.11.6",

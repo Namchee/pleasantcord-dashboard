@@ -67,7 +67,8 @@ function Sidenav(): JSX.Element {
             role="banner"
           />
           <h1
-            className="text-2xl
+            className="text-28px
+            leading-relaxed
             tracking-tight
             font-bold"
           >
