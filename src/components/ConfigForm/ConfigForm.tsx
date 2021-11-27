@@ -232,7 +232,7 @@ function ConfigForm({
       </div>
 
       <div className="grid grid-cols-2">
-        <div className="col-start-2 mt-8">
+        <div className="col-start-2 mt-6">
           <button
             type="submit"
             className="bg-accent
