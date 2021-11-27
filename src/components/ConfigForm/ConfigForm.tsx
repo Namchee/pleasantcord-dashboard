@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
 import { useForm } from 'react-hook-form';
 
+import { Button } from '@/components/Button';
 import { Configuration } from '@/entity/config';
 import { Category } from '@/entity/category';
 
@@ -233,23 +234,14 @@ function ConfigForm({
 
       <div className="grid grid-cols-2">
         <div className="col-start-2 mt-6">
-          <button
+          <Button
             type="submit"
-            className="bg-accent
-            text-white
-            rounded-md
-            px-8 py-2
-            text-lg
-            font-medium
-            transition-shadow
-            transition-colors
-            hover:bg-accentDark
-            active:bg-accentDark
-            focus:outline-none
-            focus:(bg-accentDark ring ring-4 ring-accent ring-opacity-50)"
-          >
+            theme="primary"
+            className="px-8 py-2
+              text-lg
+              font-medium">
             Save
-          </button>
+          </Button>
         </div>
       </div>
     </form>

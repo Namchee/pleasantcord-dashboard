@@ -10,11 +10,13 @@ import * as Popover from '@radix-ui/react-popover';
 
 import { Avatar } from '@/components/Avatar';
 import { Skeleton } from '@/components/Skeleton';
+import { Button } from '@/components/Button';
 
 import { CDN_URL } from '@/constant/api';
 import { fetcher } from '@/utils/fetcher';
-import type { APIResponse } from '@/entity/response';
+
 import type { User } from '@/entity/user';
+import type { APIResponse } from '@/entity/response';
 
 function getIconLink({ id, avatar }: User): string {
   return `${CDN_URL}/avatars/${id}/${avatar}`;
@@ -82,22 +84,16 @@ function Profile(): JSX.Element {
             <span className="font-bold tracking-tight">{user.username}</span>
             <span className="opacity-50 ml-2px">#{user.discriminator}</span>
           </p>
-          <button
+
+          <Button
             onClick={() => signOut()}
+            type="button"
+            theme="primary"
             className="px-4 py-2
-              bg-accent
-              rounded-md
               text-sm
-              mt-8
-              transition-shadow
-              transition-colors
-              hover:bg-accentDark
-              active:bg-accentDark
-              focus:outline-none
-              focus:(bg-accentDark ring ring-4 ring-accent ring-opacity-50)"
-          >
+              mt-8">
             Sign out
-          </button>
+          </Button>
         </div>
         <Popover.Arrow offset={16} className="fill-current text-depth" />
       </PopoverContent>
