@@ -7,23 +7,32 @@ async function getCategories(
   res: NextApiResponse,
 ): Promise<void> {
   try {
-    const userId = getCurrentDiscordUser(req);
+    const user = await getCurrentDiscordUser(req);
 
-    const apiUrl = process.env.API_URL;
-    const apiKey = process.env.API_KEY;
+    const { id } = await user.json();
+
+    const apiUrl = process.env.PC_API_URL;
+    const apiKey = process.env.PC_API_KEY;
 
     if (!apiUrl || !apiKey) {
       throw new Error('Missing API data. Please check the config');
     }
 
     const response = await fetch(
-      `$${apiUrl}/categories`,
+      `${apiUrl}/categories`,
       {
         headers: {
-          Authorization: `pleasantcord ${apiKey}/${userId}`,
+          Authorization: `pleasantcord ${apiKey}/${id}`,
         },
       },
     );
+
+    if (!response.ok) {
+      return res.status(response.status).json({
+        data: null,
+        error: response.statusText,
+      });
+    }
 
     const { data } = await response.json();
 

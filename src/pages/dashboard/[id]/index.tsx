@@ -8,7 +8,6 @@ import { DashboardLayout } from '@/layout';
 import { fetcher } from '@/utils/fetcher';
 import { ServerInfo } from '@/components/ServerInfo';
 import { ConfigForm } from '@/components/ConfigForm';
-// import { useForm } from 'react-hook-form';
 
 function ServerDashboard(): JSX.Element {
   const { query } = useRouter();
@@ -18,7 +17,10 @@ function ServerDashboard(): JSX.Element {
     return fetcher(`${url}/${id}`);
   });
 
-  // const { data: categoriesData } = useSWR('/api/categories', fetcher);
+  const { data: categoriesData } = useSWR('/api/categories', fetcher);
+  const { data: configData } = useSWR(['/api/configs', id], (url, id) => {
+    return fetcher(`${url}/${id}`);
+  });
 
   const header = () => {
     if (!headerData) {
@@ -28,6 +30,19 @@ function ServerDashboard(): JSX.Element {
     const { data: server } = headerData;
 
     return <ServerInfo server={server} />;
+  };
+
+  const form = () => {
+    if (!categoriesData || !configData) {
+      return <ConfigForm.Skeleton />;
+    }
+
+    const { data: config } = configData;
+    const { data: categories } = categoriesData;
+
+    return <ConfigForm
+      config={config}
+      categoryList={categories} />;
   };
 
   return (
@@ -44,7 +59,7 @@ function ServerDashboard(): JSX.Element {
             You can configure pleasantcord&apos;s behavior here
           </p>
         </div>
-        <ConfigForm.Skeleton />
+        {form()}
       </DashboardLayout>
     </AuthGuard>
   );

@@ -8,7 +8,7 @@ function DashboardLayout({
 }: React.PropsWithChildren<unknown>): JSX.Element {
   return (
     <div className="flex-1 flex">
-      <aside className="w-1/4 max-w-360px sticky">
+      <aside className="w-1/4 max-w-360px">
         <Sidenav />
       </aside>
       <main
