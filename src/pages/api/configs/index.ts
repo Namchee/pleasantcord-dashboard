@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { UnauthenticatedException } from '@/common/error';
 import { getCurrentDiscordUser } from '@/pages/api/user';
 
-export async function getServerConfig(
+export async function updateServerConfig(
   req: NextApiRequest,
   res: NextApiResponse,
 ): Promise<void> {
@@ -19,18 +19,13 @@ export async function getServerConfig(
       throw new Error('Missing API data. Please check the config');
     }
 
-    const serverId = req.query['id'];
-
-    if (!serverId) {
-      throw new Error('Server ID is required');
-    }
-
     const response = await fetch(
-      `${apiUrl}/config/${serverId}`,
+      `${apiUrl}/config`,
       {
         headers: {
           Authorization: `pleasantcord ${apiKey}/${id}`,
         },
+        body: req.body,
       },
     );
 
@@ -43,7 +38,7 @@ export async function getServerConfig(
 
     const { data } = await response.json();
 
-    return res.status(200).json({
+    return res.status(204).json({
       data,
       error: null,
     });
@@ -59,4 +54,4 @@ export async function getServerConfig(
 }
 
 
-export default getServerConfig;
+export default updateServerConfig;

@@ -1,6 +1,7 @@
-import { UnauthenticatedException } from '@/common/error';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getCurrentDiscordUser } from '../user';
+
+import { UnauthenticatedException } from '@/common/error';
+import { getCurrentDiscordUser } from '@/pages/api/user';
 
 async function getCategories(
   req: NextApiRequest,

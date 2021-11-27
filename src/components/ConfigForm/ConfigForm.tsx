@@ -33,6 +33,21 @@ const configSchema = z
   })
   .strict('Illegal fields');
 
+export async function updateConfig(
+  id: string,
+  config: Record<string, unknown>
+): Promise<boolean> {
+  const result = await fetch('/api/configs', {
+    method: 'PUT',
+    body: JSON.stringify({
+      server_id: id,
+      ...config,
+    }),
+  });
+
+  return result.ok;
+}
+
 function ConfigForm({
   config,
   categoryList,
@@ -241,7 +256,8 @@ function ConfigForm({
             theme="primary"
             className="px-8 py-2
               text-lg
-              font-medium">
+              font-medium"
+          >
             Save
           </Button>
         </div>
