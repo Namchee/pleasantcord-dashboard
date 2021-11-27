@@ -90,7 +90,11 @@ function Profile(): JSX.Element {
               text-sm
               mt-8
               transition-shadow
-              focus:(outline-none ring ring-accent ring-opacity-50 ring-4)"
+              transition-colors
+              hover:bg-accentDark
+              active:bg-accentDark
+              focus:outline-none
+              focus:(bg-accentDark ring ring-4 ring-accent ring-opacity-50)"
           >
             Sign out
           </button>
