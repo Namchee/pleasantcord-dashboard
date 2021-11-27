@@ -16,6 +16,7 @@ export default defineConfig({
         depth: '#34343A',
         dark: '#232326',
         accent: '#3B82F6',
+        accentDark: '#2776F5',
         content: 'hsla(240, 100%, 100%, 0.931)',
         grass: '#30A46C',
         danger: '#CD2B31',

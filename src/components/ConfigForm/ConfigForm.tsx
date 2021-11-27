@@ -14,30 +14,33 @@ export type ConfigFormProps = {
   categoryList: Category[];
 };
 
-const configSchema = z.object({
-  accuracy: z
-    .number({
-      required_error: 'This field is required',
-      invalid_type_error: 'Accuracy must be a number',
-    })
-    .gt(0, 'Accuracy should be greater than zero')
-    .max(100, 'Accuracy cannot exceed 100%'),
-  categories: z
-    .enum(['Drawing', 'Neutral', 'Hentai', 'Sexy', 'Porn'])
-    .array()
-    .min(1, 'Please select one of the categories')
-    .max(5, 'You cannot select more than all provided categories'),
-  delete: z.boolean({
-    required_error: 'This field is required',
-    invalid_type_error: 'Action must be a boolean',
-  }),
-});
+const configSchema = z
+  .object({
+    accuracy: z
+      .number({
+        required_error: 'This field is required',
+        invalid_type_error: 'This field is required',
+      })
+      .gt(0, 'Accuracy must be greater than zero')
+      .max(100, 'Accuracy cannot exceed 100%'),
+    categories: z
+      .enum(['Drawing', 'Neutral', 'Hentai', 'Sexy', 'Porn'])
+      .array()
+      .min(1, 'Please select one of the categories')
+      .max(5, 'You cannot select more than all provided categories'),
+    delete: z.enum(['true', 'false']),
+  })
+  .strict('Illegal fields');
 
 function ConfigForm({
   config,
   categoryList,
 }: React.PropsWithoutRef<ConfigFormProps>): JSX.Element {
-  const { register, handleSubmit, formState } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       accuracy: config.accuracy * 100,
       categories: config.categories,
@@ -45,17 +48,14 @@ function ConfigForm({
     },
     mode: 'onChange',
     reValidateMode: 'onChange',
+    shouldFocusError: true,
     resolver: zodResolver(configSchema),
   });
-
-  React.useEffect(() => {
-    console.log(formState);
-  }, [formState]);
 
   const onSubmit = (data: Configuration) => console.log(data);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
       <div
         className="grid
         grid-cols-2"
@@ -84,8 +84,9 @@ function ConfigForm({
             transition-shadow
             focus:(outline-none ring ring-3 ring-accent ring-opacity-50)"
               type="number"
-              placeholder="Minimum accuracy"
-              {...register('accuracy')}
+              placeholder="Threshold"
+              required={true}
+              {...register('accuracy', { valueAsNumber: true })}
             />
             <span
               aria-hidden="true"
@@ -95,8 +96,8 @@ function ConfigForm({
             </span>
           </div>
 
-          <p className="text-danger text-sm h-5 mt-3">
-            {formState.errors.accuracy?.message}
+          <p className="text-danger text-sm h-5 mt-2">
+            {errors.accuracy?.message}
           </p>
         </div>
       </div>
@@ -118,33 +119,41 @@ function ConfigForm({
         <div>
           <div className="space-y-6">
             {categoryList.map((v, i) => {
-              return <div
-                key={`category-${i}`}
-                className="flex items-start space-x-4 max-w-sm">
-                <input
-                  id={`category-${v.name}`}
-                  value={v.name}
-                  type="checkbox"
-                  className="w-6 h-6
-                bg-depth
-                transition-shadow
-                border border-dark
-                focus:(outline-none ring ring-3 ring-accent ring-opacity-50)
-                text-accent
-                rounded-md"
-                  {...register('categories')}
-                />
-                <label htmlFor={`category-${v.name}`}>
-                  <p className="text-lg">{v.name}</p>
-                  <p className="text-sm leading-relaxed opacity-50">
-                    {v.description}
-                  </p>
+              return (
+                <label
+                  className="flex items-start space-x-4 max-w-sm"
+                  key={`category-${i}`}
+                  htmlFor={`category-${v.name}`}
+                >
+                  <input
+                    id={`category-${v.name}`}
+                    value={v.name}
+                    type="checkbox"
+                    className="w-6 h-6
+                  bg-depth
+                  transition-shadow
+                  border border-dark
+                  focus:(outline-none ring ring-3 ring-accent ring-opacity-50)
+                  text-accent
+                  rounded-md"
+                    {...register('categories')}
+                  />
+
+                  <div>
+                    <p className="text-lg">{v.name}</p>
+                    <p className="text-sm leading-relaxed opacity-50">
+                      {v.description}
+                    </p>
+                  </div>
                 </label>
-              </div>;
+              );
             })}
           </div>
           <p className="text-danger text-sm h-5 mt-2">
-            {formState.errors.categories?.unshift.name}
+            {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (errors.categories as any)?.message
+            }
           </p>
         </div>
       </div>
@@ -159,59 +168,65 @@ function ConfigForm({
             <span className="text-danger ml-1">*</span>
           </label>
           <p className="mt-2 opacity-50 text-sm max-w-sm">
-            Response to NSFW contents
+            Action be taken on NSFW contents
           </p>
         </div>
 
         <div>
           <div className="space-y-6">
-            <div className="flex items-start space-x-4">
+            <label htmlFor="delete-true" className="flex items-start space-x-4">
               <input
                 {...register('delete')}
                 id="delete-true"
                 value="true"
                 type="radio"
                 className="w-6 h-6
-              bg-depth
-              transition-shadow
-              border border-dark
-              focus:(outline-none ring ring-3 ring-accent ring-opacity-50)
-              text-accent
-              rounded-full"
+                  bg-depth
+                    transition-shadow
+                    border border-dark
+                    focus:(outline-none ring ring-3 ring-accent ring-opacity-50)
+                  text-accent
+                  rounded-full"
               />
-              <label htmlFor="delete-true">
+
+              <div>
                 <p className="text-lg">Delete Content</p>
                 <p className="text-sm leading-loose opacity-50">
                   NSFW contents will be deleted
                 </p>
-              </label>
-            </div>
-            <div className="flex items-start space-x-4">
+              </div>
+            </label>
+
+            <label
+              htmlFor="delete-false"
+              className="flex items-start space-x-4"
+            >
               <input
                 {...register('delete')}
                 id="delete-false"
                 value="false"
                 type="radio"
                 className="w-6 h-6
-              bg-depth
-              transition-shadow
-              border border-dark
-              focus:(outline-none ring ring-3 ring-accent ring-opacity-50)
-              text-accent
-              rounded-full"
+                  bg-depth
+                    transition-shadow
+                    border border-dark
+                    focus:(outline-none ring ring-3 ring-accent ring-opacity-50)
+                  text-accent
+                  rounded-full"
               />
-              <label htmlFor="delete-false">
+
+              <div>
                 <p className="text-lg">Blur Content</p>
                 <p className="text-sm leading-loose opacity-50 max-w-sm">
-                  NSFW contents will be deleted and re-posted with{' '}
+                  NSFW contents will be deleted <b>AND</b> re-posted with{' '}
                   <code className="bg-dark py-1 px-2 rounded">SPOILER</code> tag
                 </p>
-              </label>
-            </div>
+              </div>
+            </label>
           </div>
 
           <p className="text-danger text-sm h-5 mt-2">
-            {formState.errors.delete?.message}
+            {errors.delete?.message}
           </p>
         </div>
       </div>
@@ -228,8 +243,10 @@ function ConfigForm({
             font-medium
             transition-shadow
             transition-colors
-            hover:bg-blue-600
-            focus:(outline-none ring ring-4 ring-accent ring-opacity-50)"
+            hover:bg-accentDark
+            active:bg-accentDark
+            focus:outline-none
+            focus:(bg-accentDark ring ring-4 ring-accent ring-opacity-50)"
           >
             Save
           </button>
