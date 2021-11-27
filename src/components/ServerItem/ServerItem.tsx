@@ -62,8 +62,10 @@ function ServerItem({
       group`;
   };
 
+  // max width is hacked due to radix ui
   const textClass = () => {
     return `font-medium
+      max-w-22ch
       flex-1
       truncate
       ${isSameId ? 'opacity-100' : 'opacity-50'}

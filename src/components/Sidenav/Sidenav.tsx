@@ -4,6 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import useSWR from 'swr';
 
+import * as ScrollArea from '@radix-ui/react-scroll-area';
+
 import { ServerItem } from '@/components/ServerItem';
 
 import { fetcher } from '@/utils/fetcher';
@@ -19,11 +21,11 @@ function Sidenav(): JSX.Element {
   const items = () => {
     if (!data) {
       return (
-        <>
+        <div className="space-y-2">
           <ServerItem.Skeleton />
           <ServerItem.Skeleton />
           <ServerItem.Skeleton />
-        </>
+        </div>
       );
     }
 
@@ -33,30 +35,43 @@ function Sidenav(): JSX.Element {
       return (
         <p
           className="text-xl
-        opacity-40
-        text-center
-        py-24"
+            opacity-40
+            text-center
+            py-24"
         >
           No managed servers
         </p>
       );
     }
 
-    return servers.map((s, i) => <ServerItem key={i} server={s} />);
+    return (
+      <ScrollArea.Root>
+        <ScrollArea.Viewport>
+          <ul className="max-h-screen space-y-2">
+            {servers.map((s, i) => <ServerItem key={i} server={s} />)}
+          </ul>
+        </ScrollArea.Viewport>
+        <ScrollArea.Scrollbar orientation="vertical">
+          <ScrollArea.Thumb />
+        </ScrollArea.Scrollbar>
+        <ScrollArea.Corner />
+      </ScrollArea.Root>
+    );
   };
 
   return (
     <nav
       className="bg-depth
-      p-8
-      h-full"
+        p-8
+        h-screen
+        overflow-hidden"
     >
       <Link href="/dashboard">
         <a
           className="flex items-center
-        space-x-4
-        ml-1
-        mb-12"
+            space-x-4
+            ml-1
+            mb-12"
         >
           <Image
             width={48}
@@ -89,7 +104,7 @@ function Sidenav(): JSX.Element {
         Servers
       </p>
 
-      <ul className="space-y-2">{items()}</ul>
+      {items()}
     </nav>
   );
 }

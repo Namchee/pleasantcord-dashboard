@@ -27,7 +27,7 @@ function Dashboard(): JSX.Element {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              className="text-accent opacity-100"
+              className="text-primary opacity-100"
               href="https://discord.com/oauth2/authorize?client_id=750668307555942482&permissions=10240&scope=bot">
                 here
             </a>

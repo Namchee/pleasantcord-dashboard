@@ -83,7 +83,7 @@ function ConfigForm({
             rounded-md
             border border-dark
             transition-shadow
-            focus:(outline-none ring ring-3 ring-accent ring-opacity-50)"
+            focus:(outline-none ring ring-3 ring-primary ring-opacity-50)"
               type="number"
               placeholder="Threshold"
               required={true}
@@ -134,8 +134,8 @@ function ConfigForm({
                   bg-depth
                   transition-shadow
                   border border-dark
-                  focus:(outline-none ring ring-3 ring-accent ring-opacity-50)
-                  text-accent
+                  focus:(outline-none ring ring-3 ring-primary ring-opacity-50)
+                  text-primary
                   rounded-md"
                     {...register('categories')}
                   />
@@ -185,8 +185,9 @@ function ConfigForm({
                   bg-depth
                     transition-shadow
                     border border-dark
-                    focus:(outline-none ring ring-3 ring-accent ring-opacity-50)
-                  text-accent
+                    focus:outline-none
+                    focus:(ring ring-3 ring-primary ring-opacity-50)
+                  text-primary
                   rounded-full"
               />
 
@@ -211,8 +212,9 @@ function ConfigForm({
                   bg-depth
                     transition-shadow
                     border border-dark
-                    focus:(outline-none ring ring-3 ring-accent ring-opacity-50)
-                  text-accent
+                    focus:outline-none
+                    focus:(ring ring-3 ring-primary ring-opacity-50)
+                  text-primary
                   rounded-full"
               />
 

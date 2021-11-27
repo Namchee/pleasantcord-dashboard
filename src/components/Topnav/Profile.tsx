@@ -50,7 +50,7 @@ function Profile(): JSX.Element {
           transition-shadow
           w-12 h-12
           ${open && 'ring ring-4 ring-opacity-50'}
-          focus:(outline-none ring ring-accent ring-opacity-40 ring-4)`}
+          focus:(outline-none ring ring-primary ring-opacity-40 ring-4)`}
       >
         <RadixAvatar.Root>
           <RadixAvatar.Image
