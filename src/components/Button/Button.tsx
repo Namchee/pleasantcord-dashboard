@@ -24,6 +24,7 @@ export interface ButtonProps extends StyleProps {
   theme: keyof typeof themeStyles;
   onClick?: React.MouseEventHandler;
   type?: 'button' | 'submit' | 'reset';
+  isLoading?: boolean;
 }
 
 function Button({

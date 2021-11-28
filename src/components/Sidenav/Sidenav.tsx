@@ -44,68 +44,72 @@ function Sidenav(): JSX.Element {
       );
     }
 
-    return (
-      <ScrollArea.Root>
-        <ScrollArea.Viewport>
-          <ul className="max-h-screen space-y-2">
-            {servers.map((s, i) => <ServerItem key={i} server={s} />)}
-          </ul>
-        </ScrollArea.Viewport>
-        <ScrollArea.Scrollbar orientation="vertical">
-          <ScrollArea.Thumb />
-        </ScrollArea.Scrollbar>
-        <ScrollArea.Corner />
-      </ScrollArea.Root>
-    );
+    return servers.map((s, i) => <ServerItem key={i} server={s} />);
   };
 
   return (
-    <nav
-      className="bg-depth
-        p-8
-        h-screen
-        overflow-hidden"
-    >
-      <Link href="/dashboard">
-        <a
-          className="flex items-center
+    <ScrollArea.Root>
+      <ScrollArea.Viewport className="max-h-screen">
+        <nav className="p-8">
+          <Link href="/dashboard">
+            <a
+              className="flex items-center
             space-x-4
             ml-1
             mb-12"
-        >
-          <Image
-            width={48}
-            height={48}
-            src="/images/logo-production.svg"
-            alt="pleasantcord"
-            title="pleasantcord"
-            role="banner"
-          />
-          <h1
-            className="text-28px
+            >
+              <Image
+                width={48}
+                height={48}
+                src="/images/logo-production.svg"
+                alt="pleasantcord"
+                title="pleasantcord"
+                role="banner"
+              />
+              <h1
+                className="text-28px
             leading-relaxed
             tracking-tight
             font-bold"
-          >
-            pleasantcord
-          </h1>
-        </a>
-      </Link>
+              >
+                pleasantcord
+              </h1>
+            </a>
+          </Link>
 
-      <p
-        className="uppercase
+          <p
+            className="uppercase
         text-sm
         font-bold
         tracking-wider
         opacity-60
         leading-relaxed
         mb-4"
-      >
-        Servers
-      </p>
+          >
+            Servers
+          </p>
 
-      {items()}
-    </nav>
+          <ul className="space-y-2">
+            {items()}
+          </ul>
+        </nav>
+      </ScrollArea.Viewport>
+      <ScrollArea.Scrollbar
+        className="bg-surface
+          w-2
+          rounded-full"
+        orientation="vertical">
+        <ScrollArea.Thumb
+          className="bg-dark opacity-75
+            w-1
+            rounded-full" />
+      </ScrollArea.Scrollbar>
+      <ScrollArea.Scrollbar
+        orientation="horizontal">
+        <ScrollArea.Thumb />
+      </ScrollArea.Scrollbar>
+      <ScrollArea.Corner />
+    </ScrollArea.Root>
   );
 }
 

@@ -10,7 +10,8 @@ function DashboardLayout({
     <div className="flex-1 flex">
       <aside className="w-1/4 max-w-360px
         sticky top-0 left-0
-        h-screen">
+        h-screen
+        bg-depth">
         <Sidenav />
       </aside>
       <main
