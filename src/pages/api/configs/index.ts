@@ -7,6 +7,13 @@ export async function updateServerConfig(
   req: NextApiRequest,
   res: NextApiResponse,
 ): Promise<void> {
+  if (req.method?.toUpperCase() !== 'PUT') {
+    return res.status(405).json({
+      data: null,
+      error: 'Method not allowed',
+    });
+  }
+
   try {
     const user = await getCurrentDiscordUser(req);
 
@@ -25,6 +32,7 @@ export async function updateServerConfig(
         headers: {
           Authorization: `pleasantcord ${apiKey}/${id}`,
         },
+        method: 'PUT',
         body: req.body,
       },
     );
@@ -36,12 +44,7 @@ export async function updateServerConfig(
       });
     }
 
-    const { data } = await response.json();
-
-    return res.status(204).json({
-      data,
-      error: null,
-    });
+    return res.status(204).json({});
   } catch (err) {
     const error = err as Error;
     const isUnauthenticated = error instanceof UnauthenticatedException;

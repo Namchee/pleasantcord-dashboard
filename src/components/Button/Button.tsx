@@ -1,5 +1,7 @@
-import { StyleProps } from '@/common/style';
 import * as React from 'react';
+
+import { SpinnerIcon } from '@/components/Icon';
+import { StyleProps } from '@/common/style';
 
 const themeStyles = {
   primary: `bg-primary
@@ -20,11 +22,21 @@ const themeStyles = {
   focus:(outline-none bg-accentDark ring ring-4 ring-primary ring-opacity-50)`,
 };
 
+const disabledStyles = {
+  primary: `bg-primary
+  opacity-60
+  text-white
+  rounded-md
+  cursor-not-allowed`,
+  accent: '',
+};
+
 export interface ButtonProps extends StyleProps {
   theme: keyof typeof themeStyles;
   onClick?: React.MouseEventHandler;
   type?: 'button' | 'submit' | 'reset';
-  isLoading?: boolean;
+  disabled?: boolean;
+  loading?: boolean;
 }
 
 function Button({
@@ -32,20 +44,25 @@ function Button({
   type,
   onClick,
   className,
+  disabled,
+  loading,
   children,
 }: React.PropsWithChildren<ButtonProps>): JSX.Element {
   const style = () => {
-    const baseTheme = themeStyles[theme];
+    const baseTheme = disabled || loading ?
+      disabledStyles[theme] :
+      themeStyles[theme];
 
     return `${baseTheme} ${className}`;
   };
 
   return (
     <button
+      disabled={disabled || loading}
       type={type}
       onClick={onClick}
       className={style()}>
-      {children}
+      {loading ? <SpinnerIcon className="w-6 h-6 animate-spin" />: children}
     </button>
   );
 }

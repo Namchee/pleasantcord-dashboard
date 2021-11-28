@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { useRouter } from 'next/router';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
 import { useForm } from 'react-hook-form';
@@ -33,21 +34,6 @@ const configSchema = z
   })
   .strict('Illegal fields');
 
-export async function updateConfig(
-  id: string,
-  config: Record<string, unknown>
-): Promise<boolean> {
-  const result = await fetch('/api/configs', {
-    method: 'PUT',
-    body: JSON.stringify({
-      server_id: id,
-      ...config,
-    }),
-  });
-
-  return result.ok;
-}
-
 function ConfigForm({
   config,
   categoryList,
@@ -55,7 +41,7 @@ function ConfigForm({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm({
     defaultValues: {
       accuracy: config.accuracy * 100,
@@ -68,7 +54,34 @@ function ConfigForm({
     resolver: zodResolver(configSchema),
   });
 
-  const onSubmit = (data: Configuration) => console.log(data);
+  const [loading, setLoading] = React.useState(false);
+  const { query } = useRouter();
+  const { id } = query;
+
+  const onSubmit = async (data: Record<string, unknown>) => {
+    const config = {
+      server_id: id,
+      accuracy: (data.accuracy as number) / 100,
+      categories: data.categories,
+      delete: data.delete === 'true',
+    };
+
+    setLoading(true);
+
+    const result = await fetch(
+      '/api/config',
+      {
+        method: 'PUT',
+        body: JSON.stringify(config),
+      },
+    );
+
+    if (result.ok) {
+      // do something
+    }
+
+    setLoading(false);
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -252,9 +265,12 @@ function ConfigForm({
       <div className="grid grid-cols-2">
         <div className="col-start-2 mt-6">
           <Button
+            disabled={!isDirty}
+            loading={loading}
             type="submit"
             theme="primary"
-            className="px-8 py-2
+            className="grid place-items-center
+              w-30 h-12
               text-lg
               font-medium"
           >
