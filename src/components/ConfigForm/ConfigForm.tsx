@@ -1,11 +1,9 @@
 import * as React from 'react';
 
-import * as Dialog from '@radix-ui/react-dialog';
-
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
 import { useForm } from 'react-hook-form';
-import router, { useRouter, Router } from 'next/router';
+import { useRouter } from 'next/router';
 
 import { Button } from '@/components/Button';
 import { Configuration } from '@/entity/config';
@@ -84,25 +82,6 @@ function ConfigForm({
     setLoading(false);
   };
 
-  const [modalOpen, setModalOpen] = React.useState(false);
-  const [route, setRoute] = React.useState('');
-
-  React.useEffect(() => {
-    const warnUnsaved = (target: string) => {
-      if (isDirty) {
-        setModalOpen(true);
-        setRoute(target);
-        Router.events.emit('routeChangeError');
-        throw new Error('');
-      }
-    };
-
-    Router.events.on('routeChangeStart', warnUnsaved);
-
-    return () => {
-      Router.events.off('routeChangeStart', warnUnsaved);
-    };
-  }, [isDirty]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -302,22 +281,6 @@ function ConfigForm({
           </Button>
         </div>
       </div>
-
-      <Dialog.Root open={modalOpen}>
-        <Dialog.Trigger />
-        <Dialog.Content className="bg-depth p-4">
-          <Dialog.Title className="text-2xl">Quit Editing?</Dialog.Title>
-          <Dialog.Description className="opacity-50">
-            Any unsaved changes will be lost
-          </Dialog.Description>
-          <Dialog.Close onClick={() => setModalOpen(false)}>
-            Stay on this page
-          </Dialog.Close>
-          <Dialog.Close onClick={() => router.push(route)}>
-            Discard Changes
-          </Dialog.Close>
-        </Dialog.Content>
-      </Dialog.Root>
     </form>
   );
 }
