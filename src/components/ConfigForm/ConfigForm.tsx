@@ -10,6 +10,7 @@ import { Configuration } from '@/entity/config';
 import { Category } from '@/entity/category';
 
 import Skeleton from './Skeleton';
+import toast, { Toaster } from 'react-hot-toast';
 
 export type ConfigFormProps = {
   config: Configuration;
@@ -33,6 +34,15 @@ const configSchema = z
     delete: z.enum(['true', 'false']),
   })
   .strict('Illegal fields');
+
+const unsavedToast = () => toast('Careful — You have unsaved changes!', {
+  duration: Infinity,
+  position: 'top-center',
+  style: {
+    background: '#232326',
+    color: 'hsla(240, 100%, 100%, 0.931)',
+  },
+});
 
 function ConfigForm({
   config,
@@ -59,6 +69,14 @@ function ConfigForm({
   const [loading, setLoading] = React.useState(false);
   const { query } = useRouter();
   const { id } = query;
+
+  React.useEffect(() => {
+    if (isDirty) {
+      unsavedToast();
+    } else {
+      toast.dismiss();
+    }
+  }, [isDirty]);
 
   const onSubmit = async (data: Record<string, unknown>) => {
     const config = {
@@ -281,6 +299,8 @@ function ConfigForm({
           </Button>
         </div>
       </div>
+
+      <Toaster />
     </form>
   );
 }
