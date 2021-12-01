@@ -7,7 +7,7 @@ export async function updateServerConfig(
   req: NextApiRequest,
   res: NextApiResponse,
 ): Promise<void> {
-  if (req.method?.toUpperCase() !== 'PUT') {
+  if (req.method?.toUpperCase() !== 'PATCH') {
     return res.status(405).json({
       data: null,
       error: 'Method not allowed',
@@ -32,7 +32,7 @@ export async function updateServerConfig(
         headers: {
           Authorization: `pleasantcord ${apiKey}/${id}`,
         },
-        method: 'PUT',
+        method: 'PATCH',
         body: req.body,
       },
     );

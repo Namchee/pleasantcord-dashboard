@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import * as Dialog from '@radix-ui/react-dialog';
+
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
 import { useForm } from 'react-hook-form';
@@ -76,6 +78,8 @@ function ConfigForm({
     } else {
       toast.dismiss();
     }
+
+    return () => toast.dismiss();
   }, [isDirty]);
 
   const onSubmit = async (data: Record<string, unknown>) => {
@@ -88,18 +92,21 @@ function ConfigForm({
 
     setLoading(true);
 
-    const result = await fetch('/api/config', {
-      method: 'PUT',
+    const result = await fetch('/api/configs', {
+      method: 'PATCH',
       body: JSON.stringify(config),
     });
 
     if (result.ok) {
       // do something
+    } else {
+      console.log(result.statusText);
     }
 
     setLoading(false);
   };
 
+  const [open, setOpen] = React.useState(false);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -301,6 +308,39 @@ function ConfigForm({
       </div>
 
       <Toaster />
+
+      <Dialog.Root open={open}>
+        <Dialog.Overlay
+          className="bg-dark opacity-60
+            h-screen w-screen
+            fixed top-0
+            z-10" />
+        <Dialog.Content
+          onPointerDownOutside={() => setOpen(false)}
+          className="fixed
+          bg-background
+          text-content
+          p-8
+          rounded-md
+          top-1/2 left-1/2
+          transform -translate-x-1/2 -translate-y-1/2">
+          <Dialog.Title className="text-xl font-bold">
+            Quit Editing?
+          </Dialog.Title>
+          <Dialog.Description className="opacity-60 mt-2 mb-6">
+            Any unsaved changes will be lost.
+          </Dialog.Description>
+          <Dialog.Close className="ml-16">
+            <Button theme="primary">
+              Discard Changes
+            </Button>
+          </Dialog.Close>
+          <Dialog.Close>
+            Continue Editing
+          </Dialog.Close>
+        </Dialog.Content>
+
+      </Dialog.Root>
     </form>
   );
 }

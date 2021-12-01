@@ -30,6 +30,7 @@ function Profile(): JSX.Element {
     config: {
       duration: 125,
     },
+    reset: false,
   });
 
   const { data } = useSWR<APIResponse<User>>('/api/user', fetcher);
