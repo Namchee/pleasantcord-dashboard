@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 
 import { Button } from '@/components/Button';
 import { Configuration } from '@/entity/config';
-import { Category } from '@/entity/category';
+import { Category, Label } from '@/entity/category';
 
 import Skeleton from './Skeleton';
 import toast, { Toaster } from 'react-hot-toast';
@@ -37,14 +37,15 @@ const configSchema = z
   })
   .strict('Illegal fields');
 
-const unsavedToast = () => toast('Careful — You have unsaved changes!', {
-  duration: Infinity,
-  position: 'top-center',
-  style: {
-    background: '#232326',
-    color: 'hsla(240, 100%, 100%, 0.931)',
-  },
-});
+const unsavedToast = () =>
+  toast('Careful — You have unsaved changes!', {
+    duration: Infinity,
+    position: 'top-center',
+    style: {
+      background: '#232326',
+      color: 'hsla(240, 100%, 100%, 0.931)',
+    },
+  });
 
 function ConfigForm({
   config,
@@ -60,6 +61,7 @@ function ConfigForm({
     register,
     handleSubmit,
     formState: { errors, isDirty },
+    reset,
   } = useForm({
     defaultValues: defaults,
     mode: 'onChange',
@@ -98,9 +100,12 @@ function ConfigForm({
     });
 
     if (result.ok) {
-      // do something
-    } else {
-      console.log(result.statusText);
+      toast.dismiss();
+      reset({
+        accuracy: data.accuracy as number,
+        categories: data.categories as Label[],
+        delete: data.delete as string,
+      });
     }
 
     setLoading(false);
@@ -287,6 +292,10 @@ function ConfigForm({
         </div>
       </div>
 
+      <Button type="button" theme="primary" onClick={() => setOpen(true)}>
+        Toggle Modal
+      </Button>
+
       <div className="grid grid-cols-2">
         <div
           className="col-start-2
@@ -314,7 +323,8 @@ function ConfigForm({
           className="bg-dark opacity-60
             h-screen w-screen
             fixed top-0
-            z-10" />
+            z-10"
+        />
         <Dialog.Content
           onPointerDownOutside={() => setOpen(false)}
           className="fixed
@@ -323,7 +333,8 @@ function ConfigForm({
           p-8
           rounded-md
           top-1/2 left-1/2
-          transform -translate-x-1/2 -translate-y-1/2">
+          transform -translate-x-1/2 -translate-y-1/2"
+        >
           <Dialog.Title className="text-xl font-bold">
             Quit Editing?
           </Dialog.Title>
@@ -331,15 +342,10 @@ function ConfigForm({
             Any unsaved changes will be lost.
           </Dialog.Description>
           <Dialog.Close className="ml-16">
-            <Button theme="primary">
-              Discard Changes
-            </Button>
+            <Button theme="primary">Discard Changes</Button>
           </Dialog.Close>
-          <Dialog.Close>
-            Continue Editing
-          </Dialog.Close>
+          <Dialog.Close>Continue Editing</Dialog.Close>
         </Dialog.Content>
-
       </Dialog.Root>
     </form>
   );
