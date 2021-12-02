@@ -44,7 +44,10 @@ export async function updateServerConfig(
       });
     }
 
-    return res.status(204).json({});
+    return res.status(200).json({
+      data: 'ok',
+      error: null,
+    });
   } catch (err) {
     const error = err as Error;
     const isUnauthenticated = error instanceof UnauthenticatedException;
