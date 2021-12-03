@@ -11,7 +11,7 @@ function DashboardLayout({
       <aside className="w-1/4 max-w-360px
         sticky top-0 left-0
         h-screen
-        bg-depth">
+        bg-background-dark">
         <Sidenav />
       </aside>
       <main

@@ -5,26 +5,27 @@ import { StyleProps } from '@/common/style';
 
 const themeStyles = {
   primary: `bg-primary
-  text-white
+  text-content
   rounded-md
   transition-shadow
   transition-colors
-  hover:bg-primaryDark
-  active:bg-primaryDark
-  focus:(outline-none bg-primaryDark ring ring-4 ring-primary ring-opacity-50)`,
+  hover:bg-primary-dark
+  active:bg-primary-dark
+  focus:outline-none
+  focus:(bg-primary-dark ring ring-4 ring-primary ring-opacity-50)`,
   accent: `bg-accent
-  text-white
+  text-content
   rounded-md
   transition-shadow
   transition-colors
-  hover:bg-accentDark
-  active:bg-accentDark
-  focus:(outline-none bg-accentDark ring ring-4 ring-primary ring-opacity-50)`,
+  hover:bg-accent-dark
+  active:bg-accent-dark
+  focus:(outline-none bg-accent-dark ring ring-4 ring-accent ring-opacity-50)`,
   danger: `bg-danger
-  text-white
+  text-content
   rounded-md
   transition-shadow
-  focus:(outline-none ring ring-4 ring-danger ring-opacity-50)`,
+  focus:(outline-none bg-ring-dark ring ring-4 ring-danger ring-opacity-50)`,
 };
 
 const disabledStyles = {
@@ -34,6 +35,7 @@ const disabledStyles = {
   rounded-md
   cursor-not-allowed`,
   accent: '',
+  danger: '',
 };
 
 export interface ButtonProps extends StyleProps {

@@ -71,7 +71,7 @@ function Profile(): JSX.Element {
         collisionTolerance={12}
         onPointerDownOutside={() => setOpen(false)}
       >
-        <div className="py-6 px-8 bg-depth rounded-lg text-content">
+        <div className="py-6 px-8 bg-background-dark rounded-lg text-content">
           <p
             className="text-xs
             font-medium

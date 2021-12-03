@@ -6,7 +6,7 @@ function Skeleton(
   { className }: React.PropsWithoutRef<StyleProps>,
 ): JSX.Element {
   const style = () => {
-    return `animate-pulse bg-surface ${className}`;
+    return `animate-pulse bg-background-light ${className}`;
   };
 
   return (

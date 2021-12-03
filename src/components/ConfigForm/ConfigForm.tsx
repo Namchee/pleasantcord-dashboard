@@ -135,9 +135,9 @@ function ConfigForm({
             text-lg
             py-3 px-4
             w-full
-            bg-depth
+            bg-background-dark
             rounded-md
-            border border-dark
+            border border-background-deep
             transition-shadow
             focus:(outline-none ring ring-3 ring-primary ring-opacity-50)"
               type="number"
@@ -187,9 +187,9 @@ function ConfigForm({
                     value={v.name}
                     type="checkbox"
                     className="w-6 h-6
-                  bg-depth
+                  bg-background-dark
                   transition-shadow
-                  border border-dark
+                  border border-background-deep
                   focus:(outline-none ring ring-3 ring-primary ring-opacity-50)
                   text-primary
                   rounded-md"
@@ -238,9 +238,9 @@ function ConfigForm({
                 value="true"
                 type="radio"
                 className="w-6 h-6
-                  bg-depth
+                  bg-background-dark
                     transition-shadow
-                    border border-dark
+                    border border-background-deep
                     focus:outline-none
                     focus:(ring ring-3 ring-primary ring-opacity-50)
                   text-primary
@@ -265,9 +265,9 @@ function ConfigForm({
                 value="false"
                 type="radio"
                 className="w-6 h-6
-                  bg-depth
+                  bg-background-dark
                     transition-shadow
-                    border border-dark
+                    border border-background-deep
                     focus:outline-none
                     focus:(ring ring-3 ring-primary ring-opacity-50)
                   text-primary
@@ -278,7 +278,11 @@ function ConfigForm({
                 <p className="text-lg">Blur Content</p>
                 <p className="text-sm leading-loose opacity-50 max-w-sm">
                   NSFW contents will be deleted <b>AND</b> re-posted with{' '}
-                  <code className="bg-dark py-1 px-2 rounded">SPOILER</code> tag
+                  <code className="bg-background-deep
+                    py-1 px-2
+                    rounded">
+                      SPOILER
+                  </code> tag
                 </p>
               </div>
             </label>

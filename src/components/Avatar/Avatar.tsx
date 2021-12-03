@@ -18,7 +18,7 @@ function Avatar(
       aria-label={name}
       className={`grid place-items-center
         ${rounded ? 'rounded-full' : 'rounded-md'}
-        bg-dark
+        bg-background-dark
         w-10 h-10
         text-base`}>
       {initial()}

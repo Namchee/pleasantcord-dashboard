@@ -40,7 +40,7 @@ function ServerInfo({
           </h1>
           {
             isVerified() &&
-            <CheckmarkIcon className="w-5 h-5 text-accent" />
+            <CheckmarkIcon className="w-5 h-5 text-primary" />
           }
         </div>
         <p className="opacity-50 text-lg">

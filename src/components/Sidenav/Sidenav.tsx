@@ -95,12 +95,12 @@ function Sidenav(): JSX.Element {
         </nav>
       </ScrollArea.Viewport>
       <ScrollArea.Scrollbar
-        className="bg-surface
+        className="bg-background-light
           w-2
           rounded-full"
         orientation="vertical">
         <ScrollArea.Thumb
-          className="bg-dark opacity-75
+          className="bg-background-dark opacity-75
             w-1
             rounded-full" />
       </ScrollArea.Scrollbar>
