@@ -20,6 +20,11 @@ const themeStyles = {
   hover:bg-accentDark
   active:bg-accentDark
   focus:(outline-none bg-accentDark ring ring-4 ring-primary ring-opacity-50)`,
+  danger: `bg-danger
+  text-white
+  rounded-md
+  transition-shadow
+  focus:(outline-none ring ring-4 ring-danger ring-opacity-50)`,
 };
 
 const disabledStyles = {
@@ -35,6 +40,7 @@ export interface ButtonProps extends StyleProps {
   theme: keyof typeof themeStyles;
   onClick?: React.MouseEventHandler;
   type?: 'button' | 'submit' | 'reset';
+  variant?: 'fill' | 'ghost';
   disabled?: boolean;
   loading?: boolean;
 }

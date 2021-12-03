@@ -51,19 +51,17 @@ function ConfigForm({
   config,
   categoryList,
 }: React.PropsWithoutRef<ConfigFormProps>): JSX.Element {
-  const defaults = {
-    accuracy: config.accuracy * 100,
-    categories: config.categories,
-    delete: String(config.delete),
-  };
-
   const {
     register,
     handleSubmit,
     formState: { errors, isDirty },
     reset,
   } = useForm({
-    defaultValues: defaults,
+    defaultValues: {
+      accuracy: config.accuracy * 100,
+      categories: config.categories,
+      delete: String(config.delete),
+    },
     mode: 'onChange',
     reValidateMode: 'onChange',
     shouldFocusError: true,
@@ -335,16 +333,23 @@ function ConfigForm({
           top-1/2 left-1/2
           transform -translate-x-1/2 -translate-y-1/2"
         >
-          <Dialog.Title className="text-xl font-bold">
-            Quit Editing?
+          <Dialog.Title className="text-2xl font-bold">
+            Discard Unsaved Changes?
           </Dialog.Title>
-          <Dialog.Description className="opacity-60 mt-2 mb-6">
+          <Dialog.Description className="opacity-50
+            mt-4
+            mb-12
+            text-lg">
             Any unsaved changes will be lost.
           </Dialog.Description>
-          <Dialog.Close className="ml-16">
-            <Button theme="primary">Discard Changes</Button>
-          </Dialog.Close>
-          <Dialog.Close>Continue Editing</Dialog.Close>
+          <div className="flex justify-end space-x-6">
+            <Dialog.Close>
+              <button>Cancel</button>
+            </Dialog.Close>
+            <Dialog.Close>
+              <button className="text-danger">Discard</button>
+            </Dialog.Close>
+          </div>
         </Dialog.Content>
       </Dialog.Root>
     </form>

@@ -11,16 +11,28 @@ export default defineConfig({
     },
     extend: {
       colors: {
-        surface: '#504F57',
-        background: '#3E3E44',
-        depth: '#34343A',
-        dark: '#232326',
-        primary: '#3B82F6',
-        primaryDark: '#2776F5',
-        accent: '#FFA31A',
-        content: 'hsla(240, 100%, 100%, 0.931)',
+        background: {
+          DEFAULT: '#3E3E44',
+          light: '#504F57',
+          dark: '#34343A',
+          deep: '#232326',
+        },
+        primary: {
+          DEFAULT: '#3B82F6',
+          dark: '#2776F5',
+        },
+        accent: {
+          DEFAULT: '#FFA31A',
+        },
+        content: {
+          DEFAULT: '#EDEDEF',
+          dark: '#7E7D86',
+        },
         grass: '#30A46C',
-        danger: '#CD2B31',
+        danger: {
+          DEFAULT: '#CD2B31',
+          light: '#F16A50',
+        },
       },
     },
   },
