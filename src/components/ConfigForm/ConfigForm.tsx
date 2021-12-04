@@ -290,10 +290,6 @@ function ConfigForm({
         </div>
       </div>
 
-      <Button type="button" theme="primary" onClick={() => setOpen(true)}>
-        Toggle Modal
-      </Button>
-
       <div className="grid grid-cols-2">
         <div
           className="col-start-2
@@ -314,7 +310,10 @@ function ConfigForm({
         </div>
       </div>
 
-      <Toaster />
+      <Toaster
+        containerStyle={{
+          top: 0,
+        }} />
 
       <ConfigDialog
         open={open}
