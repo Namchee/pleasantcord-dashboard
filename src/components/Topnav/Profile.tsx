@@ -3,7 +3,7 @@ import * as React from 'react';
 import useSWR from 'swr';
 
 import { signOut } from 'next-auth/client';
-import { useSpring, animated } from 'react-spring';
+import { useTransition, animated, config } from 'react-spring';
 
 import * as RadixAvatar from '@radix-ui/react-avatar';
 import * as Popover from '@radix-ui/react-popover';
@@ -24,13 +24,15 @@ function getIconLink({ id, avatar }: User): string {
 
 function Profile(): JSX.Element {
   const [open, setOpen] = React.useState(false);
-  const transition = useSpring({
-    opacity: open ? 1 : 0,
-    transform: open ? 'translateY(0px)' : 'translateY(-8px)',
+  const transition = useTransition(open, {
+    from: { opacity: 0, transform: 'scale(0.96)' },
+    enter: { opacity: 1, transform: 'scale(1)' },
+    leave: { opacity: 0, transform: 'scale(0.96)' },
+    reverse: open,
     config: {
-      duration: 125,
+      ...config.stiff,
+      duration: 150,
     },
-    reset: false,
   });
 
   const { data } = useSWR<APIResponse<User>>('/api/user', fetcher);
@@ -40,8 +42,6 @@ function Profile(): JSX.Element {
   }
 
   const { data: user } = data;
-
-  const PopoverContent = animated(Popover.Content);
 
   return (
     <Popover.Root open={open}>
@@ -65,39 +65,55 @@ function Profile(): JSX.Element {
           </RadixAvatar.Fallback>
         </RadixAvatar.Root>
       </Popover.Trigger>
-      <PopoverContent
-        style={transition}
-        sideOffset={8}
-        collisionTolerance={12}
-        onPointerDownOutside={() => setOpen(false)}
-      >
-        <div className="py-6 px-8 bg-background-dark rounded-lg text-content">
-          <p
-            className="text-xs
+      {transition((styles, item) => {
+        return item && (
+          <Popover.Content
+            sideOffset={12}
+            collisionTolerance={16}
+            onPointerDownOutside={() => setOpen(false)}
+            forceMount
+            asChild
+          >
+            <animated.div
+              style={styles}
+              className="py-6 px-8
+              bg-background-dark
+              rounded-lg
+              origin-top-right
+              text-content">
+              <p
+                className="text-xs
             font-medium
             opacity-50
             uppercase
             tracking-wider"
-          >
-            Signed in as
-          </p>
-          <p className="text-2xl mt-2">
-            <span className="font-bold tracking-tight">{user.username}</span>
-            <span className="opacity-50 ml-2px">#{user.discriminator}</span>
-          </p>
+              >
+                Signed in as
+              </p>
+              <p className="text-2xl mt-2">
+                <span className="font-bold tracking-tight">
+                  {user.username}
+                </span>
+                <span className="opacity-50 ml-2px">#{user.discriminator}</span>
+              </p>
 
-          <Button
-            onClick={() => signOut()}
-            type="button"
-            theme="primary"
-            className="px-4 py-2
+              <Button
+                onClick={() => signOut()}
+                type="button"
+                theme="primary"
+                className="px-4 py-2
               text-sm
-              mt-8">
-            Sign out
-          </Button>
-        </div>
-        <Popover.Arrow offset={16} className="fill-current text-depth" />
-      </PopoverContent>
+              mt-8"
+              >
+                Sign out
+              </Button>
+              <Popover.Arrow
+                offset={16}
+                className="fill-current text-background-dark" />
+            </animated.div>
+          </Popover.Content>
+        );
+      })}
     </Popover.Root>
   );
 }

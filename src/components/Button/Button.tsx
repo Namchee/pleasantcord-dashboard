@@ -25,24 +25,34 @@ const themeStyles = {
   text-content
   rounded-md
   transition-shadow
-  focus:(outline-none bg-ring-dark ring ring-4 ring-danger ring-opacity-50)`,
+  transition-colors
+  hover:bg-danger-dark
+  active:bg-danger-dark
+  focus:(outline-none bg-danger-dark ring ring-4 ring-danger ring-opacity-50)`,
 };
 
 const disabledStyles = {
   primary: `bg-primary
   opacity-60
-  text-white
+  text-content
   rounded-md
   cursor-not-allowed`,
-  accent: '',
-  danger: '',
+  accent: `bg-accent
+  bg-opacity-60
+  text-content
+  rounded-md
+  cursor-not-allowed`,
+  danger: `bg-danger
+  bg-opacity-60
+  text-content
+  rounded-md
+  cursor-not-allowed`,
 };
 
 export interface ButtonProps extends StyleProps {
-  theme: keyof typeof themeStyles;
+  theme?: keyof typeof themeStyles;
   onClick?: React.MouseEventHandler;
   type?: 'button' | 'submit' | 'reset';
-  variant?: 'fill' | 'ghost';
   disabled?: boolean;
   loading?: boolean;
 }
@@ -57,6 +67,10 @@ function Button({
   children,
 }: React.PropsWithChildren<ButtonProps>): JSX.Element {
   const style = () => {
+    if (!theme) {
+      return className;
+    }
+
     const baseTheme = disabled || loading ?
       disabledStyles[theme] :
       themeStyles[theme];

@@ -30,8 +30,8 @@ export default defineConfig({
         },
         grass: '#30A46C',
         danger: {
-          DEFAULT: '#CD2B31',
-          light: '#F16A50',
+          DEFAULT: '#E54D2E',
+          dark: '#CA3214',
         },
       },
     },

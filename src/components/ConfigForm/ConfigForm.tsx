@@ -1,18 +1,23 @@
 import * as React from 'react';
 
-import * as Dialog from '@radix-ui/react-dialog';
-
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
+import { Toaster } from 'react-hot-toast';
 
 import { Button } from '@/components/Button';
 import { Configuration } from '@/entity/config';
 import { Category, Label } from '@/entity/category';
 
 import Skeleton from './Skeleton';
-import toast, { Toaster } from 'react-hot-toast';
+import ConfigDialog from './ConfigDialog';
+import {
+  spawnToast,
+  spawnLoadingToast,
+  spawnSuccessToast,
+  dismissToasts,
+} from './toast';
 
 export type ConfigFormProps = {
   config: Configuration;
@@ -36,17 +41,6 @@ const configSchema = z
     delete: z.enum(['true', 'false']),
   })
   .strict('Illegal fields');
-
-const unsavedToast = () =>
-  toast('Careful — You have unsaved changes!', {
-    duration: Infinity,
-    position: 'top-center',
-    style: {
-      background: '#232326',
-      color: 'hsla(240, 100%, 100%, 0.931)',
-    },
-  });
-
 function ConfigForm({
   config,
   categoryList,
@@ -59,7 +53,7 @@ function ConfigForm({
   } = useForm({
     defaultValues: {
       accuracy: config.accuracy * 100,
-      categories: config.categories,
+      categories: config.categories.sort(),
       delete: String(config.delete),
     },
     mode: 'onChange',
@@ -72,16 +66,6 @@ function ConfigForm({
   const { query } = useRouter();
   const { id } = query;
 
-  React.useEffect(() => {
-    if (isDirty) {
-      unsavedToast();
-    } else {
-      toast.dismiss();
-    }
-
-    return () => toast.dismiss();
-  }, [isDirty]);
-
   const onSubmit = async (data: Record<string, unknown>) => {
     const config = {
       server_id: id,
@@ -90,6 +74,7 @@ function ConfigForm({
       delete: data.delete === 'true',
     };
 
+    spawnLoadingToast();
     setLoading(true);
 
     const result = await fetch('/api/configs', {
@@ -98,18 +83,29 @@ function ConfigForm({
     });
 
     if (result.ok) {
-      toast.dismiss();
       reset({
         accuracy: data.accuracy as number,
         categories: data.categories as Label[],
         delete: data.delete as string,
       });
+      spawnSuccessToast();
     }
 
     setLoading(false);
   };
 
+  // unsaved changes logic
   const [open, setOpen] = React.useState(false);
+
+  const continueNavigation = () => {
+    console.log('continue');
+  };
+
+  React.useEffect(() => {
+    isDirty ? spawnToast() : dismissToasts();
+
+    return () => dismissToasts();
+  }, [isDirty]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -320,42 +316,10 @@ function ConfigForm({
 
       <Toaster />
 
-      <Dialog.Root open={open}>
-        <Dialog.Overlay
-          className="bg-dark opacity-60
-            h-screen w-screen
-            fixed top-0
-            z-10"
-        />
-        <Dialog.Content
-          onPointerDownOutside={() => setOpen(false)}
-          className="fixed
-          bg-background
-          text-content
-          p-8
-          rounded-md
-          top-1/2 left-1/2
-          transform -translate-x-1/2 -translate-y-1/2"
-        >
-          <Dialog.Title className="text-2xl font-bold">
-            Discard Unsaved Changes?
-          </Dialog.Title>
-          <Dialog.Description className="opacity-50
-            mt-4
-            mb-12
-            text-lg">
-            Any unsaved changes will be lost.
-          </Dialog.Description>
-          <div className="flex justify-end space-x-6">
-            <Dialog.Close>
-              <button>Cancel</button>
-            </Dialog.Close>
-            <Dialog.Close>
-              <button className="text-danger">Discard</button>
-            </Dialog.Close>
-          </div>
-        </Dialog.Content>
-      </Dialog.Root>
+      <ConfigDialog
+        open={open}
+        onClose={() => setOpen(false)}
+        onDiscard={() => continueNavigation()} />
     </form>
   );
 }
