@@ -111,7 +111,9 @@ function ConfigForm({
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
       <div
         className="grid
-        grid-cols-2"
+        lg:grid-cols-2
+        space-y-4
+        lg:space-y-0"
       >
         <div>
           <label htmlFor="accuracy" className="text-xl font-medium">
@@ -157,7 +159,9 @@ function ConfigForm({
 
       <div
         className="grid
-        grid-cols-2"
+        lg:grid-cols-2
+        space-y-8
+        lg:space-y-0"
       >
         <div>
           <label className="text-xl font-medium">
@@ -213,7 +217,9 @@ function ConfigForm({
 
       <div
         className="grid
-        grid-cols-2"
+        lg:grid-cols-2
+        space-y-4
+        lg:space-y-0"
       >
         <div>
           <label className="text-xl font-medium">
@@ -292,7 +298,7 @@ function ConfigForm({
 
       <div className="grid grid-cols-2">
         <div
-          className="col-start-2
+          className="lg:col-start-2
           mt-4"
         >
           <Button

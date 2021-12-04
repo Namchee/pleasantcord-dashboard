@@ -1,18 +1,20 @@
 import * as React from 'react';
 
-import { Sidenav } from '@/components/Sidenav';
+import { Menu } from '@/components/Menu';
 import { Topnav } from '@/components/Topnav';
 
 function DashboardLayout({
   children,
 }: React.PropsWithChildren<unknown>): JSX.Element {
   return (
-    <div className="flex-1 flex">
-      <aside className="w-1/4 max-w-360px
-        sticky top-0 left-0
-        h-screen
+    <div className="flex-1 flex flex-col md:flex-row">
+      <aside className="order-last md:order-none
+        lg:w-1/4 lg:max-w-360px
+        sticky bottom-0 left-0 right-0
+        md:top-0
+        md:h-screen lg:w-full
         bg-background-dark">
-        <Sidenav />
+        <Menu />
       </aside>
       <main
         className="flex-1
@@ -21,7 +23,7 @@ function DashboardLayout({
           mx-auto"
       >
         <Topnav />
-        <div className="p-16">
+        <div className="px-12 py-16 lg:p-16">
           {children}
         </div>
       </main>

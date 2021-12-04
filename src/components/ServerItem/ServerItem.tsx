@@ -65,6 +65,8 @@ function ServerItem({
   // max width is hacked due to radix ui
   const textClass = () => {
     return `font-medium
+      hidden
+      lg:block
       max-w-22.5ch
       flex-1
       truncate

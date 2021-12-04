@@ -8,9 +8,11 @@ function Topnav(): JSX.Element {
   return (
     <div
       className="w-full
-      px-16
+      px-8
+      lg:px-16
       flex items-center justify-between
-      h-28"
+      h-20
+      lg:h-28"
     >
       <div
         className="flex items-center
