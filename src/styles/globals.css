@@ -8,8 +8,6 @@
 
 html, body {
   scroll-behavior: smooth;
-  scrollbar-width: thin;
-  scrollbar-color: #504F57 transparent;   /* scroll thumb and track */
 }
 
 #nprogress .bar {
@@ -36,4 +34,28 @@ input[type=number]::-webkit-inner-spin-button {
 
 input[type=number] {
     -moz-appearance:textfield;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #3E3E44 !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #595761;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #6d6a77;
+}
+
+@supports (scrollbar-color: #595761 transparent) {
+  * {
+    scrollbar-width: 8px;
+    scrollbar-color: #595761 transparent;   /* scroll thumb and track */
+  }
 }

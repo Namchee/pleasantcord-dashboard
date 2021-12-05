@@ -57,9 +57,10 @@ function ServerDashboard(): JSX.Element {
     <AuthGuard>
       <DashboardLayout>
         <div className="mb-8">{header()}</div>
-        <div className="mb-16">
+        <div className="mb-12 lg:mb-16">
           <h2 className="font-medium
-            text-xl
+            text-lg
+            md:text-xl
             leading-loose">
             Configuration
           </h2>

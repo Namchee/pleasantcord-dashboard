@@ -199,7 +199,7 @@ function ConfigForm({
         <div
           className="grid
         lg:grid-cols-2
-        space-y-8
+        space-y-4
         lg:space-y-0"
         >
           <div>
@@ -341,12 +341,10 @@ function ConfigForm({
           </div>
         </div>
 
-        <Button onClick={() => setOpen(true)}>Toggle Modal</Button>
-
         <div className="grid grid-cols-2">
           <div
             className="lg:col-start-2
-          mt-4"
+          lg:mt-4"
           >
             <Button
               disabled={!isDirty}

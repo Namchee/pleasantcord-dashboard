@@ -21,11 +21,11 @@ function Menu(): JSX.Element {
   const items = () => {
     if (!data) {
       return (
-        <div className="space-y-2">
+        <>
           <ServerItem.Skeleton />
           <ServerItem.Skeleton />
           <ServerItem.Skeleton />
-        </div>
+        </>
       );
     }
 
@@ -50,7 +50,7 @@ function Menu(): JSX.Element {
   return (
     <ScrollArea.Root>
       <ScrollArea.Viewport className="max-w-screen
-        md:max-h-screen md:max-w-">
+        md:max-h-screen">
         <nav className="flex p-4
           md:flex-col
           lg:p-8">
@@ -68,6 +68,7 @@ function Menu(): JSX.Element {
                 alt="pleasantcord"
                 title="pleasantcord"
                 role="banner"
+                layout="fixed"
               />
               <h1
                 className="hidden lg:block
@@ -95,13 +96,15 @@ function Menu(): JSX.Element {
           </p>
 
           <div className="lg:hidden
-            border-t border-content-dark
+            border-r md:border-t border-content-dark
             bg-content-dark
             opacity-60 mx-4 md:my-4 md:mx-0">
 
           </div>
 
-          <ul className="space-y-2">
+          <ul className="flex
+            space-x-2
+            md:(space-x-0 space-y-2 flex-col)">
             {items()}
           </ul>
         </nav>
@@ -117,7 +120,10 @@ function Menu(): JSX.Element {
       </ScrollArea.Scrollbar>
       <ScrollArea.Scrollbar
         orientation="horizontal">
-        <ScrollArea.Thumb />
+        <ScrollArea.Thumb
+          className="bg-background-light opacity-70
+            w-1
+            rounded-full" />
       </ScrollArea.Scrollbar>
       <ScrollArea.Corner />
     </ScrollArea.Root>

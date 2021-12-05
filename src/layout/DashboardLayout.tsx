@@ -13,7 +13,8 @@ function DashboardLayout({
         sticky bottom-0 left-0 right-0
         md:top-0
         md:h-screen lg:w-full
-        bg-background-dark">
+        bg-background-dark
+        z-10">
         <Menu />
       </aside>
       <main
@@ -23,7 +24,7 @@ function DashboardLayout({
           mx-auto"
       >
         <Topnav />
-        <div className="px-12 py-16 lg:p-16">
+        <div className="px-8 py-16 lg:p-16">
           {children}
         </div>
       </main>

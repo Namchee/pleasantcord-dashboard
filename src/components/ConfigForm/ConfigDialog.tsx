@@ -47,7 +47,8 @@ function ConfigDialog({
               </Dialog.Overlay>
               <Dialog.Content forceMount asChild>
                 <animated.div
-                  className="max-w-md
+                  className="w-75vw
+                  max-w-md
                   fixed
                   bg-background-dark
                   text-content
@@ -58,7 +59,7 @@ function ConfigDialog({
                   origin-top-left"
                   style={style}
                 >
-                  <Dialog.Title className="text-2xl font-bold">
+                  <Dialog.Title className="text-xl md:text-2xl font-bold">
                     Discard Unsaved Changes?
                   </Dialog.Title>
                   <Dialog.Description
@@ -66,13 +67,14 @@ function ConfigDialog({
                     text-opacity-50
                     mt-4
                     mb-12
-                    text-lg"
+                    md:text-lg"
                   >
                     Leaving this page will cause any potential unsaved changes
                     to be lost.
                   </Dialog.Description>
                   <div className="flex justify-end
-                    space-x-6">
+                    space-x-4
+                    md:space-x-6">
                     <Dialog.Cancel asChild>
                       <Button
                         onClick={onClose}

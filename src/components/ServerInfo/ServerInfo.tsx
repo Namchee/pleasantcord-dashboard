@@ -25,17 +25,22 @@ function ServerInfo({
   };
 
   return (
-    <div className="flex space-x-6">
+    <div className="flex justify-start space-x-4 md:space-x-6">
       <Image
         src={iconLink()}
         width={80}
         height={80}
         title={server.name}
         alt={server.name}
+        layout="fixed"
         className="rounded-md" />
       <div className="flex flex-col justify-between">
         <div className="flex items-center space-x-4">
-          <h1 className="font-bold tracking-tight text-32px">
+          <h1 className="font-bold
+            tracking-tight
+            text-2xl md:text-28px lg:text-32px
+            truncate max-w-15ch
+            md:max-w-none">
             {server.name}
           </h1>
           {

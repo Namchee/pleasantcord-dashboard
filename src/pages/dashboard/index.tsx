@@ -9,7 +9,7 @@ function Dashboard(): JSX.Element {
   return (
     <AuthGuard>
       <DashboardLayout>
-        <div className="grid place-items-center">
+        <div className="grid place-items-center text-center">
           <Image
             src="/images/landing-dashboard.svg"
             width={280}
@@ -20,7 +20,7 @@ function Dashboard(): JSX.Element {
           <p className="mt-8 max-w-md opacity-40 text-lg leading-relaxed">
             To begin, select one of the servers from the menu
           </p>
-          <p className="max-w-md text-lg">
+          <p className="md:max-w-md text-lg mt-2 md:mt-0">
             <span className="opacity-40">
               Or add the bot to your server by clicking
             </span>{' '}

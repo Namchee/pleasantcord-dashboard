@@ -7,7 +7,9 @@ function ConfigFormSkeleton(): JSX.Element {
     <div className="space-y-8">
       <div
         className="grid
-        grid-cols-2"
+        lg:grid-cols-2
+        space-y-4
+        lg:space-y-0"
       >
         <div>
           <Skeleton className="w-20ch h-6 rounded-md" />
@@ -15,13 +17,15 @@ function ConfigFormSkeleton(): JSX.Element {
         </div>
 
         <div className="max-w-sm mb-2">
-          <Skeleton className="w-full h-14 rounded-md" />
+          <Skeleton className="w-full md:w-40ch h-14 rounded-md" />
         </div>
       </div>
 
       <div
         className="grid
-        grid-cols-2"
+        lg:grid-cols-2
+        space-y-4
+        lg:space-y-0"
       >
         <div>
           <Skeleton className="w-20ch h-6 rounded-md" />
@@ -71,7 +75,9 @@ function ConfigFormSkeleton(): JSX.Element {
 
       <div
         className="grid
-        grid-cols-2"
+        lg:grid-cols-2
+        space-y-4
+        lg:space-y-0"
       >
         <div>
           <Skeleton className="w-20ch h-6 rounded-md" />
@@ -98,8 +104,8 @@ function ConfigFormSkeleton(): JSX.Element {
         </div>
       </div>
 
-      <div className="grid grid-cols-2">
-        <div className="col-start-2 mt-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2">
+        <div className="lg:col-start-2 mt-4">
           <Skeleton className="w-30 h-12 rounded-md" />
         </div>
       </div>
