@@ -73,7 +73,7 @@ function ConfigDialog({
                   </Dialog.Description>
                   <div className="flex justify-end
                     space-x-6">
-                    <Dialog.Cancel>
+                    <Dialog.Cancel asChild>
                       <Button
                         onClick={onClose}
                         type="button"
@@ -81,7 +81,7 @@ function ConfigDialog({
                         Cancel
                       </Button>
                     </Dialog.Cancel>
-                    <Dialog.Trigger>
+                    <Dialog.Trigger asChild>
                       <Button
                         onClick={onDiscard}
                         type="button"

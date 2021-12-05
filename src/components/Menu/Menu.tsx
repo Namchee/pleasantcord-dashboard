@@ -15,7 +15,7 @@ import { APIResponse } from '@/entity/response';
 function Menu(): JSX.Element {
   const { data } = useSWR<APIResponse<PartialServer[]>>(
     '/api/servers',
-    fetcher
+    fetcher,
   );
 
   const items = () => {
@@ -50,7 +50,7 @@ function Menu(): JSX.Element {
   return (
     <ScrollArea.Root>
       <ScrollArea.Viewport className="max-w-screen
-        lg:max-h-screen">
+        md:max-h-screen md:max-w-">
         <nav className="flex p-4
           md:flex-col
           lg:p-8">

@@ -14,11 +14,19 @@ function ServerDashboard(): JSX.Element {
   const { id } = query;
 
   const { data: headerData } = useSWR(['/api/servers', id], (url, id) => {
+    if (id === undefined) {
+      return null;
+    }
+
     return fetcher(`${url}/${id}`);
   });
 
   const { data: categoriesData } = useSWR('/api/categories', fetcher);
   const { data: configData } = useSWR(['/api/configs', id], (url, id) => {
+    if (!id) {
+      return null;
+    }
+
     return fetcher(`${url}/${id}`);
   });
 
