@@ -12,12 +12,12 @@ function Dashboard(): JSX.Element {
         <div className="grid place-items-center text-center">
           <Image
             src="/images/landing-dashboard.svg"
-            width={240}
-            height={240}
+            width={200}
+            height={200}
             title="Select server to manage"
             alt="Select server to manage"
           />
-          <p className="mt-8 max-w-md opacity-40 text-lg leading-relaxed">
+          <p className="mt-10 max-w-md opacity-40 text-lg leading-relaxed">
             To begin, select one of the servers from the menu
           </p>
           <p className="md:max-w-md text-lg mt-2 md:mt-0">
