@@ -15,27 +15,25 @@ function NotFoundPage(): JSX.Element {
       text-center"
     >
       <Image
-        src="/images/404.svg"
-        width={320}
-        height={320}
+        src="/images/500.svg"
+        width={280}
+        height={280}
         title="Not Found"
         alt="Not Found"
       />
 
       <h1
         className="text-content
-        font-bold -mt-12
+        font-bold mt-4
         text-3xl
         md:tracking-tight md:text-5xl"
       >
-        Looks like you&apos;re lost!
+        Well, that&apos;s on us
       </h1>
       <p className="md:text-lg leading-relaxed mt-2 md:mt-4">
-        The page you&apos;re looking for doesn&apos;t exist
+        Looks like we encountered an unexpected error
       </p>
-      <p className="md:text-lg leading-relaxed">
-        Let&apos;s get you back to safety ASAP
-      </p>
+      <p className="md:text-lg leading-relaxed">Quick! Back to safety!</p>
 
       <Link href="/">
         <a>
