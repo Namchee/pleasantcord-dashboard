@@ -12,8 +12,8 @@ function Dashboard(): JSX.Element {
         <div className="grid place-items-center text-center">
           <Image
             src="/images/landing-dashboard.svg"
-            width={200}
-            height={200}
+            width={210}
+            height={210}
             title="Select server to manage"
             alt="Select server to manage"
           />

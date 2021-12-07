@@ -14,7 +14,6 @@ function DefaultLayout({
       </Head>
 
       <div className="min-h-screen
-        bg-background
         flex flex-col
         text-content
         antialiased">

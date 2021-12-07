@@ -64,7 +64,7 @@ function Menu(): JSX.Element {
               <Image
                 width={48}
                 height={48}
-                src="/images/logo-production.svg"
+                src="/images/logo-short.svg"
                 alt="pleasantcord"
                 title="pleasantcord"
                 role="banner"

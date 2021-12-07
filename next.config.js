@@ -12,14 +12,6 @@ module.exports = {
     locales: ['en-US'],
     defaultLocale: 'en-US',
   },
-  async rewrites() {
-    return [
-      {
-        source: '/',
-        destination: '/dashboard',
-      },
-    ];
-  },
   images: {
     domains: ['cdn.discordapp.com'],
   },
