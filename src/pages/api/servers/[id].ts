@@ -16,7 +16,7 @@ async function getServerById(
 
   const id = req.query['id'];
 
-  if (!id) {
+  if (!id || Number.isNaN(id)) {
     return res.status(400).json({
       data: null,
       error: 'Server ID is required',

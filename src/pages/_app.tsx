@@ -1,4 +1,4 @@
-import { Provider } from 'next-auth/client';
+import { SessionProvider } from 'next-auth/react';
 
 import Router from 'next/router';
 
@@ -10,6 +10,7 @@ import '@/styles/globals.css';
 import { DefaultLayout } from '@/layout';
 
 import type { AppProps } from 'next/app';
+import { FIVE_MINUTES } from '@/common/time';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -17,12 +18,13 @@ Router.events.on('routeChangeError', () => NProgress.done());
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <Provider
-      session={pageProps.session}>
+    <SessionProvider
+      session={pageProps.session}
+      refetchInterval={FIVE_MINUTES}>
       <DefaultLayout>
         <Component {...pageProps} />
       </DefaultLayout>
-    </Provider>
+    </SessionProvider>
   );
 }
 

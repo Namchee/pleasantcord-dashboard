@@ -1,31 +1,38 @@
 import NextAuth from 'next-auth';
-import Providers from 'next-auth/providers';
+
+import Discord from 'next-auth/providers/discord';
 
 export default NextAuth({
-  jwt: {
-    secret: process.env.JWT_SECRET,
-    signingKey: process.env.JWT_PRIVATE_KEY,
+  secret: process.env.JWT_SECRET as string,
+  session: {
+    strategy: 'jwt',
   },
   providers: [
-    Providers.Discord({
+    Discord({
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
-      scope: 'guilds',
+      authorization: {
+        params: {
+          scope: 'guilds identify',
+        },
+      },
     }),
   ],
   callbacks: {
-    async jwt(token, _, account) {
+    async jwt({ token, account }) {
       if (!account) {
         return token;
       }
 
-      if (account.accessToken) {
-        token.accessToken = account.accessToken;
+      if (account.access_token) {
+        token.accessToken = account.access_token;
       }
 
-      if (account.refreshToken) {
-        token.refreshToken = account.refreshToken;
+      if (account.refresh_token) {
+        token.refreshToken = account.refresh_token;
       }
+
+      token.userId = token.sub;
 
       return token;
     },

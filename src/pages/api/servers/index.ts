@@ -8,36 +8,42 @@ async function getServers(
   req: NextApiRequest,
   res: NextApiResponse,
 ): Promise<void> {
-  const token = await getToken({
-    req,
-    secret: process.env.JWT_SECRET,
-    signingKey: process.env.JWT_PRIVATE_KEY,
-  });
+  try {
+    const token = await getToken({
+      req,
+      secret: process.env.JWT_SECRET as string,
+    });
 
-  const accessToken = token?.accessToken;
+    const accessToken = token?.accessToken;
 
-  if (!token || !accessToken) {
-    return res.status(401).json({
+    if (!token || !accessToken) {
+      return res.status(401).json({
+        data: null,
+        error: 'User is not authenticated',
+      });
+    }
+
+    const result = await Promise.all([
+      fetchAdminUserServer(accessToken),
+      fetchBotServer(process.env.BOT_TOKEN as string),
+    ]);
+
+    const botServers = result[1].map((s) => s.id);
+
+    const servers = result[0].filter(({ id }) => {
+      return botServers.includes(id);
+    });
+
+    return res.status(200).json({
+      data: servers,
+      error: null,
+    });
+  } catch (err) {
+    return res.status(500).json({
       data: null,
-      error: 'User is not authenticated',
+      error: (err as Error).message,
     });
   }
-
-  const result = await Promise.all([
-    fetchAdminUserServer(accessToken),
-    fetchBotServer(process.env.BOT_TOKEN as string),
-  ]);
-
-  const botServers = result[1].map((s) => s.id);
-
-  const servers = result[0].filter(({ id }) => {
-    return botServers.includes(id);
-  });
-
-  return res.status(200).json({
-    data: servers,
-    error: null,
-  });
 }
 
 function isAdmin(permission: string): boolean {

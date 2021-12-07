@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import useSWR from 'swr';
 
-import { signOut } from 'next-auth/client';
+import { signOut } from 'next-auth/react';
 import { useTransition, animated, config } from 'react-spring';
 
 import * as RadixAvatar from '@radix-ui/react-avatar';

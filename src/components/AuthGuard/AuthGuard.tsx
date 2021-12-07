@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { signIn, useSession } from 'next-auth/client';
+import { signIn, useSession } from 'next-auth/react';
 
 import { DISCORD } from '@/constant/provider';
 import { AuthLoader } from '@/components/AuthLoader';
@@ -8,23 +8,19 @@ import { AuthLoader } from '@/components/AuthLoader';
 function AuthGuard(
   { children }: React.PropsWithChildren<unknown>,
 ): JSX.Element {
-  const [session, loading] = useSession();
+  const { status } = useSession();
 
   React.useEffect(() => {
-    if (!loading && !session) {
+    if (status === 'unauthenticated') {
       signIn(DISCORD);
     }
-  }, [session, loading]);
+  }, [status]);
 
-  if (loading) {
+  if (status === 'loading') {
     return <AuthLoader />;
   }
 
-  if (!loading && session) {
-    return <>{children}</>;
-  }
-
-  return <AuthLoader />;
+  return <>{children}</>;
 }
 
 export default AuthGuard;
