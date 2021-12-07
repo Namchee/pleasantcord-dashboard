@@ -1,7 +1,9 @@
 import * as React from 'react';
 
-import { useRouter } from 'next/router';
 import useSWR from 'swr';
+import Head from 'next/head';
+
+import { useRouter } from 'next/router';
 
 import { AuthGuard } from '@/components/AuthGuard';
 import { DashboardLayout } from '@/layout';
@@ -48,29 +50,35 @@ function ServerDashboard(): JSX.Element {
     const { data: config } = configData;
     const { data: categories } = categoriesData;
 
-    return <ConfigForm
-      config={config}
-      categoryList={categories} />;
+    return <ConfigForm config={config} categoryList={categories} />;
   };
 
   return (
-    <AuthGuard>
-      <DashboardLayout>
-        <div className="mb-8">{header()}</div>
-        <div className="mb-12 lg:mb-16">
-          <h2 className="font-medium
+    <>
+      <Head>
+        <title>Edit Configuration &mdash; Pleasantcord Dashboard</title>
+      </Head>
+
+      <AuthGuard>
+        <DashboardLayout>
+          <div className="mb-8">{header()}</div>
+          <div className="mb-12 lg:mb-16">
+            <h2
+              className="font-medium
             text-lg
             md:text-xl
-            leading-loose">
-            Configuration
-          </h2>
-          <p className="opacity-50 max-w-lg">
-            You can configure pleasantcord&apos;s behavior here
-          </p>
-        </div>
-        {form()}
-      </DashboardLayout>
-    </AuthGuard>
+            leading-loose"
+            >
+              Configuration
+            </h2>
+            <p className="opacity-50 max-w-lg">
+              You can configure pleasantcord&apos;s behavior here
+            </p>
+          </div>
+          {form()}
+        </DashboardLayout>
+      </AuthGuard>
+    </>
   );
 }
 
