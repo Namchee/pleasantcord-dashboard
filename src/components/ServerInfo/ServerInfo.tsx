@@ -35,7 +35,7 @@ function ServerInfo({
         layout="fixed"
         className="rounded-md" />
       <div className="flex flex-col justify-between">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3">
           <h1 className="font-bold
             tracking-tight
             text-2xl md:text-28px lg:text-32px
@@ -45,7 +45,7 @@ function ServerInfo({
           </h1>
           {
             isVerified() &&
-            <CheckmarkIcon className="w-5 h-5 text-primary" />
+            <CheckmarkIcon className="w-18px h-18px" />
           }
         </div>
         <p className="opacity-50 text-lg">
