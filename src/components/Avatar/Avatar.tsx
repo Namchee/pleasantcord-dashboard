@@ -20,7 +20,7 @@ function Avatar(
         ${rounded ? 'rounded-full' : 'rounded-md'}
         bg-background-dark
         w-10 h-10
-        text-base`}>
+        text-lg`}>
       {initial()}
     </div>
   );

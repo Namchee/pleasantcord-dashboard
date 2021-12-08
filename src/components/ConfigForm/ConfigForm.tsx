@@ -30,14 +30,14 @@ const configSchema = z
     accuracy: z
       .number({
         required_error: 'This field is required',
-        invalid_type_error: 'This field is required',
+        invalid_type_error: 'This field must be filled with number',
       })
       .gt(0, 'Accuracy must be greater than zero')
       .max(100, 'Accuracy cannot exceed 100%'),
     categories: z
       .enum(['Drawing', 'Neutral', 'Hentai', 'Sexy', 'Porn'])
       .array()
-      .min(1, 'Please select one of the categories')
+      .min(1, 'Please select at least one of the categories')
       .max(5, 'You cannot select more than all provided categories'),
     delete: z.enum(['true', 'false']),
   })
@@ -181,6 +181,7 @@ function ConfigForm({
                 placeholder="Threshold"
                 required={true}
                 {...register('accuracy', { valueAsNumber: true })}
+                step="any"
               />
               <span
                 aria-hidden="true"
