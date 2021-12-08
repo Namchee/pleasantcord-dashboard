@@ -43,6 +43,10 @@ function Profile(): JSX.Element {
 
   const { data: user } = data;
 
+  if (!user) {
+    return <Skeleton className="rounded-full w-12 h-12" />;
+  }
+
   return (
     <Popover.Root open={open}>
       <Popover.Trigger
@@ -61,7 +65,10 @@ function Profile(): JSX.Element {
             className="rounded-full shadow-inner"
           />
           <RadixAvatar.Fallback>
-            <Avatar rounded name={user.username} />
+            <Avatar
+              rounded
+              name={user.username}
+              className="w-12 h-12 text-xl" />
           </RadixAvatar.Fallback>
         </RadixAvatar.Root>
       </Popover.Trigger>

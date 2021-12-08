@@ -31,6 +31,16 @@ function Menu(): JSX.Element {
 
     const { data: servers } = data;
 
+    if (!servers) {
+      return (
+        <>
+          <ServerItem.Skeleton />
+          <ServerItem.Skeleton />
+          <ServerItem.Skeleton />
+        </>
+      );
+    }
+
     if (!servers.length) {
       return (
         <p

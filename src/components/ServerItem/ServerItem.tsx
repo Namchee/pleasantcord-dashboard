@@ -43,7 +43,7 @@ function ServerItem({
           className={className}
         />
         <RadixAvatar.Fallback>
-          <Avatar name={server.name} />
+          <Avatar name={server.name} className="w-10 w-10 text-lg" />
         </RadixAvatar.Fallback>
       </RadixAvatar.Root>
     ) : (

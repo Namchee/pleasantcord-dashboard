@@ -16,7 +16,7 @@ function ServerDashboard(): JSX.Element {
   const { id } = query;
 
   const { data: headerData } = useSWR(['/api/servers', id], (url, id) => {
-    if (id === undefined) {
+    if (!id) {
       return null;
     }
 
@@ -39,6 +39,10 @@ function ServerDashboard(): JSX.Element {
 
     const { data: server } = headerData;
 
+    if (!server) {
+      return <ServerInfo.Skeleton />;
+    }
+
     return <ServerInfo server={server} />;
   };
 
@@ -49,6 +53,10 @@ function ServerDashboard(): JSX.Element {
 
     const { data: config } = configData;
     const { data: categories } = categoriesData;
+
+    if (!config || !categories) {
+      return <ConfigForm.Skeleton />;
+    }
 
     return <ConfigForm config={config} categoryList={categories} />;
   };

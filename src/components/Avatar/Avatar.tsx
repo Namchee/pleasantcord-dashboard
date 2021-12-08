@@ -3,10 +3,11 @@ import * as React from 'react';
 export type AvatarProps = {
   name: string;
   rounded?: boolean;
+  className?: string;
 }
 
 function Avatar(
-  { name, rounded }: React.PropsWithoutRef<AvatarProps>,
+  { name, rounded, className }: React.PropsWithoutRef<AvatarProps>,
 ): JSX.Element {
   const initial = () => {
     return name.split(' ').map((v) => v[0]).slice(0, 2).join('');
@@ -19,8 +20,7 @@ function Avatar(
       className={`grid place-items-center
         ${rounded ? 'rounded-full' : 'rounded-md'}
         bg-background-dark
-        w-12 h-12
-        text-lg`}>
+        ${className}`}>
       {initial()}
     </div>
   );
