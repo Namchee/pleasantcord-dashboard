@@ -19,7 +19,7 @@ function Avatar(
       className={`grid place-items-center
         ${rounded ? 'rounded-full' : 'rounded-md'}
         bg-background-dark
-        w-10 h-10
+        w-12 h-12
         text-lg`}>
       {initial()}
     </div>
