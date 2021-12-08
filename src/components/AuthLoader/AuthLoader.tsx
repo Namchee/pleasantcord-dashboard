@@ -14,7 +14,7 @@ function AuthLoader(): JSX.Element {
   };
 
   return (
-    <div className="flex-1 grid place-items-center">
+    <div className="flex-1 grid place-items-center bg-background">
       <Lottie options={opts} width={320} height={320} speed={1.75} />
     </div>
   );
