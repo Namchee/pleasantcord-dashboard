@@ -1,9 +1,0 @@
-[build]
-  command = "yarn build"
-  publish = ".next"
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
-
-[functions]
-  included_files = [".next/*.json"]
