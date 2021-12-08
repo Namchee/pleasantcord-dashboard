@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-import { useRouter } from 'next/router';
-
-import { useSession } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
 
 import {
   RocketIcon,
@@ -14,16 +12,11 @@ import { Navbar } from '@/components/Navbar';
 import { HomeAccent } from '@/components/Accent';
 import { Button } from '@/components/Button';
 import { DiscordIcon } from '@/components/Icon';
-import Footer from '@/components/Footer/Footer';
+import { Footer } from '@/components/Footer';
+
+import type { GetServerSidePropsContext } from 'next';
 
 function Home(): JSX.Element {
-  const { replace } = useRouter();
-  const { status } = useSession();
-
-  if (status === 'authenticated') {
-    replace('/dashboard');
-  }
-
   return (
     <div
       className="flex-1
@@ -205,6 +198,23 @@ function Home(): JSX.Element {
       <Footer />
     </div>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getSession(context);
+
+  if (session) {
+    return {
+      redirect: {
+        destination: '/dashboard',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 }
 
 export default Home;
