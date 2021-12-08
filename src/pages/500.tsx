@@ -15,10 +15,11 @@ function NotFoundPage(): JSX.Element {
 
       <div
         className="p-12 md:p-24
-      mx-auto max-w-6xl
-      grid place-items-center
+        flex-1
+      flex flex-col
       text-content text-opacity-40
-      text-center"
+      text-center
+      bg-background"
       >
         <Image
           src="/images/500.svg"
