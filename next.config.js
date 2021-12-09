@@ -13,6 +13,9 @@ module.exports = {
     defaultLocale: 'en-US',
   },
   images: {
-    domains: ['cdn.discordapp.com'],
+    domains: [
+      'cdn.discordapp.com',
+      'res.cloudinary.com',
+    ],
   },
 };

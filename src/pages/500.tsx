@@ -22,11 +22,13 @@ function NotFoundPage(): JSX.Element {
       bg-background"
       >
         <Image
-          src="/images/500.svg"
+          src="https://res.cloudinary.com/namchee/image/upload/v1639050868/pleasantcord/500_zums71.svg"
           width={280}
           height={280}
           title="Not Found"
           alt="Not Found"
+          placeholder="blur"
+          blurDataURL="https://res.cloudinary.com/namchee/image/upload/e_blur:200,q_25/v1639050868/pleasantcord/500_zums71.webp"
         />
 
         <h1

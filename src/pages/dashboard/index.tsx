@@ -17,11 +17,13 @@ function Dashboard(): JSX.Element {
         <DashboardLayout>
           <div className="grid place-items-center text-center">
             <Image
-              src="/images/landing-dashboard.svg"
+              src="https://res.cloudinary.com/namchee/image/upload/v1639050868/pleasantcord/landing-dashboard_gjezes.svg"
               width={210}
               height={210}
               title="Select server to manage"
               alt="Select server to manage"
+              placeholder="blur"
+              blurDataURL="https://res.cloudinary.com/namchee/image/upload/c_scale,e_blur:200,h_210,q_25,w_206/v1639050868/pleasantcord/landing-dashboard_gjezes.webp"
             />
             <p className="mt-10 max-w-md opacity-40 text-lg leading-relaxed">
               To begin, select one of the servers from the menu

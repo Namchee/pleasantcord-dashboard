@@ -22,12 +22,14 @@ function Navbar(): JSX.Element {
       <Link href="/">
         <a>
           <Image
-            width={150}
-            height={65}
-            src="/images/logo-long.svg"
+            width={153}
+            height={33}
+            src="https://res.cloudinary.com/namchee/image/upload/v1639050868/pleasantcord/logo-long_m6vvcn.svg"
             alt="pleasantcord"
             title="pleasantcord"
             role="banner"
+            placeholder="blur"
+            blurDataURL='https://res.cloudinary.com/namchee/image/upload/e_blur:100,q_25/v1639050868/pleasantcord/logo-long_m6vvcn.webp'
           />
         </a>
       </Link>
