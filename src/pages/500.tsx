@@ -28,7 +28,7 @@ function NotFoundPage(): JSX.Element {
           title="Not Found"
           alt="Not Found"
           placeholder="blur"
-          blurDataURL="https://res.cloudinary.com/namchee/image/upload/e_blur:200,q_25/v1639050868/pleasantcord/500_zums71.webp"
+          blurDataURL="https://res.cloudinary.com/namchee/image/upload/c_scale,e_blur:200,q_25,w_280/v1639050868/pleasantcord/500_zums71.webp"
         />
 
         <h1
