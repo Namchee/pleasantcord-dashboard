@@ -16,6 +16,7 @@ function DefaultLayout({
 
         <meta name="theme-color" content="#34343A" />
         <meta property="og:locale" content="en_US" />
+        <meta property="og:image" content="https://res.cloudinary.com/namchee/image/upload/q_80/v1639127246/pleasantcord/OG_Image_pnjivc.jpg" />
       </Head>
 
       <div className="min-h-screen

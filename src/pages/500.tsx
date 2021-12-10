@@ -10,7 +10,7 @@ function NotFoundPage(): JSX.Element {
   return (
     <>
       <Head>
-        <title>500 &mdash; Well that&apos;s unexpected</title>
+        <title>500: Well that&apos;s unexpected &mdash; Pleasantcord</title>
       </Head>
 
       <div

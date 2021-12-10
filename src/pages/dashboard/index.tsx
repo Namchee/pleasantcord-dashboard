@@ -10,7 +10,7 @@ function Dashboard(): JSX.Element {
   return (
     <>
       <Head>
-        <title>Pleasantcord Dashboard</title>
+        <title>Dashboard — Pleasantcord</title>
       </Head>
 
       <AuthGuard>
