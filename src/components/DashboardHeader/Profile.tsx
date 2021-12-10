@@ -43,6 +43,16 @@ function Profile(): JSX.Element {
 
   const { data: user } = data;
 
+  if (!user) {
+    return <Skeleton className="rounded-full w-12 h-12" />;
+  }
+
+  if (!user.avatar) {
+    return (
+      <Avatar rounded name={user.username} className="w-12 h-12 text-xl" />
+    );
+  }
+
   return (
     <Popover.Root open={open}>
       <Popover.Trigger
@@ -61,59 +71,71 @@ function Profile(): JSX.Element {
             className="rounded-full shadow-inner"
           />
           <RadixAvatar.Fallback>
-            <Avatar rounded name={user.username} />
+            <Avatar
+              rounded
+              name={user.username}
+              className="w-12 h-12 text-xl"
+            />
           </RadixAvatar.Fallback>
         </RadixAvatar.Root>
       </Popover.Trigger>
       {transition((styles, item) => {
-        return item && (
-          <Popover.Content
-            sideOffset={12}
-            collisionTolerance={16}
-            onPointerDownOutside={() => setOpen(false)}
-            forceMount
-            asChild
-          >
-            <animated.div
-              style={styles}
-              className="py-6 px-8
+        return (
+          item && (
+            <Popover.Content
+              sideOffset={12}
+              collisionTolerance={16}
+              onPointerDownOutside={() => setOpen(false)}
+              forceMount
+              asChild
+            >
+              <animated.div
+                style={styles}
+                className="py-6 px-8
               bg-background-dark
               rounded-lg
               origin-top-right
-              text-content">
-              <p
-                className="text-xs
+              text-content"
+              >
+                <p
+                  className="text-xs
             font-medium
             opacity-50
             uppercase
             tracking-wider"
-              >
-                Signed in as
-              </p>
-              <p className="text-2xl mt-2">
-                <span className="font-bold tracking-tight">
-                  {user.username}
-                </span>
-                <span className="opacity-50 ml-2px">#{user.discriminator}</span>
-              </p>
+                >
+                  Signed in as
+                </p>
+                <p className="text-2xl mt-2">
+                  <span className="font-bold tracking-tight">
+                    {user.username}
+                  </span>
+                  <span className="opacity-50 ml-2px">
+                    #{user.discriminator}
+                  </span>
+                </p>
 
-              <Button
-                onClick={() => signOut({
-                  callbackUrl: '/',
-                })}
-                type="button"
-                theme="primary"
-                className="px-4 py-2
-              text-sm
-              mt-8"
-              >
-                Sign Out
-              </Button>
-              <Popover.Arrow
-                offset={16}
-                className="fill-current text-background-dark" />
-            </animated.div>
-          </Popover.Content>
+                <Button
+                  onClick={() =>
+                    signOut({
+                      callbackUrl: '/',
+                    })
+                  }
+                  type="button"
+                  theme="primary"
+                  className="px-4 py-2
+                    text-sm
+                    mt-8"
+                >
+                  Sign Out
+                </Button>
+                <Popover.Arrow
+                  offset={16}
+                  className="fill-current text-background-dark"
+                />
+              </animated.div>
+            </Popover.Content>
+          )
         );
       })}
     </Popover.Root>
