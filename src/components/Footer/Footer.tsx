@@ -15,6 +15,7 @@ function Footer(): JSX.Element {
       <p>
         <a href="https://github.com/Namchee/pleasantcord"
           target="_blank"
+          aria-label="GitHub"
           rel="noopener noreferrer">
           <GitHubLogoIcon className="w-6 h-6" />
         </a>

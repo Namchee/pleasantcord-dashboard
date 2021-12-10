@@ -28,7 +28,7 @@ function Dashboard(): JSX.Element {
             </p>
             <p className="md:max-w-md text-lg mt-2 md:mt-0">
               <span className="opacity-40">
-                Or add the bot to your server by clicking
+                Or add <code>pleasantcord</code> to your server by clicking
               </span>{' '}
               <a
                 target="_blank"
