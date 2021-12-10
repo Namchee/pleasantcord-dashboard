@@ -116,6 +116,7 @@ function Menu(): JSX.Element {
 
           <ul className="flex-1
             flex items-center
+            md:items-start
             space-x-2
             md:(space-x-0 space-y-2 flex-col)">
             {items()}
