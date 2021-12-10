@@ -11,7 +11,7 @@ function DashboardLayout({
       bg-background
       flex flex-col md:flex-row">
       <aside className="order-last md:order-none
-        lg:w-1/4 lg:max-w-360px
+        lg:min-w-1/4 lg:max-w-360px
         sticky bottom-0 left-0 right-0
         md:top-0
         md:h-screen lg:w-full
