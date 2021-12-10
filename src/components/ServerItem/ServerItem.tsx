@@ -60,7 +60,7 @@ function ServerItem({
       rounded-md
       bg-content
       ${isSameId ? 'bg-opacity-5' : 'bg-opacity-0'}
-      w-full
+      lg:w-full
       group`;
   };
 
