@@ -33,6 +33,7 @@ function Home(): JSX.Element {
         <meta property="og:url" content="https://pleasantcord.namchee.dev"></meta>
         <meta property="og:type" content="website"></meta>
         <meta property="og:description" content={metaDesc}></meta>
+        <meta name="twitter:card" content="summary_large_image"></meta>
       </Head>
       <div
         className="flex-1
