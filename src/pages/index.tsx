@@ -19,7 +19,7 @@ import { Footer } from '@/components/Footer';
 import type { GetServerSidePropsContext } from 'next';
 
 // eslint-disable-next-line max-len
-const metaDesc = 'Your Discord servers is never safe from harmful contents. Invite pleasantcord and free your servers from NSFW, effortlessly';
+const metaDesc = 'Your Discord servers is never safe from harmful contents. Invite pleasantcord and free your servers from NSFW, effortlessly.';
 
 function Home(): JSX.Element {
   return (
