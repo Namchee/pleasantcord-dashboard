@@ -10,7 +10,7 @@ function NotFoundPage(): JSX.Element {
   return (
     <>
       <Head>
-        <title>404 &mdash; You&apos;re Lost</title>
+        <title>404: You&apos;re Lost &mdash; Pleasantcord</title>
       </Head>
 
       <div
