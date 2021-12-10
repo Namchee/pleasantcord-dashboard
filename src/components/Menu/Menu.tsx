@@ -46,10 +46,11 @@ function Menu(): JSX.Element {
         <p
           className="text-xl
             opacity-40
-            text-center
-            py-24"
+            mx-auto
+            md:(hidden py-24)
+            lg:block"
         >
-          No managed servers
+          No managable servers
         </p>
       );
     }
@@ -105,14 +106,16 @@ function Menu(): JSX.Element {
             Servers
           </p>
 
-          <div className="lg:hidden
+          <div
+            aria-hidden="true"
+            className="lg:hidden
             border-r md:border-t border-content-dark
             bg-content-dark
             opacity-60 mx-4 md:my-4 md:mx-0">
-
           </div>
 
-          <ul className="flex
+          <ul className="flex-1
+            flex items-center
             space-x-2
             md:(space-x-0 space-y-2 flex-col)">
             {items()}
