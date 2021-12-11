@@ -34,7 +34,21 @@ export function spawnSuccessToast() {
   );
 }
 
+export function spawnFailedToast(message: string) {
+  dismissToasts();
+
+  toast.error(
+    message,
+    {
+      id: 'success',
+      duration: 2500,
+      style,
+    },
+  );
+}
+
 export function dismissToasts() {
   toast.dismiss('loading');
   toast.dismiss('success');
+  toast.dismiss('error');
 }

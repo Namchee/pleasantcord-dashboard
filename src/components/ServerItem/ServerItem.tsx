@@ -9,6 +9,7 @@ import * as RadixAvatar from '@radix-ui/react-avatar';
 import { PartialServer } from '@/entity/server';
 import { Avatar } from '@/components/Avatar';
 import { CDN_URL } from '@/constant/api';
+
 import ServerItemSkeleton from './Skeleton';
 
 export type ServerItemProps = {
@@ -33,7 +34,7 @@ function ServerItem({
       group-hover:grayscale-0`;
 
     return server.icon ? (
-      <RadixAvatar.Root className="flex">
+      <RadixAvatar.Root className="w-10 h-10">
         <RadixAvatar.Image
           width={40}
           height={40}
@@ -60,7 +61,7 @@ function ServerItem({
       rounded-md
       bg-content
       ${isSameId ? 'bg-opacity-5' : 'bg-opacity-0'}
-      w-full
+      lg:w-full
       group`;
   };
 
@@ -69,7 +70,6 @@ function ServerItem({
     return `font-medium
       hidden
       lg:block
-      max-w-22.5ch
       flex-1
       truncate
       ${isSameId ? 'opacity-100' : 'opacity-50'}
