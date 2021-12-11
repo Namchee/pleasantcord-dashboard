@@ -11,8 +11,8 @@ function DashboardLayout({
       bg-background
       flex flex-col md:flex-row">
       <aside className="order-last md:order-none
-        lg:min-w-1/4 lg:max-w-360px
-        sticky bottom-0 left-0 right-0
+        lg:w-360px
+        sticky bottom-0 left-0
         md:top-0
         md:h-screen lg:w-full
         bg-background-dark
@@ -20,9 +20,12 @@ function DashboardLayout({
         <Menu />
       </aside>
       <main
-        className="flex-1
+        className="
+          flex-1
           flex flex-col
-          max-w-6xl
+          max-w-full
+          overflow-x-hidden
+          lg:max-w-6xl
           mx-auto
         "
       >

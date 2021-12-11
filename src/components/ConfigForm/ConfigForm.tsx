@@ -159,7 +159,7 @@ function ConfigForm({
               <span>Accuracy Threshold</span>
               <span className="text-danger ml-1">*</span>
             </label>
-            <p className="mt-2 text-sm opacity-50 max-w-sm">
+            <p className="mt-2 text-sm opacity-50 lg:pr-8">
               Minimum accuracy for NSFW classification
             </p>
           </div>
@@ -208,7 +208,7 @@ function ConfigForm({
               <span>NSFW Categories</span>
               <span className="text-danger ml-1">*</span>
             </label>
-            <p className="mt-2 opacity-50 text-sm">
+            <p className="mt-2 opacity-50 text-sm lg:pr-8">
               Categories that should be classified as NSFW
             </p>
           </div>
@@ -266,7 +266,7 @@ function ConfigForm({
               <span>Action</span>
               <span className="text-danger ml-1">*</span>
             </label>
-            <p className="mt-2 opacity-50 text-sm max-w-sm">
+            <p className="mt-2 opacity-50 text-sm lg:pr-8">
               Action be taken on NSFW contents
             </p>
           </div>
