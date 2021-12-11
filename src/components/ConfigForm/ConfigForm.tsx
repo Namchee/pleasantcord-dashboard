@@ -17,8 +17,11 @@ import {
   spawnLoadingToast,
   spawnSuccessToast,
   dismissToasts,
+  spawnFailedToast,
 } from './toast';
 import { PreventRoutingException } from '@/common/error';
+
+import type { APIResponse } from '@/entity/response';
 
 export type ConfigFormProps = {
   config: Configuration;
@@ -65,31 +68,30 @@ function ConfigForm({
 
   const [loading, setLoading] = React.useState(false);
   const { query, push } = useRouter();
-  const { id } = query;
 
   const onSubmit = async (data: Record<string, unknown>) => {
-    const config = {
-      server_id: id,
-      accuracy: (data.accuracy as number) / 100,
-      categories: data.categories,
-      delete: data.delete === 'true',
-    };
-
     spawnLoadingToast();
     setLoading(true);
 
-    const result = await fetch('/api/configs', {
+    const response = await fetch(`/api/configs/${query.id}`, {
       method: 'PATCH',
-      body: JSON.stringify(config),
+      body: JSON.stringify(data),
     });
 
-    if (result.ok) {
+    if (response.ok) {
       reset({
         accuracy: data.accuracy as number,
         categories: data.categories as Label[],
         delete: data.delete as string,
       });
       spawnSuccessToast();
+    } else {
+      if (response.status === 500) {
+        push('/500');
+      } else {
+        const { error }: APIResponse<null> = await response.json();
+        spawnFailedToast(error);
+      }
     }
 
     setLoading(false);
@@ -118,7 +120,7 @@ function ConfigForm({
 
   React.useEffect(() => {
     const handleRouteChange = (path: string) => {
-      if (isDirty && !confirm) {
+      if (isDirty && !confirm && path !== '/500') {
         setOpen(true);
         setRoute(path);
         router.router?.abortComponentLoad(path, { shallow: true });
