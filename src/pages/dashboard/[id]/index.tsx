@@ -37,7 +37,9 @@ function ServerDashboard(): JSX.Element {
       return <ServerInfo.Skeleton />;
     }
 
-    return <ServerInfo server={server} />;
+    return <ServerInfo
+      key={`server-${id}`}
+      server={server} />;
   };
 
   const form = () => {
