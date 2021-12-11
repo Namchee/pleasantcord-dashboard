@@ -15,22 +15,16 @@ function ServerDashboard(): JSX.Element {
   const { query } = useRouter();
   const { id } = query;
 
-  const { data: headerData } = useSWR(['/api/servers', id], (url, id) => {
-    if (!id) {
-      return null;
-    }
-
-    return fetcher(`${url}/${id}`);
-  });
+  const { data: headerData } = useSWR(
+    id ? ['/api/servers', id] : null,
+    (url, id) => fetcher(`${url}/${id}`),
+  );
 
   const { data: categoriesData } = useSWR('/api/categories', fetcher);
-  const { data: configData } = useSWR(['/api/configs', id], (url, id) => {
-    if (!id) {
-      return null;
-    }
-
-    return fetcher(`${url}/${id}`);
-  });
+  const { data: configData } = useSWR(
+    id ? ['/api/configs', id] : null,
+    (url, id) => fetcher(`${url}/${id}`),
+  );
 
   const header = () => {
     if (!headerData) {
@@ -43,7 +37,9 @@ function ServerDashboard(): JSX.Element {
       return <ServerInfo.Skeleton />;
     }
 
-    return <ServerInfo server={server} />;
+    return <ServerInfo
+      key={`server-${id}`}
+      server={server} />;
   };
 
   const form = () => {
@@ -58,7 +54,10 @@ function ServerDashboard(): JSX.Element {
       return <ConfigForm.Skeleton />;
     }
 
-    return <ConfigForm config={config} categoryList={categories} />;
+    return <ConfigForm
+      key={`server-${id}`}
+      config={config}
+      categoryList={categories} />;
   };
 
   return (

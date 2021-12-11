@@ -16,7 +16,8 @@ function Topnav(): JSX.Element {
     >
       <div
         className="flex items-center
-        space-x-4"
+        space-x-2
+        md:space-x-4"
       >
         <h1
           className="text-28px
