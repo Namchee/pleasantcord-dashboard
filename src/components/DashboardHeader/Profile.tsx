@@ -38,7 +38,7 @@ function Profile(): JSX.Element {
     },
   });
 
-  const { data } = useSWR<APIResponse<User>>('/api/user', fetcher);
+  const { data } = useSWR<APIResponse<User> >('/api/user', fetcher);
 
   if (!data) {
     return <Skeleton className="rounded-full w-12 h-12" />;

@@ -38,7 +38,7 @@ function NotFoundPage(): JSX.Element {
           Looks like you&apos;re lost!
         </h1>
         <p className="md:text-lg leading-relaxed mt-2 md:mt-4">
-          The page you&apos;re looking for doesn&apos;t exist
+          The resource you&apos;re looking for doesn&apos;t exist
         </p>
         <p className="md:text-lg leading-relaxed">
           Let&apos;s get you back to safety ASAP
