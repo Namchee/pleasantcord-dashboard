@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getToken } from 'next-auth/jwt';
 
 import { API_URL } from '@/constant/api';
+import { DISCORD_NOT_AUTH, REFRESH_ERROR } from '@/constant/error';
 
 async function getCurrentUser(
   req: NextApiRequest,
@@ -31,14 +32,16 @@ async function getCurrentUser(
     }
   );
 
+  const result = await response.json();
+
   if (!response.ok) {
     return res.status(response.status).json({
       data: null,
-      error: response.statusText,
+      error: result.message === DISCORD_NOT_AUTH ?
+        REFRESH_ERROR :
+        result.message,
     });
   }
-
-  const result = await response.json();
 
   return res.status(200).json({
     data: result,

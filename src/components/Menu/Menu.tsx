@@ -4,11 +4,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import useSWR from 'swr';
 
+import { signIn } from 'next-auth/react';
+
 import { ServerItem } from '@/components/ServerItem';
 
 import { fetcher } from '@/utils/fetcher';
 import { PartialServer } from '@/entity/server';
 import { APIResponse } from '@/entity/response';
+import { REFRESH_ERROR } from '@/constant/error';
+import { DISCORD } from '@/constant/provider';
 
 function Menu(): JSX.Element {
   const { data } = useSWR<APIResponse<PartialServer[]>>(
@@ -27,7 +31,11 @@ function Menu(): JSX.Element {
       );
     }
 
-    const { data: servers } = data;
+    const { data: servers, error } = data;
+
+    if (error === REFRESH_ERROR) {
+      signIn(DISCORD);
+    }
 
     if (!servers) {
       return (

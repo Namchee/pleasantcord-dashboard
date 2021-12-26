@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import useSWR from 'swr';
 
-import { signOut } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 import { useTransition, animated, config } from 'react-spring';
 
 import * as RadixAvatar from '@radix-ui/react-avatar';
@@ -12,7 +12,10 @@ import { Avatar } from '@/components/Avatar';
 import { Skeleton } from '@/components/Skeleton';
 import { Button } from '@/components/Button';
 
+import { REFRESH_ERROR } from '@/constant/error';
+import { DISCORD } from '@/constant/provider';
 import { CDN_URL } from '@/constant/api';
+
 import { fetcher } from '@/utils/fetcher';
 
 import type { User } from '@/entity/user';
@@ -41,7 +44,11 @@ function Profile(): JSX.Element {
     return <Skeleton className="rounded-full w-12 h-12" />;
   }
 
-  const { data: user } = data;
+  const { data: user, error } = data;
+
+  if (error === REFRESH_ERROR) {
+    signIn(DISCORD);
+  }
 
   if (!user) {
     return <Skeleton className="rounded-full w-12 h-12" />;

@@ -3,6 +3,7 @@ import { getToken } from 'next-auth/jwt';
 
 import { ADMIN_FLAG, API_URL } from '@/constant/api';
 import { PartialServer } from '@/entity/server';
+import { DISCORD_NOT_AUTH, REFRESH_ERROR } from '@/constant/error';
 
 async function getServers(
   req: NextApiRequest,
@@ -39,9 +40,12 @@ async function getServers(
       error: null,
     });
   } catch (err) {
-    return res.status(500).json({
+    const { message } = err as Error;
+    const isExpired = message === DISCORD_NOT_AUTH;
+
+    return res.status(isExpired ? 401 : 500).json({
       data: null,
-      error: (err as Error).message,
+      error: isExpired ? REFRESH_ERROR : message,
     });
   }
 }
@@ -51,7 +55,7 @@ function isAdmin(permission: string): boolean {
 }
 
 async function fetchAdminUserServer(token: string): Promise<PartialServer[]> {
-  const result = await fetch(
+  const response = await fetch(
     `${API_URL}/users/@me/guilds`,
     {
       headers: {
@@ -60,9 +64,14 @@ async function fetchAdminUserServer(token: string): Promise<PartialServer[]> {
     }
   );
 
-  const servers: PartialServer[] = await result.json();
+  const result = await response.json();
 
-  return servers.filter(({ permissions }) => isAdmin(permissions));
+  if (result.message === DISCORD_NOT_AUTH) {
+    throw new Error(DISCORD_NOT_AUTH);
+  }
+
+  return (result as PartialServer[])
+    .filter(({ permissions }) => isAdmin(permissions));
 }
 
 async function fetchBotServer(token: string): Promise<PartialServer[]> {
