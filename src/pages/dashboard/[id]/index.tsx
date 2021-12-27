@@ -10,18 +10,25 @@ import { DashboardLayout } from '@/layout';
 import { fetcher } from '@/utils/fetcher';
 import { ServerInfo } from '@/components/ServerInfo';
 import { ConfigForm } from '@/components/ConfigForm';
+import { APIResponse } from '@/entity/response';
+import { Server } from '@/entity/server';
+import { Category } from '@/entity/category';
+import { Configuration } from '@/entity/config';
 
 function ServerDashboard(): JSX.Element {
-  const { query } = useRouter();
+  const { query, push } = useRouter();
   const { id } = query;
 
-  const { data: headerData } = useSWR(
+  const { data: headerData } = useSWR<APIResponse<Server> >(
     id ? ['/api/servers', id] : null,
     (url, id) => fetcher(`${url}/${id}`),
   );
 
-  const { data: categoriesData } = useSWR('/api/categories', fetcher);
-  const { data: configData } = useSWR(
+  const { data: categoriesData } = useSWR<APIResponse<Category[]> >(
+    '/api/categories',
+    fetcher,
+  );
+  const { data: configData, error } = useSWR<APIResponse<Configuration> >(
     id ? ['/api/configs', id] : null,
     (url, id) => fetcher(`${url}/${id}`),
   );
@@ -43,16 +50,17 @@ function ServerDashboard(): JSX.Element {
   };
 
   const form = () => {
+    if (error && [400, 404].includes(error.status)) {
+      push('/404');
+      return;
+    }
+
     if (!categoriesData || !configData) {
       return <ConfigForm.Skeleton />;
     }
 
     const { data: config } = configData;
     const { data: categories } = categoriesData;
-
-    if (!config || !categories) {
-      return <ConfigForm.Skeleton />;
-    }
 
     return <ConfigForm
       key={`server-${id}`}

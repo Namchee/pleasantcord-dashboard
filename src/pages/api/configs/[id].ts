@@ -45,7 +45,7 @@ async function getServerConfig(
   const serverId = req.query['id'];
 
   if (!serverId || Number.isNaN(serverId)) {
-    return res.status(500).json({
+    return res.status(400).json({
       data: null,
       error: 'Server ID is required and must be an integer',
     });
