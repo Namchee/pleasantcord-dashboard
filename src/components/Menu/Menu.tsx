@@ -15,10 +15,14 @@ import { REFRESH_ERROR } from '@/constant/error';
 import { DISCORD } from '@/constant/provider';
 
 function Menu(): JSX.Element {
-  const { data } = useSWR<APIResponse<PartialServer[]>>(
+  const { data, error } = useSWR<APIResponse<PartialServer[]>>(
     '/api/servers',
     fetcher
   );
+
+  if ((error as Error).message === REFRESH_ERROR) {
+    signIn(DISCORD);
+  }
 
   const items = () => {
     if (!data) {
@@ -31,11 +35,7 @@ function Menu(): JSX.Element {
       );
     }
 
-    const { data: servers, error } = data;
-
-    if (error === REFRESH_ERROR) {
-      signIn(DISCORD);
-    }
+    const { data: servers } = data;
 
     if (!servers) {
       return (

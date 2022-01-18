@@ -38,17 +38,17 @@ function Profile(): JSX.Element {
     },
   });
 
-  const { data } = useSWR<APIResponse<User> >('/api/user', fetcher);
+  const { data, error } = useSWR<APIResponse<User> >('/api/user', fetcher);
+
+  if ((error as Error).message === REFRESH_ERROR) {
+    signIn(DISCORD);
+  }
 
   if (!data) {
     return <Skeleton className="rounded-full w-12 h-12" />;
   }
 
-  const { data: user, error } = data;
-
-  if (error === REFRESH_ERROR) {
-    signIn(DISCORD);
-  }
+  const { data: user } = data;
 
   if (!user) {
     return <Skeleton className="rounded-full w-12 h-12" />;
