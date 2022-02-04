@@ -40,8 +40,12 @@ function Profile(): JSX.Element {
 
   const { data, error } = useSWR<APIResponse<User> >('/api/user', fetcher);
 
-  if ((error as Error).message === REFRESH_ERROR) {
-    signIn(DISCORD);
+  if (error) {
+    const { message } = error as Error;
+
+    if (message === REFRESH_ERROR) {
+      signIn(DISCORD);
+    }
   }
 
   if (!data) {
