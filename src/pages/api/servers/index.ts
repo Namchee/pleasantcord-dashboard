@@ -7,7 +7,7 @@ import { DISCORD_NOT_AUTH, REFRESH_ERROR } from '@/constant/error';
 
 async function getServers(
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse
 ): Promise<void> {
   try {
     const token = await getToken({
@@ -24,15 +24,23 @@ async function getServers(
       });
     }
 
+    const apiUrl = process.env.PC_API_URL;
+    const apiKey = process.env.PC_API_KEY;
+
+    if (!apiUrl || !apiKey) {
+      return res.status(500).json({
+        data: null,
+        error: 'Missing API data. Please check the config',
+      });
+    }
+
     const result = await Promise.all([
       fetchAdminUserServer(accessToken),
-      fetchBotServer(process.env.BOT_TOKEN as string),
+      fetchConfiguredServers(apiKey, token.userId as string),
     ]);
 
-    const botServers = result[1].map((s) => s.id);
-
     const servers = result[0].filter(({ id }) => {
-      return botServers.includes(id);
+      return result[1].includes(Number(id));
     });
 
     return res.status(200).json({
@@ -55,14 +63,11 @@ function isAdmin(permission: string): boolean {
 }
 
 async function fetchAdminUserServer(token: string): Promise<PartialServer[]> {
-  const response = await fetch(
-    `${API_URL}/users/@me/guilds`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const response = await fetch(`${API_URL}/users/@me/guilds`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   const result = await response.json();
 
@@ -70,21 +75,26 @@ async function fetchAdminUserServer(token: string): Promise<PartialServer[]> {
     throw new Error(DISCORD_NOT_AUTH);
   }
 
-  return (result as PartialServer[])
-    .filter(({ permissions }) => isAdmin(permissions));
+  return (result as PartialServer[]).filter(({ permissions }) =>
+    isAdmin(permissions)
+  );
 }
 
-async function fetchBotServer(token: string): Promise<PartialServer[]> {
-  const result = await fetch(
-    `${API_URL}/users/@me/guilds`,
-    {
-      headers: {
-        Authorization: `Bot ${token}`,
-      },
-    }
-  );
+async function fetchConfiguredServers(
+  apiKey: string,
+  userId: string,
+): Promise<number[]> {
+  const apiUrl = process.env.PC_API_URL;
 
-  return result.json();
+  const response = await fetch(`${apiUrl}/config`, {
+    headers: {
+      Authorization: `pleasantcord ${apiKey}/${userId}`,
+    },
+  });
+
+  const { data } = await response.json();
+
+  return data;
 }
 
 export default getServers;
