@@ -7,7 +7,6 @@ import router, { useRouter, Router } from 'next/router';
 import { Toaster } from 'react-hot-toast';
 
 import { Button } from '@/components/Button';
-import { Configuration } from '@/entity/config';
 import { Category, Label } from '@/entity/category';
 
 import Skeleton from './Skeleton';
@@ -22,10 +21,13 @@ import {
 import { PreventRoutingException } from '@/common/error';
 
 import type { APIResponse } from '@/entity/response';
+import type { Configuration } from '@/entity/config';
+import type { Model, ModelType } from '@/entity/model';
 
 export type ConfigFormProps = {
   config: Configuration;
   categoryList: Category[];
+  modelList: Model[];
 };
 
 const configSchema = z
@@ -43,11 +45,13 @@ const configSchema = z
       .min(1, 'Please select at least one of the categories')
       .max(5, 'You cannot select more than all provided categories'),
     delete: z.enum(['true', 'false']),
+    model: z.enum(['MobileNet', 'Inception']),
   })
   .strict('Illegal fields');
 function ConfigForm({
   config,
   categoryList,
+  modelList,
 }: React.PropsWithoutRef<ConfigFormProps>): JSX.Element {
   const {
     register,
@@ -59,6 +63,7 @@ function ConfigForm({
       accuracy: config.accuracy * 100,
       categories: config.categories.sort(),
       delete: String(config.delete),
+      model: config.model,
     },
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -73,6 +78,8 @@ function ConfigForm({
     spawnLoadingToast();
     setLoading(true);
 
+    console.log(data);
+
     const response = await fetch(`/api/configs/${query.id}`, {
       method: 'PATCH',
       body: JSON.stringify(data),
@@ -83,6 +90,7 @@ function ConfigForm({
         accuracy: data.accuracy as number,
         categories: data.categories as Label[],
         delete: data.delete as string,
+        model: data.model as ModelType,
       });
       spawnSuccessToast();
     } else {
@@ -269,7 +277,7 @@ function ConfigForm({
               <span className="text-danger ml-1">*</span>
             </label>
             <p className="mt-2 opacity-50 text-sm lg:pr-8">
-              Action be taken on NSFW contents
+              Action to be taken on NSFW contents
             </p>
           </div>
 
@@ -340,6 +348,62 @@ function ConfigForm({
 
             <p className="text-danger text-sm h-5 mt-2">
               {errors.delete?.message}
+            </p>
+          </div>
+        </div>
+
+        <div
+          className="grid
+        lg:grid-cols-2
+        space-y-4
+        lg:space-y-0"
+        >
+          <div>
+            <label className="text-xl font-medium">
+              <span>Classifier</span>
+              <span className="text-danger ml-1">*</span>
+            </label>
+            <p className="mt-2 opacity-50 text-sm lg:pr-8">
+              NSFW classifier to be used
+            </p>
+          </div>
+
+          <div>
+            <div className="space-y-6">
+              {modelList.map((v, i) => {
+                return (
+                  <label
+                    className="flex items-start space-x-4 max-w-sm"
+                    key={`model-${i}`}
+                    htmlFor={`model-${v.name}`}
+                  >
+                    <input
+                      id={`model-${v.name}`}
+                      value={v.name}
+                      type="radio"
+                      className="w-6 h-6
+                  bg-background-dark
+                  transition-shadow
+                  border border-background-deep
+                  focus:(outline-none ring ring-3 ring-primary ring-opacity-50)
+                  text-primary
+                  rounded-full"
+                      {...register('model')}
+                    />
+
+                    <div>
+                      <p className="text-lg">{v.name}</p>
+                      <p className="text-sm leading-relaxed opacity-50">
+                        {v.description}
+                      </p>
+                    </div>
+                  </label>
+                );
+              })}
+            </div>
+
+            <p className="text-danger text-sm h-5 mt-2">
+              {errors.model?.message}
             </p>
           </div>
         </div>

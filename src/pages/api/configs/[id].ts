@@ -122,6 +122,7 @@ async function updateServerConfig(
         accuracy: body.accuracy / 100,
         categories: body.categories,
         delete: body.delete === 'true',
+        model: body.model,
       }),
     },
   );

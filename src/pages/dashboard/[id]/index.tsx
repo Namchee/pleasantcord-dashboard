@@ -14,24 +14,30 @@ import { APIResponse } from '@/entity/response';
 import { Server } from '@/entity/server';
 import { Category } from '@/entity/category';
 import { Configuration } from '@/entity/config';
+import { Model } from '@/entity/model';
+import { REFRESH_ERROR } from '@/constant/error';
+import { DISCORD } from '@/constant/provider';
+import { signIn } from 'next-auth/react';
 
 function ServerDashboard(): JSX.Element {
   const { query, push } = useRouter();
   const { id } = query;
 
-  const { data: headerData } = useSWR<APIResponse<Server> >(
+  const { data: headerData } = useSWR<APIResponse<Server>>(
     id ? ['/api/servers', id] : null,
-    (url, id) => fetcher(`${url}/${id}`),
+    (url, id) => fetcher(`${url}/${id}`)
   );
 
-  const { data: categoriesData } = useSWR<APIResponse<Category[]> >(
-    '/api/categories',
-    fetcher,
+  const { data: categoriesData, error: categoryError } = useSWR<
+    APIResponse<Category[]>
+  >('/api/categories', fetcher);
+  const { data: modelsData, error: modelError } = useSWR<APIResponse<Model[]>>(
+    '/api/models',
+    fetcher
   );
-  const { data: configData, error } = useSWR<APIResponse<Configuration> >(
-    id ? ['/api/configs', id] : null,
-    (url, id) => fetcher(`${url}/${id}`),
-  );
+  const { data: configData, error: configError } = useSWR<
+    APIResponse<Configuration>
+  >(id ? ['/api/configs', id] : null, (url, id) => fetcher(`${url}/${id}`));
 
   const header = () => {
     if (!headerData) {
@@ -44,28 +50,39 @@ function ServerDashboard(): JSX.Element {
       return <ServerInfo.Skeleton />;
     }
 
-    return <ServerInfo
-      key={`server-${id}`}
-      server={server} />;
+    return <ServerInfo key={`server-${id}`} server={server} />;
   };
 
   const form = () => {
-    if (error && [400, 404].includes(error.status)) {
+    if (configError && [400, 404].includes(configError.status)) {
       push('/404');
       return;
     }
 
-    if (!categoriesData || !configData) {
+    if (!categoriesData || !configData || !modelsData) {
       return <ConfigForm.Skeleton />;
+    }
+
+    if (configError || categoryError || modelError) {
+      const { message } = (configError || categoryError || modelError) as Error;
+
+      if (message === REFRESH_ERROR) {
+        signIn(DISCORD);
+      }
     }
 
     const { data: config } = configData;
     const { data: categories } = categoriesData;
+    const { data: models } = modelsData;
 
-    return <ConfigForm
-      key={`server-${id}`}
-      config={config}
-      categoryList={categories} />;
+    return (
+      <ConfigForm
+        key={`server-${id}`}
+        config={config}
+        categoryList={categories}
+        modelList={models}
+      />
+    );
   };
 
   return (
