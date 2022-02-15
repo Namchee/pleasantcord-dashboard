@@ -1,5 +1,6 @@
-import { API_URL } from '@/constant/api';
 import { NextApiRequest, NextApiResponse } from 'next';
+
+import { API_URL } from '@/constant/api';
 
 async function getServerById(
   req: NextApiRequest,
