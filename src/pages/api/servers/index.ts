@@ -86,7 +86,7 @@ async function fetchConfiguredServers(
 ): Promise<number[]> {
   const apiUrl = process.env.PC_API_URL;
 
-  const response = await fetch(`${apiUrl}/config`, {
+  const response = await fetch(`${apiUrl}/configs`, {
     headers: {
       Authorization: `pleasantcord ${apiKey}/${userId}`,
     },
