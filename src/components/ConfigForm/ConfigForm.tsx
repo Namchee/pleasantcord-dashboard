@@ -1,12 +1,16 @@
 import * as React from 'react';
 
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
-import { useForm } from 'react-hook-form';
 import router, { useRouter, Router } from 'next/router';
+
+import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
+
+import { useForm } from 'react-hook-form';
 import { Toaster } from 'react-hot-toast';
 
 import { Button } from '@/components/Button';
+import { Checkbox } from '@/components/Checkbox';
+import { Radio } from '@/components/Radio';
+
 import { Label } from '@/entity/category';
 
 import Skeleton from './Skeleton';
@@ -20,8 +24,9 @@ import {
 } from './toast';
 import { PreventRoutingException } from '@/common/error';
 
+import { configSchema, Configuration } from '@/entity/config';
+
 import type { APIResponse } from '@/entity/response';
-import type { Configuration } from '@/entity/config';
 import type { Model } from '@/entity/model';
 
 export type ConfigFormProps = {
@@ -30,24 +35,7 @@ export type ConfigFormProps = {
   models: Record<Model, string>;
 };
 
-const configSchema = z
-  .object({
-    accuracy: z
-      .number({
-        required_error: 'This field is required',
-        invalid_type_error: 'This field must be filled with number',
-      })
-      .gt(0, 'Accuracy must be greater than zero')
-      .max(100, 'Accuracy cannot exceed 100%'),
-    categories: z
-      .enum(['Drawing', 'Neutral', 'Hentai', 'Sexy', 'Porn'])
-      .array()
-      .min(1, 'Please select at least one of the categories')
-      .max(5, 'You cannot select more than all provided categories'),
-    delete: z.enum(['true', 'false']),
-    model: z.enum(['MobileNet', 'Inception']),
-  })
-  .strict('Illegal fields');
+
 function ConfigForm({
   config,
   categories,
@@ -158,9 +146,9 @@ function ConfigForm({
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
         <div
           className="grid
-        lg:grid-cols-2
-        space-y-4
-        lg:space-y-0"
+            lg:grid-cols-2
+            space-y-4
+            lg:space-y-0"
         >
           <div>
             <label htmlFor="accuracy" className="text-xl font-medium">
@@ -225,32 +213,15 @@ function ConfigForm({
             <div className="space-y-6">
               {Object.entries(categories).map(([name, desc], i) => {
                 return (
-                  <label
-                    className="flex items-start space-x-4 max-w-sm"
+                  <Checkbox
                     key={`category-${i}`}
-                    htmlFor={`category-${name}`}
-                  >
-                    <input
-                      id={`category-${name}`}
-                      value={name}
-                      type="checkbox"
-                      className="w-6 h-6
-                  bg-background-dark
-                  transition-shadow
-                  border border-background-deep
-                  focus:(outline-none ring ring-3 ring-primary ring-opacity-50)
-                  text-primary
-                  rounded-md"
-                      {...register('categories')}
-                    />
-
-                    <div>
-                      <p className="text-lg">{name}</p>
-                      <p className="text-sm leading-relaxed opacity-50">
-                        {desc}
-                      </p>
-                    </div>
-                  </label>
+                    value={name}
+                    name={name}
+                    props='categories'
+                    theme='primary'
+                    register={register}
+                    help={desc}
+                  />
                 );
               })}
             </div>
@@ -281,67 +252,34 @@ function ConfigForm({
 
           <div>
             <div className="space-y-6">
-              <label
-                htmlFor="delete-true"
-                className="flex items-start space-x-4"
-              >
-                <input
-                  {...register('delete')}
-                  id="delete-true"
-                  value="true"
-                  type="radio"
-                  className="w-6 h-6
-                  bg-background-dark
-                    transition-shadow
-                    border border-background-deep
-                    focus:outline-none
-                    focus:(ring ring-3 ring-primary ring-opacity-50)
-                  text-primary
-                  rounded-full"
-                />
+              <Radio
+                key='delete-true'
+                value='true'
+                name='Delete Content'
+                props='delete'
+                theme='primary'
+                register={register}
+                help='NSFW contents will be deleted'
+              />
 
-                <div>
-                  <p className="text-lg">Delete Content</p>
-                  <p className="text-sm leading-loose opacity-50">
-                    NSFW contents will be deleted
-                  </p>
-                </div>
-              </label>
-
-              <label
-                htmlFor="delete-false"
-                className="flex items-start space-x-4"
-              >
-                <input
-                  {...register('delete')}
-                  id="delete-false"
-                  value="false"
-                  type="radio"
-                  className="w-6 h-6
-                  bg-background-dark
-                    transition-shadow
-                    border border-background-deep
-                    focus:outline-none
-                    focus:(ring ring-3 ring-primary ring-opacity-50)
-                  text-primary
-                  rounded-full"
-                />
-
-                <div>
-                  <p className="text-lg">Blur Content</p>
-                  <p className="text-sm leading-loose opacity-50 max-w-sm">
-                    NSFW contents will be deleted <b>AND</b> re-posted with{' '}
-                    <code
-                      className="bg-background-deep
-                    py-1 px-2
-                    rounded"
-                    >
-                      SPOILER
-                    </code>{' '}
-                    tag
-                  </p>
-                </div>
-              </label>
+              <Radio
+                key='delete-false'
+                value='false'
+                name='Blur Content'
+                props='delete'
+                theme='primary'
+                register={register}
+                // eslint-disable-next-line max-len
+                help={<>NSFW contents will be deleted <b>AND</b> re-posted with{' '}
+                  <code
+                    className="bg-background-deep
+                      py-1 px-2
+                      rounded"
+                  >
+                    SPOILER
+                  </code>{' '}
+                tag</>}
+              />
             </div>
 
             <p className="text-danger text-sm h-5 mt-2">
@@ -370,32 +308,16 @@ function ConfigForm({
             <div className="space-y-6">
               {Object.entries(models).map(([name, desc], i) => {
                 return (
-                  <label
-                    className="flex items-start space-x-4 max-w-sm"
+                  <Radio
                     key={`model-${i}`}
-                    htmlFor={`model-${name}`}
-                  >
-                    <input
-                      id={`model-${name}`}
-                      value={name}
-                      type="radio"
-                      className="w-6 h-6
-                  bg-background-dark
-                  transition-shadow
-                  border border-background-deep
-                  focus:(outline-none ring ring-3 ring-primary ring-opacity-50)
-                  text-primary
-                  rounded-full"
-                      {...register('model')}
-                    />
-
-                    <div>
-                      <p className="text-lg">{name}</p>
-                      <p className="text-sm leading-relaxed opacity-50">
-                        {desc}
-                      </p>
-                    </div>
-                  </label>
+                    value={name}
+                    name={name}
+                    props='model'
+                    theme='primary'
+                    register={register}
+                    // eslint-disable-next-line max-len
+                    help={desc}
+                  />
                 );
               })}
             </div>
