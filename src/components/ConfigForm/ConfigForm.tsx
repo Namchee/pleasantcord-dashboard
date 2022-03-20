@@ -7,6 +7,8 @@ import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
 import { FieldError, useForm } from 'react-hook-form';
 import { Toaster } from 'react-hot-toast';
 
+import * as Tabs from '@radix-ui/react-tabs';
+
 import { Button } from '@/components/Button';
 
 import { Label } from '@/entity/category';
@@ -105,7 +107,6 @@ function ConfigForm({
     return () => dismissToasts();
   }, [isDirty]);
 
-
   // unsaved changes logic
   const [open, setOpen] = React.useState(false);
   const [confirm, setConfirm] = React.useState(false);
@@ -151,17 +152,23 @@ function ConfigForm({
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-        <GeneralForm
-          register={register}
-          categories={categories}
-          errors={errors}
-        />
+        <Tabs.Root defaultValue="general">
+          <Tabs.List>
+            <Tabs.Trigger value="general">General</Tabs.Trigger>
+            <Tabs.Trigger value="advanced">Advanced</Tabs.Trigger>
+          </Tabs.List>
+          <Tabs.Content value="general">
+            <GeneralForm
+              register={register}
+              categories={categories}
+              errors={errors}
+            />
+          </Tabs.Content>
+          <Tabs.Content value="advanced">
+            <AdvancedForm register={register} models={models} errors={errors} />
+          </Tabs.Content>
+        </Tabs.Root>
 
-        <AdvancedForm
-          register={register}
-          models={models}
-          errors={errors}
-        />
 
         <div className="grid grid-cols-2">
           <div
