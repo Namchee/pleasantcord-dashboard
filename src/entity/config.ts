@@ -1,9 +1,9 @@
 import { Label } from './category';
-import { ModelType } from './model';
+import { Model } from './model';
 
 export interface Configuration {
   accuracy: number;
   categories: Label[];
   delete: boolean;
-  model: ModelType;
+  model: Model;
 }
