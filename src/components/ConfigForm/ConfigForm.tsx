@@ -7,7 +7,7 @@ import router, { useRouter, Router } from 'next/router';
 import { Toaster } from 'react-hot-toast';
 
 import { Button } from '@/components/Button';
-import { Category, Label } from '@/entity/category';
+import { Label } from '@/entity/category';
 
 import Skeleton from './Skeleton';
 import ConfigDialog from './ConfigDialog';
@@ -22,12 +22,12 @@ import { PreventRoutingException } from '@/common/error';
 
 import type { APIResponse } from '@/entity/response';
 import type { Configuration } from '@/entity/config';
-import type { Model, ModelType } from '@/entity/model';
+import type { Model } from '@/entity/model';
 
 export type ConfigFormProps = {
   config: Configuration;
-  categoryList: Category[];
-  modelList: Model[];
+  categories: Record<Label, string>;
+  models: Record<Model, string>;
 };
 
 const configSchema = z
@@ -50,8 +50,8 @@ const configSchema = z
   .strict('Illegal fields');
 function ConfigForm({
   config,
-  categoryList,
-  modelList,
+  categories,
+  models,
 }: React.PropsWithoutRef<ConfigFormProps>): JSX.Element {
   const {
     register,
@@ -78,8 +78,6 @@ function ConfigForm({
     spawnLoadingToast();
     setLoading(true);
 
-    console.log(data);
-
     const response = await fetch(`/api/configs/${query.id}`, {
       method: 'PATCH',
       body: JSON.stringify(data),
@@ -90,7 +88,7 @@ function ConfigForm({
         accuracy: data.accuracy as number,
         categories: data.categories as Label[],
         delete: data.delete as string,
-        model: data.model as ModelType,
+        model: data.model as Model,
       });
       spawnSuccessToast();
     } else {
@@ -225,16 +223,16 @@ function ConfigForm({
 
           <div>
             <div className="space-y-6">
-              {categoryList.map((v, i) => {
+              {Object.entries(categories).map(([name, desc], i) => {
                 return (
                   <label
                     className="flex items-start space-x-4 max-w-sm"
                     key={`category-${i}`}
-                    htmlFor={`category-${v.name}`}
+                    htmlFor={`category-${name}`}
                   >
                     <input
-                      id={`category-${v.name}`}
-                      value={v.name}
+                      id={`category-${name}`}
+                      value={name}
                       type="checkbox"
                       className="w-6 h-6
                   bg-background-dark
@@ -247,9 +245,9 @@ function ConfigForm({
                     />
 
                     <div>
-                      <p className="text-lg">{v.name}</p>
+                      <p className="text-lg">{name}</p>
                       <p className="text-sm leading-relaxed opacity-50">
-                        {v.description}
+                        {desc}
                       </p>
                     </div>
                   </label>
@@ -370,16 +368,16 @@ function ConfigForm({
 
           <div>
             <div className="space-y-6">
-              {modelList.map((v, i) => {
+              {Object.entries(models).map(([name, desc], i) => {
                 return (
                   <label
                     className="flex items-start space-x-4 max-w-sm"
                     key={`model-${i}`}
-                    htmlFor={`model-${v.name}`}
+                    htmlFor={`model-${name}`}
                   >
                     <input
-                      id={`model-${v.name}`}
-                      value={v.name}
+                      id={`model-${name}`}
+                      value={name}
                       type="radio"
                       className="w-6 h-6
                   bg-background-dark
@@ -392,9 +390,9 @@ function ConfigForm({
                     />
 
                     <div>
-                      <p className="text-lg">{v.name}</p>
+                      <p className="text-lg">{name}</p>
                       <p className="text-sm leading-relaxed opacity-50">
-                        {v.description}
+                        {desc}
                       </p>
                     </div>
                   </label>
