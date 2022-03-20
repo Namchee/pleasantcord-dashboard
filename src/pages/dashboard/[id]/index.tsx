@@ -12,12 +12,12 @@ import { ServerInfo } from '@/components/ServerInfo';
 import { ConfigForm } from '@/components/ConfigForm';
 import { APIResponse } from '@/entity/response';
 import { Server } from '@/entity/server';
-import { Category } from '@/entity/category';
 import { Configuration } from '@/entity/config';
 import { Model } from '@/entity/model';
 import { REFRESH_ERROR } from '@/constant/error';
 import { DISCORD } from '@/constant/provider';
 import { signIn } from 'next-auth/react';
+import { Label } from '@/entity/category';
 
 function ServerDashboard(): JSX.Element {
   const { query, push } = useRouter();
@@ -29,12 +29,11 @@ function ServerDashboard(): JSX.Element {
   );
 
   const { data: categoriesData, error: categoryError } = useSWR<
-    APIResponse<Category[]>
+    APIResponse<Record<Label, string> >
   >('/api/categories', fetcher);
-  const { data: modelsData, error: modelError } = useSWR<APIResponse<Model[]>>(
-    '/api/models',
-    fetcher
-  );
+  const { data: modelsData, error: modelError } = useSWR<
+    APIResponse<Record<Model, string> >
+  >('/api/models', fetcher);
   const { data: configData, error: configError } = useSWR<
     APIResponse<Configuration>
   >(id ? ['/api/configs', id] : null, (url, id) => fetcher(`${url}/${id}`));
@@ -79,8 +78,8 @@ function ServerDashboard(): JSX.Element {
       <ConfigForm
         key={`server-${id}`}
         config={config}
-        categoryList={categories}
-        modelList={models}
+        categories={categories}
+        models={models}
       />
     );
   };
