@@ -4,12 +4,10 @@ import router, { useRouter, Router } from 'next/router';
 
 import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
 
-import { useForm } from 'react-hook-form';
+import { FieldError, useForm } from 'react-hook-form';
 import { Toaster } from 'react-hot-toast';
 
 import { Button } from '@/components/Button';
-import { Checkbox } from '@/components/Checkbox';
-import { Radio } from '@/components/Radio';
 
 import { Label } from '@/entity/category';
 
@@ -28,6 +26,8 @@ import { configSchema, Configuration } from '@/entity/config';
 
 import type { APIResponse } from '@/entity/response';
 import type { Model } from '@/entity/model';
+import GeneralForm from './GeneralForm';
+import AdvancedForm from './AdvancedForm';
 
 export type ConfigFormProps = {
   config: Configuration;
@@ -35,6 +35,13 @@ export type ConfigFormProps = {
   models: Record<Model, string>;
 };
 
+// TODO: is it possible to generate this without defining?
+export type ConfigFormErrors = {
+  categories?: FieldError[] | undefined;
+  model?: FieldError | undefined;
+  accuracy?: FieldError | undefined;
+  delete?: FieldError | undefined;
+};
 
 function ConfigForm({
   config,
@@ -62,7 +69,7 @@ function ConfigForm({
   const [loading, setLoading] = React.useState(false);
   const { query, push } = useRouter();
 
-  const onSubmit = async (data: Record<string, unknown>) => {
+  const onSubmit = async (data: Record<keyof Configuration, unknown>) => {
     spawnLoadingToast();
     setLoading(true);
 
@@ -144,189 +151,17 @@ function ConfigForm({
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-        <div
-          className="grid
-            lg:grid-cols-2
-            space-y-4
-            lg:space-y-0"
-        >
-          <div>
-            <label htmlFor="accuracy" className="text-xl font-medium">
-              <span>Accuracy Threshold</span>
-              <span className="text-danger ml-1">*</span>
-            </label>
-            <p className="mt-2 text-sm opacity-50 lg:pr-8">
-              Minimum accuracy for NSFW classification
-            </p>
-          </div>
+        <GeneralForm
+          register={register}
+          categories={categories}
+          errors={errors}
+        />
 
-          <div className="max-w-sm">
-            <div className="relative flex items-center">
-              <input
-                id="accuracy"
-                className="self-start
-            text-lg
-            py-3 px-4
-            w-full
-            bg-background-dark
-            rounded-md
-            border border-background-deep
-            transition-shadow
-            focus:(outline-none ring ring-3 ring-primary ring-opacity-50)"
-                type="number"
-                placeholder="Threshold"
-                required={true}
-                {...register('accuracy', { valueAsNumber: true })}
-                step="any"
-              />
-              <span
-                aria-hidden="true"
-                className="absolute opacity-50 font-bold right-0 mr-4"
-              >
-                %
-              </span>
-            </div>
-
-            <p className="text-danger text-sm h-5 mt-2">
-              {errors.accuracy?.message}
-            </p>
-          </div>
-        </div>
-
-        <div
-          className="grid
-        lg:grid-cols-2
-        space-y-4
-        lg:space-y-0"
-        >
-          <div>
-            <label className="text-xl font-medium">
-              <span>NSFW Categories</span>
-              <span className="text-danger ml-1">*</span>
-            </label>
-            <p className="mt-2 opacity-50 text-sm lg:pr-8">
-              Categories that should be classified as NSFW
-            </p>
-          </div>
-
-          <div>
-            <div className="space-y-6">
-              {Object.entries(categories).map(([name, desc], i) => {
-                return (
-                  <Checkbox
-                    key={`category-${i}`}
-                    value={name}
-                    name={name}
-                    props='categories'
-                    theme='primary'
-                    register={register}
-                    help={desc}
-                  />
-                );
-              })}
-            </div>
-            <p className="text-danger text-sm h-5 mt-2">
-              {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                (errors.categories as any)?.message
-              }
-            </p>
-          </div>
-        </div>
-
-        <div
-          className="grid
-        lg:grid-cols-2
-        space-y-4
-        lg:space-y-0"
-        >
-          <div>
-            <label className="text-xl font-medium">
-              <span>Action</span>
-              <span className="text-danger ml-1">*</span>
-            </label>
-            <p className="mt-2 opacity-50 text-sm lg:pr-8">
-              Action to be taken on NSFW contents
-            </p>
-          </div>
-
-          <div>
-            <div className="space-y-6">
-              <Radio
-                key='delete-true'
-                value='true'
-                name='Delete Content'
-                props='delete'
-                theme='primary'
-                register={register}
-                help='NSFW contents will be deleted'
-              />
-
-              <Radio
-                key='delete-false'
-                value='false'
-                name='Blur Content'
-                props='delete'
-                theme='primary'
-                register={register}
-                // eslint-disable-next-line max-len
-                help={<>NSFW contents will be deleted <b>AND</b> re-posted with{' '}
-                  <code
-                    className="bg-background-deep
-                      py-1 px-2
-                      rounded"
-                  >
-                    SPOILER
-                  </code>{' '}
-                tag</>}
-              />
-            </div>
-
-            <p className="text-danger text-sm h-5 mt-2">
-              {errors.delete?.message}
-            </p>
-          </div>
-        </div>
-
-        <div
-          className="grid
-        lg:grid-cols-2
-        space-y-4
-        lg:space-y-0"
-        >
-          <div>
-            <label className="text-xl font-medium">
-              <span>Classifier</span>
-              <span className="text-danger ml-1">*</span>
-            </label>
-            <p className="mt-2 opacity-50 text-sm lg:pr-8">
-              NSFW classifier to be used
-            </p>
-          </div>
-
-          <div>
-            <div className="space-y-6">
-              {Object.entries(models).map(([name, desc], i) => {
-                return (
-                  <Radio
-                    key={`model-${i}`}
-                    value={name}
-                    name={name}
-                    props='model'
-                    theme='primary'
-                    register={register}
-                    // eslint-disable-next-line max-len
-                    help={desc}
-                  />
-                );
-              })}
-            </div>
-
-            <p className="text-danger text-sm h-5 mt-2">
-              {errors.model?.message}
-            </p>
-          </div>
-        </div>
+        <AdvancedForm
+          register={register}
+          models={models}
+          errors={errors}
+        />
 
         <div className="grid grid-cols-2">
           <div
