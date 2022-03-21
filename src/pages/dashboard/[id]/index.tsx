@@ -18,6 +18,7 @@ import { REFRESH_ERROR } from '@/constant/error';
 import { DISCORD } from '@/constant/provider';
 import { signIn } from 'next-auth/react';
 import { Label } from '@/entity/category';
+import { ContentType } from '@/entity/content';
 
 function ServerDashboard(): JSX.Element {
   const { query, push } = useRouter();
@@ -34,6 +35,9 @@ function ServerDashboard(): JSX.Element {
   const { data: modelsData, error: modelError } = useSWR<
     APIResponse<Record<Model, string> >
   >('/api/models', fetcher);
+  const { data: contentsData, error: contentError } = useSWR<
+    APIResponse<Record<ContentType, string> >
+  >('/api/contents', fetcher);
   const { data: configData, error: configError } = useSWR<
     APIResponse<Configuration>
   >(id ? ['/api/configs', id] : null, (url, id) => fetcher(`${url}/${id}`));
@@ -58,12 +62,14 @@ function ServerDashboard(): JSX.Element {
       return;
     }
 
-    if (!categoriesData || !configData || !modelsData) {
+    if (!categoriesData || !configData || !modelsData || !contentsData) {
       return <ConfigForm.Skeleton />;
     }
 
-    if (configError || categoryError || modelError) {
-      const { message } = (configError || categoryError || modelError) as Error;
+    if (configError || categoryError || modelError || contentError) {
+      const { message } = (
+        configError || categoryError || modelError || contentError
+      ) as Error;
 
       if (message === REFRESH_ERROR) {
         signIn(DISCORD);
@@ -73,12 +79,14 @@ function ServerDashboard(): JSX.Element {
     const { data: config } = configData;
     const { data: categories } = categoriesData;
     const { data: models } = modelsData;
+    const { data: contents } = contentsData;
 
     return (
       <ConfigForm
         key={`server-${id}`}
         config={config}
         categories={categories}
+        contents={contents}
         models={models}
       />
     );

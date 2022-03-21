@@ -28,6 +28,8 @@ import { configSchema, Configuration } from '@/entity/config';
 
 import type { APIResponse } from '@/entity/response';
 import type { Model } from '@/entity/model';
+import type { ContentType } from '@/entity/content';
+
 import GeneralForm from './GeneralForm';
 import AdvancedForm from './AdvancedForm';
 import FormTab from './FormTab';
@@ -36,6 +38,7 @@ export type ConfigFormProps = {
   config: Configuration;
   categories: Record<Label, string>;
   models: Record<Model, string>;
+  contents: Record<ContentType, string>;
 };
 
 // TODO: is it possible to generate this without defining?
@@ -44,13 +47,16 @@ export type ConfigFormErrors = {
   model?: FieldError | undefined;
   accuracy?: FieldError | undefined;
   delete?: FieldError | undefined;
+  content?: FieldError[] | undefined;
 };
 
 function ConfigForm({
   config,
   categories,
   models,
+  contents,
 }: React.PropsWithoutRef<ConfigFormProps>): JSX.Element {
+  console.log(config);
   const {
     register,
     handleSubmit,
@@ -62,6 +68,7 @@ function ConfigForm({
       categories: config.categories.sort(),
       delete: String(config.delete),
       model: config.model,
+      content: config.content.sort(),
     },
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -176,7 +183,12 @@ function ConfigForm({
             />
           </Tabs.Content>
           <Tabs.Content value="advanced">
-            <AdvancedForm register={register} models={models} errors={errors} />
+            <AdvancedForm
+              register={register}
+              models={models}
+              contents={contents}
+              errors={errors}
+            />
           </Tabs.Content>
         </Tabs.Root>
 

@@ -37,7 +37,7 @@ function GeneralForm(
             <span className="text-danger ml-1">*</span>
           </label>
           <p className="mt-2 text-sm opacity-50 lg:pr-8">
-            Minimum accuracy for NSFW classification
+            Minimum probability value for contents to be classified as NSFW
           </p>
         </div>
 
@@ -86,7 +86,7 @@ function GeneralForm(
             <span className="text-danger ml-1">*</span>
           </label>
           <p className="mt-2 opacity-50 text-sm lg:pr-8">
-            Categories that should be classified as NSFW
+            Content categories that should be classified as NSFW
           </p>
         </div>
 
@@ -127,7 +127,7 @@ function GeneralForm(
             <span className="text-danger ml-1">*</span>
           </label>
           <p className="mt-2 opacity-50 text-sm lg:pr-8">
-            Action to be taken on NSFW contents
+            Action to be taken when NSFW contents are detected
           </p>
         </div>
 

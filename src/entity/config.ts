@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { Label } from './category';
+import { ContentType } from './content';
 import { Model } from './model';
 
 export interface Configuration {
@@ -8,6 +9,7 @@ export interface Configuration {
   categories: Label[];
   delete: boolean;
   model: Model;
+  content: ContentType[];
 }
 
 export interface FormConfiguration {
@@ -15,6 +17,7 @@ export interface FormConfiguration {
   categories: Label[];
   delete: string;
   model: Model;
+  content: ContentType[];
 }
 
 export const configSchema = z
