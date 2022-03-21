@@ -93,7 +93,7 @@ function ServerDashboard(): JSX.Element {
       <AuthGuard>
         <DashboardLayout>
           <div className="mb-8">{header()}</div>
-          <div className="mb-12 lg:mb-16">
+          <div className="mb-12 lg:mb-16 hidden">
             <h2
               className="font-medium
             text-lg

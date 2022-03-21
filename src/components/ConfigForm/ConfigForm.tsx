@@ -30,6 +30,7 @@ import type { APIResponse } from '@/entity/response';
 import type { Model } from '@/entity/model';
 import GeneralForm from './GeneralForm';
 import AdvancedForm from './AdvancedForm';
+import FormTab from './FormTab';
 
 export type ConfigFormProps = {
   config: Configuration;
@@ -149,13 +150,23 @@ function ConfigForm({
     };
   }, [isDirty, confirm]);
 
+  const [formTab, setFormTab] = React.useState('general');
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-        <Tabs.Root defaultValue="general">
-          <Tabs.List>
-            <Tabs.Trigger value="general">General</Tabs.Trigger>
-            <Tabs.Trigger value="advanced">Advanced</Tabs.Trigger>
+        <Tabs.Root value={formTab} onValueChange={(v) => setFormTab(v)}>
+          <Tabs.List className="mb-8 space-x-8 text-lg">
+            <FormTab
+              name="General"
+              value="general"
+              isActive={formTab === 'general'}
+            />
+            <FormTab
+              name="Advanced"
+              value="advanced"
+              isActive={formTab === 'advanced'}
+            />
           </Tabs.List>
           <Tabs.Content value="general">
             <GeneralForm
