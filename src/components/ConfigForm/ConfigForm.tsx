@@ -47,7 +47,7 @@ export type ConfigFormErrors = {
   model?: FieldError | undefined;
   accuracy?: FieldError | undefined;
   delete?: FieldError | undefined;
-  content?: FieldError[] | undefined;
+  contents?: FieldError[] | undefined;
 };
 
 function ConfigForm({
@@ -68,7 +68,7 @@ function ConfigForm({
       categories: config.categories.sort(),
       delete: String(config.delete),
       model: config.model,
-      content: config.content.sort(),
+      contents: config.contents.sort(),
     },
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -94,6 +94,7 @@ function ConfigForm({
         categories: data.categories as Label[],
         delete: data.delete as string,
         model: data.model as Model,
+        contents: data.contents as ContentType[],
       });
       spawnSuccessToast();
     } else {

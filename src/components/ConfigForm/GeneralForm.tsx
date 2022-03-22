@@ -24,7 +24,7 @@ function GeneralForm(
   }: React.PropsWithoutRef<GeneralFormProps>,
 ): JSX.Element {
   return (
-    <>
+    <section className="space-y-6">
       <div
         className="grid
             lg:grid-cols-2
@@ -172,7 +172,7 @@ function GeneralForm(
           </p>
         </div>
       </div>
-    </>
+    </section>
   );
 }
 

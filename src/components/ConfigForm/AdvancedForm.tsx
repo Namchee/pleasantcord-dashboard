@@ -25,7 +25,7 @@ function AdvancedForm({
   errors,
 }: React.PropsWithoutRef<AdvancedFormProps>): JSX.Element {
   return (
-    <>
+    <section className="space-y-6">
       <div
         className="grid
         lg:grid-cols-2
@@ -50,7 +50,7 @@ function AdvancedForm({
                   key={`content-type-${i}`}
                   value={name}
                   name={name}
-                  props="content"
+                  props="contents"
                   theme="primary"
                   register={register}
                   help={desc}
@@ -61,7 +61,7 @@ function AdvancedForm({
           <p className="text-danger text-sm h-5 mt-2">
             {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              (errors.categories as any)?.message
+              (errors.contents as any)?.message
             }
           </p>
         </div>
@@ -107,7 +107,7 @@ function AdvancedForm({
           </p>
         </div>
       </div>
-    </>
+    </section>
   );
 }
 

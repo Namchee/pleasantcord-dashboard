@@ -123,6 +123,7 @@ async function updateServerConfig(
         categories: body.categories,
         delete: body.delete === 'true',
         model: body.model,
+        contents: body.contents,
       }),
     },
   );

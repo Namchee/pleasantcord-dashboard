@@ -9,15 +9,16 @@ export interface Configuration {
   categories: Label[];
   delete: boolean;
   model: Model;
-  content: ContentType[];
+  contents: ContentType[];
 }
 
+// Stringified form of configuration for HTML forms compatibility
 export interface FormConfiguration {
   accuracy: number;
   categories: Label[];
   delete: string;
   model: Model;
-  content: ContentType[];
+  contents: ContentType[];
 }
 
 export const configSchema = z
@@ -36,5 +37,10 @@ export const configSchema = z
       .max(5, 'You cannot select more than all provided categories'),
     delete: z.enum(['true', 'false']),
     model: z.enum(['MobileNet', 'Inception']),
+    contents: z
+      .enum(['Image', 'Video', 'Sticker'])
+      .array()
+      .min(1, 'Please select at least one of the content types')
+      .max(5, 'You cannot select more than all possible content types'),
   })
   .strict('Illegal fields');
