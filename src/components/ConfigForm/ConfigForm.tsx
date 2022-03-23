@@ -8,6 +8,7 @@ import { FieldError, useForm } from 'react-hook-form';
 import { Toaster } from 'react-hot-toast';
 
 import * as Tabs from '@radix-ui/react-tabs';
+import * as Toast from '@radix-ui/react-toast';
 
 import { Button } from '@/components/Button';
 
@@ -56,7 +57,6 @@ function ConfigForm({
   models,
   contents,
 }: React.PropsWithoutRef<ConfigFormProps>): JSX.Element {
-  console.log(config);
   const {
     register,
     handleSubmit,
@@ -117,12 +117,12 @@ function ConfigForm({
   }, [isDirty]);
 
   // unsaved changes logic
-  const [open, setOpen] = React.useState(false);
-  const [confirm, setConfirm] = React.useState(false);
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [dialogConfirm, setDialogConfirm] = React.useState(false);
   const [route, setRoute] = React.useState('');
 
   const continueNavigation = () => {
-    setConfirm(true);
+    setDialogConfirm(true);
 
     if (route) {
       push(route);
@@ -131,8 +131,8 @@ function ConfigForm({
 
   React.useEffect(() => {
     const handleRouteChange = (path: string) => {
-      if (isDirty && !confirm && path !== '/500') {
-        setOpen(true);
+      if (isDirty && !dialogConfirm && path !== '/500') {
+        setDialogOpen(true);
         setRoute(path);
         router.router?.abortComponentLoad(path, { shallow: true });
         Router.events.emit('routeChangeError');
@@ -156,12 +156,12 @@ function ConfigForm({
       Router.events.off('routeChangeStart', handleRouteChange);
       window.removeEventListener('beforeunload', handleWindowChange);
     };
-  }, [isDirty, confirm]);
+  }, [isDirty, dialogConfirm]);
 
   const [formTab, setFormTab] = React.useState('general');
 
   return (
-    <>
+    <Toast.Provider>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
         <Tabs.Root value={formTab} onValueChange={(v) => setFormTab(v)}>
           <Tabs.List className="mb-8 space-x-8 text-lg">
@@ -215,18 +215,22 @@ function ConfigForm({
         </div>
       </form>
 
-      <Toaster
-        containerStyle={{
-          top: 24,
-        }}
-      />
+      <Toast.Root open={isDirty} onOpenChange={setDialogOpen}
+        className="fixed top-0 top-1/2">
+        <Toast.Title>Scheduled: Catch up</Toast.Title>
+        <Toast.Description asChild>
+          foo bar
+        </Toast.Description>
+      </Toast.Root>
+
+      <Toast.Viewport />
 
       <ConfigDialog
-        open={open}
-        onClose={() => setOpen(false)}
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
         onDiscard={() => continueNavigation()}
       />
-    </>
+    </Toast.Provider>
   );
 }
 
