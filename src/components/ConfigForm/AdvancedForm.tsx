@@ -25,7 +25,7 @@ function AdvancedForm({
   errors,
 }: React.PropsWithoutRef<AdvancedFormProps>): JSX.Element {
   return (
-    <section className="space-y-6">
+    <section className="space-y-8">
       <div
         className="grid
         lg:grid-cols-2

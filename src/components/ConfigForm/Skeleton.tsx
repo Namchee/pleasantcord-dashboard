@@ -5,6 +5,11 @@ import { Skeleton } from '@/components/Skeleton';
 function ConfigFormSkeleton(): JSX.Element {
   return (
     <div className="space-y-8">
+      <div className="flex space-x-8 my-8">
+        <Skeleton className="w-10ch h-8 rounded-md" />
+        <Skeleton className="w-10ch h-8 rounded-md" />
+      </div>
+
       <div
         className="grid
         lg:grid-cols-2
@@ -38,35 +43,35 @@ function ConfigFormSkeleton(): JSX.Element {
               <Skeleton className="w-6 h-6 rounded-md" />
               <div>
                 <Skeleton className="w-20ch h-5 rounded-md" />
-                <Skeleton className="mt-3 w-25ch h-3 rounded-md" />
+                <Skeleton className="mt-3 w-22.5ch h-3 rounded-md" />
               </div>
             </div>
             <div className="flex items-start space-x-4">
               <Skeleton className="w-6 h-6 rounded-md" />
               <div>
                 <Skeleton className="w-20ch h-5 rounded-md" />
-                <Skeleton className="mt-3 w-25ch h-3 rounded-md" />
+                <Skeleton className="mt-3 w-22.5ch h-3 rounded-md" />
               </div>
             </div>
             <div className="flex items-start space-x-4">
               <Skeleton className="w-6 h-6 rounded-md" />
               <div>
                 <Skeleton className="w-20ch h-5 rounded-md" />
-                <Skeleton className="mt-3 w-25ch h-3 rounded-md" />
+                <Skeleton className="mt-3 w-22.5ch h-3 rounded-md" />
               </div>
             </div>
             <div className="flex items-start space-x-4">
               <Skeleton className="w-6 h-6 rounded-md" />
               <div>
                 <Skeleton className="w-20ch h-5 rounded-md" />
-                <Skeleton className="mt-3 w-25ch h-3 rounded-md" />
+                <Skeleton className="mt-3 w-22.5ch h-3 rounded-md" />
               </div>
             </div>
             <div className="flex items-start space-x-4">
               <Skeleton className="w-6 h-6 rounded-md" />
               <div>
                 <Skeleton className="w-20ch h-5 rounded-md" />
-                <Skeleton className="mt-3 w-25ch h-3 rounded-md" />
+                <Skeleton className="mt-3 w-22.5ch h-3 rounded-md" />
               </div>
             </div>
           </div>
@@ -81,7 +86,7 @@ function ConfigFormSkeleton(): JSX.Element {
       >
         <div>
           <Skeleton className="w-20ch h-6 rounded-md" />
-          <Skeleton className="mt-3 w-25ch h-4 rounded-md" />
+          <Skeleton className="mt-3 w-22.5ch h-4 rounded-md" />
         </div>
 
         <div>
@@ -90,14 +95,14 @@ function ConfigFormSkeleton(): JSX.Element {
               <Skeleton className="w-6 h-6 rounded-full" />
               <div>
                 <Skeleton className="w-20ch h-5 rounded-md" />
-                <Skeleton className="mt-3 w-25ch h-3 rounded-md" />
+                <Skeleton className="mt-3 w-22.5ch h-3 rounded-md" />
               </div>
             </div>
             <div className="flex items-start space-x-4">
               <Skeleton className="w-6 h-6 rounded-full" />
               <div>
                 <Skeleton className="w-20ch h-5 rounded-md" />
-                <Skeleton className="mt-3 w-25ch h-3 rounded-md" />
+                <Skeleton className="mt-3 w-22.5ch h-3 rounded-md" />
               </div>
             </div>
           </div>
