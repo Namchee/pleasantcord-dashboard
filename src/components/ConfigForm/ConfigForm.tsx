@@ -1,12 +1,16 @@
 import * as React from 'react';
 
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
-import { useForm } from 'react-hook-form';
 import router, { useRouter, Router } from 'next/router';
+
+import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
+
+import { FieldError, useForm } from 'react-hook-form';
 import { Toaster } from 'react-hot-toast';
 
+import * as Tabs from '@radix-ui/react-tabs';
+
 import { Button } from '@/components/Button';
+
 import { Label } from '@/entity/category';
 
 import Skeleton from './Skeleton';
@@ -20,38 +24,37 @@ import {
 } from './toast';
 import { PreventRoutingException } from '@/common/error';
 
+import { configSchema, Configuration } from '@/entity/config';
+
 import type { APIResponse } from '@/entity/response';
-import type { Configuration } from '@/entity/config';
 import type { Model } from '@/entity/model';
+import type { ContentType } from '@/entity/content';
+
+import GeneralForm from './GeneralForm';
+import AdvancedForm from './AdvancedForm';
+import FormTab from './FormTab';
 
 export type ConfigFormProps = {
   config: Configuration;
   categories: Record<Label, string>;
   models: Record<Model, string>;
+  contents: Record<ContentType, string>;
 };
 
-const configSchema = z
-  .object({
-    accuracy: z
-      .number({
-        required_error: 'This field is required',
-        invalid_type_error: 'This field must be filled with number',
-      })
-      .gt(0, 'Accuracy must be greater than zero')
-      .max(100, 'Accuracy cannot exceed 100%'),
-    categories: z
-      .enum(['Drawing', 'Neutral', 'Hentai', 'Sexy', 'Porn'])
-      .array()
-      .min(1, 'Please select at least one of the categories')
-      .max(5, 'You cannot select more than all provided categories'),
-    delete: z.enum(['true', 'false']),
-    model: z.enum(['MobileNet', 'Inception']),
-  })
-  .strict('Illegal fields');
+// TODO: is it possible to generate this without defining?
+export type ConfigFormErrors = {
+  categories?: FieldError[] | undefined;
+  model?: FieldError | undefined;
+  accuracy?: FieldError | undefined;
+  delete?: FieldError | undefined;
+  contents?: FieldError[] | undefined;
+};
+
 function ConfigForm({
   config,
   categories,
   models,
+  contents,
 }: React.PropsWithoutRef<ConfigFormProps>): JSX.Element {
   const {
     register,
@@ -64,6 +67,7 @@ function ConfigForm({
       categories: config.categories.sort(),
       delete: String(config.delete),
       model: config.model,
+      contents: config.contents.sort(),
     },
     mode: 'onChange',
     reValidateMode: 'onChange',
@@ -74,7 +78,7 @@ function ConfigForm({
   const [loading, setLoading] = React.useState(false);
   const { query, push } = useRouter();
 
-  const onSubmit = async (data: Record<string, unknown>) => {
+  const onSubmit = async (data: Record<keyof Configuration, unknown>) => {
     spawnLoadingToast();
     setLoading(true);
 
@@ -89,6 +93,7 @@ function ConfigForm({
         categories: data.categories as Label[],
         delete: data.delete as string,
         model: data.model as Model,
+        contents: data.contents as ContentType[],
       });
       spawnSuccessToast();
     } else {
@@ -110,14 +115,13 @@ function ConfigForm({
     return () => dismissToasts();
   }, [isDirty]);
 
-
   // unsaved changes logic
-  const [open, setOpen] = React.useState(false);
-  const [confirm, setConfirm] = React.useState(false);
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [dialogConfirm, setDialogConfirm] = React.useState(false);
   const [route, setRoute] = React.useState('');
 
   const continueNavigation = () => {
-    setConfirm(true);
+    setDialogConfirm(true);
 
     if (route) {
       push(route);
@@ -126,8 +130,8 @@ function ConfigForm({
 
   React.useEffect(() => {
     const handleRouteChange = (path: string) => {
-      if (isDirty && !confirm && path !== '/500') {
-        setOpen(true);
+      if (isDirty && !dialogConfirm && path !== '/500') {
+        setDialogOpen(true);
         setRoute(path);
         router.router?.abortComponentLoad(path, { shallow: true });
         Router.events.emit('routeChangeError');
@@ -151,260 +155,43 @@ function ConfigForm({
       Router.events.off('routeChangeStart', handleRouteChange);
       window.removeEventListener('beforeunload', handleWindowChange);
     };
-  }, [isDirty, confirm]);
+  }, [isDirty, dialogConfirm]);
+
+  const [formTab, setFormTab] = React.useState('general');
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-        <div
-          className="grid
-        lg:grid-cols-2
-        space-y-4
-        lg:space-y-0"
-        >
-          <div>
-            <label htmlFor="accuracy" className="text-xl font-medium">
-              <span>Accuracy Threshold</span>
-              <span className="text-danger ml-1">*</span>
-            </label>
-            <p className="mt-2 text-sm opacity-50 lg:pr-8">
-              Minimum accuracy for NSFW classification
-            </p>
-          </div>
+        <Tabs.Root value={formTab} onValueChange={(v) => setFormTab(v)}>
+          <Tabs.List className="mb-8 space-x-8 text-lg">
+            <FormTab
+              name="General"
+              value="general"
+              isActive={formTab === 'general'}
+            />
+            <FormTab
+              name="Advanced"
+              value="advanced"
+              isActive={formTab === 'advanced'}
+            />
+          </Tabs.List>
+          <Tabs.Content value="general">
+            <GeneralForm
+              register={register}
+              categories={categories}
+              errors={errors}
+            />
+          </Tabs.Content>
+          <Tabs.Content value="advanced">
+            <AdvancedForm
+              register={register}
+              models={models}
+              contents={contents}
+              errors={errors}
+            />
+          </Tabs.Content>
+        </Tabs.Root>
 
-          <div className="max-w-sm">
-            <div className="relative flex items-center">
-              <input
-                id="accuracy"
-                className="self-start
-            text-lg
-            py-3 px-4
-            w-full
-            bg-background-dark
-            rounded-md
-            border border-background-deep
-            transition-shadow
-            focus:(outline-none ring ring-3 ring-primary ring-opacity-50)"
-                type="number"
-                placeholder="Threshold"
-                required={true}
-                {...register('accuracy', { valueAsNumber: true })}
-                step="any"
-              />
-              <span
-                aria-hidden="true"
-                className="absolute opacity-50 font-bold right-0 mr-4"
-              >
-                %
-              </span>
-            </div>
-
-            <p className="text-danger text-sm h-5 mt-2">
-              {errors.accuracy?.message}
-            </p>
-          </div>
-        </div>
-
-        <div
-          className="grid
-        lg:grid-cols-2
-        space-y-4
-        lg:space-y-0"
-        >
-          <div>
-            <label className="text-xl font-medium">
-              <span>NSFW Categories</span>
-              <span className="text-danger ml-1">*</span>
-            </label>
-            <p className="mt-2 opacity-50 text-sm lg:pr-8">
-              Categories that should be classified as NSFW
-            </p>
-          </div>
-
-          <div>
-            <div className="space-y-6">
-              {Object.entries(categories).map(([name, desc], i) => {
-                return (
-                  <label
-                    className="flex items-start space-x-4 max-w-sm"
-                    key={`category-${i}`}
-                    htmlFor={`category-${name}`}
-                  >
-                    <input
-                      id={`category-${name}`}
-                      value={name}
-                      type="checkbox"
-                      className="w-6 h-6
-                  bg-background-dark
-                  transition-shadow
-                  border border-background-deep
-                  focus:(outline-none ring ring-3 ring-primary ring-opacity-50)
-                  text-primary
-                  rounded-md"
-                      {...register('categories')}
-                    />
-
-                    <div>
-                      <p className="text-lg">{name}</p>
-                      <p className="text-sm leading-relaxed opacity-50">
-                        {desc}
-                      </p>
-                    </div>
-                  </label>
-                );
-              })}
-            </div>
-            <p className="text-danger text-sm h-5 mt-2">
-              {
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                (errors.categories as any)?.message
-              }
-            </p>
-          </div>
-        </div>
-
-        <div
-          className="grid
-        lg:grid-cols-2
-        space-y-4
-        lg:space-y-0"
-        >
-          <div>
-            <label className="text-xl font-medium">
-              <span>Action</span>
-              <span className="text-danger ml-1">*</span>
-            </label>
-            <p className="mt-2 opacity-50 text-sm lg:pr-8">
-              Action to be taken on NSFW contents
-            </p>
-          </div>
-
-          <div>
-            <div className="space-y-6">
-              <label
-                htmlFor="delete-true"
-                className="flex items-start space-x-4"
-              >
-                <input
-                  {...register('delete')}
-                  id="delete-true"
-                  value="true"
-                  type="radio"
-                  className="w-6 h-6
-                  bg-background-dark
-                    transition-shadow
-                    border border-background-deep
-                    focus:outline-none
-                    focus:(ring ring-3 ring-primary ring-opacity-50)
-                  text-primary
-                  rounded-full"
-                />
-
-                <div>
-                  <p className="text-lg">Delete Content</p>
-                  <p className="text-sm leading-loose opacity-50">
-                    NSFW contents will be deleted
-                  </p>
-                </div>
-              </label>
-
-              <label
-                htmlFor="delete-false"
-                className="flex items-start space-x-4"
-              >
-                <input
-                  {...register('delete')}
-                  id="delete-false"
-                  value="false"
-                  type="radio"
-                  className="w-6 h-6
-                  bg-background-dark
-                    transition-shadow
-                    border border-background-deep
-                    focus:outline-none
-                    focus:(ring ring-3 ring-primary ring-opacity-50)
-                  text-primary
-                  rounded-full"
-                />
-
-                <div>
-                  <p className="text-lg">Blur Content</p>
-                  <p className="text-sm leading-loose opacity-50 max-w-sm">
-                    NSFW contents will be deleted <b>AND</b> re-posted with{' '}
-                    <code
-                      className="bg-background-deep
-                    py-1 px-2
-                    rounded"
-                    >
-                      SPOILER
-                    </code>{' '}
-                    tag
-                  </p>
-                </div>
-              </label>
-            </div>
-
-            <p className="text-danger text-sm h-5 mt-2">
-              {errors.delete?.message}
-            </p>
-          </div>
-        </div>
-
-        <div
-          className="grid
-        lg:grid-cols-2
-        space-y-4
-        lg:space-y-0"
-        >
-          <div>
-            <label className="text-xl font-medium">
-              <span>Classifier</span>
-              <span className="text-danger ml-1">*</span>
-            </label>
-            <p className="mt-2 opacity-50 text-sm lg:pr-8">
-              NSFW classifier to be used
-            </p>
-          </div>
-
-          <div>
-            <div className="space-y-6">
-              {Object.entries(models).map(([name, desc], i) => {
-                return (
-                  <label
-                    className="flex items-start space-x-4 max-w-sm"
-                    key={`model-${i}`}
-                    htmlFor={`model-${name}`}
-                  >
-                    <input
-                      id={`model-${name}`}
-                      value={name}
-                      type="radio"
-                      className="w-6 h-6
-                  bg-background-dark
-                  transition-shadow
-                  border border-background-deep
-                  focus:(outline-none ring ring-3 ring-primary ring-opacity-50)
-                  text-primary
-                  rounded-full"
-                      {...register('model')}
-                    />
-
-                    <div>
-                      <p className="text-lg">{name}</p>
-                      <p className="text-sm leading-relaxed opacity-50">
-                        {desc}
-                      </p>
-                    </div>
-                  </label>
-                );
-              })}
-            </div>
-
-            <p className="text-danger text-sm h-5 mt-2">
-              {errors.model?.message}
-            </p>
-          </div>
-        </div>
 
         <div className="grid grid-cols-2">
           <div
@@ -434,8 +221,8 @@ function ConfigForm({
       />
 
       <ConfigDialog
-        open={open}
-        onClose={() => setOpen(false)}
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
         onDiscard={() => continueNavigation()}
       />
     </>

@@ -1,8 +1,11 @@
 import toast from 'react-hot-toast';
 
-const style = {
+import { CSSProperties } from 'react';
+
+const style: CSSProperties = {
   backgroundColor: '#34343A',
   color: '#EDEDEF',
+  textAlign: 'center',
 };
 
 export function spawnToast(): void {
