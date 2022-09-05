@@ -41,7 +41,7 @@ function Home(): JSX.Element {
         bg-background-deep"
       >
         <Navbar />
-        <main className="flex-1">
+        <main className="flex-1 mb-16">
           <section
             className="w-full max-w-7xl
           mx-auto
@@ -87,7 +87,7 @@ function Home(): JSX.Element {
               Invite pleasantcord and free your servers from NSFW, effortlessly
             </p>
             <a
-              href="https://discord.com/api/oauth2/authorize?client_id=750668307555942482&permissions=10240&scope=bot"
+              href="https://discord.com/api/oauth2/authorize?client_id=750668307555942482&permissions=2147493888&scope=bot%20applications.commands"
               target="_blank"
               rel="noopener noreferrer"
               className="z-1"
@@ -198,7 +198,8 @@ function Home(): JSX.Element {
           </section>
 
           <section
-            className="max-w-7xl w-full mx-auto
+            className="hidden
+            max-w-7xl w-full mx-auto
             px-16 py-24
             md:py-32
             grid place-items-center
