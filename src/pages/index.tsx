@@ -45,7 +45,7 @@ function Home(props: React.PropsWithoutRef<HomeProps>): JSX.Element {
         bg-background-deep"
       >
         <Navbar authenticated={props.authenticated} />
-        <main className="flex-1 mb-16">
+        <main className="flex-1 mb-12">
           <section
             className="w-full max-w-7xl
           mx-auto
@@ -59,7 +59,7 @@ function Home(props: React.PropsWithoutRef<HomeProps>): JSX.Element {
             lg:text-84px
             text-4xl
             max-w-3xl
-            tracking-tighter
+            tracking-tight
             text-center
             leading-tight
             z-1"
