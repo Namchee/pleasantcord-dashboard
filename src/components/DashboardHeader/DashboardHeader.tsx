@@ -1,7 +1,5 @@
 import * as React from 'react';
 
-import { Badge } from '@/components/Badge';
-
 import Profile from './Profile';
 
 function Topnav(): JSX.Element {
@@ -27,16 +25,6 @@ function Topnav(): JSX.Element {
         >
           Dashboard
         </h1>
-        <Badge.Grass
-          className="text-xs
-            px-2 py-1
-            rounded-md
-            font-medium
-            uppercase"
-          label="beta"
-        >
-          Beta
-        </Badge.Grass>
       </div>
       <Profile />
     </div>

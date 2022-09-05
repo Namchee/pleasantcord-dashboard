@@ -77,7 +77,7 @@ function Menu(): JSX.Element {
           md:max-h-screen
           overflow-auto"
     >
-      <Link href="/dashboard">
+      <Link href="/">
         <a
           className="flex items-center
             space-x-4

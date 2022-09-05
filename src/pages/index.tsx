@@ -21,7 +21,11 @@ import type { GetServerSidePropsContext } from 'next';
 // eslint-disable-next-line max-len
 const metaDesc = 'Your Discord servers is never safe from harmful contents. Invite pleasantcord and free your servers from NSFW, effortlessly.';
 
-function Home(): JSX.Element {
+interface HomeProps {
+  authenticated: boolean;
+}
+
+function Home(props: React.PropsWithoutRef<HomeProps>): JSX.Element {
   return (
     <>
       <Head>
@@ -40,7 +44,7 @@ function Home(): JSX.Element {
         flex flex-col
         bg-background-deep"
       >
-        <Navbar />
+        <Navbar authenticated={props.authenticated} />
         <main className="flex-1 mb-16">
           <section
             className="w-full max-w-7xl
@@ -53,7 +57,7 @@ function Home(): JSX.Element {
               className="font-bold
             md:text-7xl
             lg:text-84px
-            text-5xl
+            text-4xl
             max-w-3xl
             tracking-tighter
             text-center
@@ -222,17 +226,10 @@ function Home(): JSX.Element {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession(context);
 
-  if (session) {
-    return {
-      redirect: {
-        destination: '/dashboard',
-        permanent: false,
-      },
-    };
-  }
-
   return {
-    props: {},
+    props: {
+      authenticated: session,
+    },
   };
 }
 
