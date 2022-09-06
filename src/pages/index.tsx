@@ -45,7 +45,7 @@ function Home(props: React.PropsWithoutRef<HomeProps>): JSX.Element {
         bg-background-deep"
       >
         <Navbar authenticated={props.authenticated} />
-        <main className="flex-1 mb-12">
+        <main className="flex-1 my-12 md:my-16">
           <section
             className="w-full max-w-7xl
           mx-auto
@@ -195,7 +195,8 @@ function Home(props: React.PropsWithoutRef<HomeProps>): JSX.Element {
               text-center md:text-left
               mt-2"
               >
-                Customize pleasantcord’s behavior in your servers easily through
+                Customize pleasantcord&apos;s behavior in your
+                servers easily through
                 our intuitive dashboard to your liking.
               </p>
             </div>

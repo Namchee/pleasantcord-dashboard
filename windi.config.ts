@@ -10,6 +10,34 @@ export default defineConfig({
       sans: ['Public Sans', 'system-ui', 'Segoe UI', 'Arial', 'sans-serif'],
     },
     extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            color: '#EDEDEF',
+            h1: {
+              color: '#EDEDEF',
+            },
+            h2: {
+              color: '#EDEDEF',
+            },
+            h3: {
+              color: '#EDEDEF',
+            },
+            h4: {
+              color: '#EDEDEF',
+            },
+            strong: {
+              color: '#EDEDEF',
+            },
+            a: {
+              'color': '#3B82F6',
+              '&:hover': {
+                color: '#2776F5',
+              },
+            },
+          },
+        },
+      },
       colors: {
         background: {
           DEFAULT: '#3E3E44',
