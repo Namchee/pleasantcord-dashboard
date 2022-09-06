@@ -15,7 +15,7 @@ function Footer(): JSX.Element {
       </p>
 
       <div className="flex space-x-8">
-        <Link href="/privacy">
+        <Link href="/privacy-policy">
           <a className="underline">
             Privacy Policy
           </a>

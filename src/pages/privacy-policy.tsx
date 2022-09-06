@@ -400,6 +400,46 @@ function Privacy(props: React.PropsWithoutRef<PrivacyProps>): JSX.Element {
               We cannot guarantee its absolute security.
             </p>
 
+            <h3>
+              Detailed Information on the Processing of Your Personal Data
+            </h3>
+            <p>
+              The Service Providers We use may have access to Your Personal
+              Data. These third-party vendors collect, store, use, process and
+              transfer information about Your activity on Our Service in
+              accordance with their Privacy Policies.
+            </p>
+
+            <h4>Sentry</h4>
+
+            <p>
+              Sentry is an open-source error tracking application that provides
+              us information about crashes and malfunctions in Applications.
+            </p>
+
+            <p>
+              To Sentry, in case of malfunction or failure, the following
+              information is transmitted:
+            </p>
+
+            <ul>
+              <li>
+                Content of the last message, which may include personal
+                pictures.
+              </li>
+            </ul>
+
+            <p>
+              For more information on the privacy practices of Sentry, please
+              visit the Sentry Privacy Policy web page:{' '}
+              <a
+                href="https://sentry.io/privacy/"
+                rel="external nofollow noopener noreferrer"
+                target="_blank">
+                https://sentry.io/privacy/
+              </a>
+            </p>
+
             <h2>Children&apos;s Privacy</h2>
             <p>
               Our Service does not address anyone under the age of 13. We do not
@@ -455,7 +495,8 @@ function Privacy(props: React.PropsWithoutRef<PrivacyProps>): JSX.Element {
 
             <ul>
               <li>
-                <p>By email:{' '}
+                <p>
+                  By email:{' '}
                   <a
                     href="mailto:im-cristopher@proton.me"
                     rel="external nofollow noopener noreferrer"
