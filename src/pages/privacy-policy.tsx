@@ -46,7 +46,7 @@ function Privacy(props: React.PropsWithoutRef<PrivacyProps>): JSX.Element {
             <h1>Privacy Policy</h1>
 
             <p className="text-content-dark italic">
-              Last updated: September 05, 2022
+              Last updated: September 06, 2022
             </p>
 
             <p>
@@ -503,18 +503,6 @@ function Privacy(props: React.PropsWithoutRef<PrivacyProps>): JSX.Element {
                     target="_blank"
                   >
                     im-cristopher@proton.me
-                  </a>
-                </p>
-              </li>
-              <li>
-                <p>
-                  By visiting this page on our website:{' '}
-                  <a
-                    href="https://pleasantcord.namchee.dev"
-                    rel="external nofollow noopener noreferrer"
-                    target="_blank"
-                  >
-                    https://pleasantcord.namchee.dev
                   </a>
                 </p>
               </li>

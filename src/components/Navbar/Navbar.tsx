@@ -20,7 +20,7 @@ function Navbar(
       })}
       type="button"
       theme="primary"
-      className="px-5 py-2 text-sm"
+      className="px-4 py-2 text-sm"
     >
       Sign In
     </Button>
@@ -39,7 +39,7 @@ function Navbar(
           active:bg-primary-dark
           focus:outline-none
           focus:(bg-primary-dark ring ring-4 ring-primary ring-opacity-50)
-          px-5 py-2 text-sm"
+          px-4 py-2 text-sm"
         >
           Dashboard
         </a>
