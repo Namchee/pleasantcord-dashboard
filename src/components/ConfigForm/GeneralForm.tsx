@@ -8,7 +8,7 @@ import { Radio } from '@/components/Radio';
 import type { FormConfiguration } from '@/entity/config';
 import type { Label } from '@/entity/category';
 
-import { ConfigFormErrors } from './ConfigForm';
+import type { ConfigFormErrors } from './ConfigForm';
 
 type GeneralFormProps = {
   register: UseFormRegister<FormConfiguration>;
