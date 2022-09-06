@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import router, { useRouter, Router } from 'next/router';
+import { useRouter, Router } from 'next/router';
 
-import { zodResolver } from '@hookform/resolvers/zod/dist/zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import { FieldError, useForm } from 'react-hook-form';
+import { FieldErrorsImpl, useForm } from 'react-hook-form';
 import { Toaster } from 'react-hot-toast';
 
 import * as Tabs from '@radix-ui/react-tabs';
@@ -41,14 +41,13 @@ export type ConfigFormProps = {
   contents: Record<ContentType, string>;
 };
 
-// TODO: is it possible to generate this without defining?
-export type ConfigFormErrors = {
-  categories?: FieldError[] | undefined;
-  model?: FieldError | undefined;
-  accuracy?: FieldError | undefined;
-  delete?: FieldError | undefined;
-  contents?: FieldError[] | undefined;
-};
+export type ConfigFormErrors = FieldErrorsImpl<{
+  accuracy: number;
+  categories: NonNullable<Label>[];
+  delete: string;
+  model: NonNullable<Model>;
+  contents: NonNullable<ContentType>[];
+}>;
 
 function ConfigForm({
   config,
@@ -133,7 +132,7 @@ function ConfigForm({
       if (isDirty && !dialogConfirm && path !== '/500') {
         setDialogOpen(true);
         setRoute(path);
-        router.router?.abortComponentLoad(path, { shallow: true });
+
         Router.events.emit('routeChangeError');
         throw new PreventRoutingException();
       }

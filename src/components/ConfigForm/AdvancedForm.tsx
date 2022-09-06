@@ -9,7 +9,7 @@ import type { FormConfiguration } from '@/entity/config';
 import type { Model } from '@/entity/model';
 import type { ContentType } from '@/entity/content';
 
-import { ConfigFormErrors } from './ConfigForm';
+import type { ConfigFormErrors } from './ConfigForm';
 
 type AdvancedFormProps = {
   register: UseFormRegister<FormConfiguration>;

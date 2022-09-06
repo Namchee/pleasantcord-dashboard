@@ -21,7 +21,11 @@ import type { GetServerSidePropsContext } from 'next';
 // eslint-disable-next-line max-len
 const metaDesc = 'Your Discord servers is never safe from harmful contents. Invite pleasantcord and free your servers from NSFW, effortlessly.';
 
-function Home(): JSX.Element {
+interface HomeProps {
+  authenticated: boolean;
+}
+
+function Home(props: React.PropsWithoutRef<HomeProps>): JSX.Element {
   return (
     <>
       <Head>
@@ -40,8 +44,8 @@ function Home(): JSX.Element {
         flex flex-col
         bg-background-deep"
       >
-        <Navbar />
-        <main className="flex-1">
+        <Navbar authenticated={props.authenticated} />
+        <main className="flex-1 my-12 md:my-16">
           <section
             className="w-full max-w-7xl
           mx-auto
@@ -53,9 +57,9 @@ function Home(): JSX.Element {
               className="font-bold
             md:text-7xl
             lg:text-84px
-            text-5xl
+            text-4xl
             max-w-3xl
-            tracking-tighter
+            tracking-tight
             text-center
             leading-tight
             z-1"
@@ -87,7 +91,7 @@ function Home(): JSX.Element {
               Invite pleasantcord and free your servers from NSFW, effortlessly
             </p>
             <a
-              href="https://discord.com/api/oauth2/authorize?client_id=750668307555942482&permissions=10240&scope=bot"
+              href="https://discord.com/api/oauth2/authorize?client_id=750668307555942482&permissions=2147493888&scope=bot%20applications.commands"
               target="_blank"
               rel="noopener noreferrer"
               className="z-1"
@@ -191,14 +195,16 @@ function Home(): JSX.Element {
               text-center md:text-left
               mt-2"
               >
-                Customize pleasantcord’s behavior in your servers easily through
+                Customize pleasantcord&apos;s behavior in your
+                servers easily through
                 our intuitive dashboard to your liking.
               </p>
             </div>
           </section>
 
           <section
-            className="max-w-7xl w-full mx-auto
+            className="hidden
+            max-w-7xl w-full mx-auto
             px-16 py-24
             md:py-32
             grid place-items-center
@@ -221,17 +227,10 @@ function Home(): JSX.Element {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession(context);
 
-  if (session) {
-    return {
-      redirect: {
-        destination: '/dashboard',
-        permanent: false,
-      },
-    };
-  }
-
   return {
-    props: {},
+    props: {
+      authenticated: session,
+    },
   };
 }
 

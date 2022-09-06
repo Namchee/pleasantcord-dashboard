@@ -6,7 +6,47 @@ import Image from 'next/image';
 import { Button } from '@/components/Button';
 import { signIn } from 'next-auth/react';
 
-function Navbar(): JSX.Element {
+interface NavbarProps {
+  authenticated: boolean;
+}
+
+function Navbar(
+  props: React.PropsWithoutRef<NavbarProps>
+): JSX.Element {
+  let button = (
+    <Button
+      onClick={() => signIn('discord', {
+        callbackUrl: '/dashboard',
+      })}
+      type="button"
+      theme="primary"
+      className="px-4 py-2 text-sm"
+    >
+      Sign In
+    </Button>
+  );
+
+  if (props.authenticated) {
+    button = (
+      <Link href="/dashboard">
+        <a
+          className="bg-primary
+          text-content
+          rounded-md
+          transition-shadow
+          transition-colors
+          hover:bg-primary-dark
+          active:bg-primary-dark
+          focus:outline-none
+          focus:(bg-primary-dark ring ring-4 ring-primary ring-opacity-50)
+          px-4 py-2 text-sm"
+        >
+          Dashboard
+        </a>
+      </Link>
+    );
+  }
+
   return (
     <nav
       className="w-full
@@ -32,16 +72,7 @@ function Navbar(): JSX.Element {
         </a>
       </Link>
 
-      <Button
-        onClick={() => signIn('discord', {
-          callbackUrl: '/dashboard',
-        })}
-        type="button"
-        theme="primary"
-        className="px-5 py-2 text-sm"
-      >
-        Sign In
-      </Button>
+      {button}
     </nav>
   );
 }
