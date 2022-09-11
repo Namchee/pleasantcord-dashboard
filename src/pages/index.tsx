@@ -13,7 +13,6 @@ import {
 import { Navbar } from '@/components/Navbar';
 import { HomeAccent } from '@/components/Accent';
 import { Button } from '@/components/Button';
-import { DiscordIcon } from '@/components/Icon';
 import { Footer } from '@/components/Footer';
 
 import type { GetServerSidePropsContext } from 'next';
@@ -33,8 +32,12 @@ function Home(props: React.PropsWithoutRef<HomeProps>): JSX.Element {
         <meta name="description" content={metaDesc}></meta>
         <meta
           property="og:title"
-          content="Hassle-Free NSFW Moderation — Pleasantcord"></meta>
-        <meta property="og:url" content="https://pleasantcord.namchee.dev"></meta>
+          content="Hassle-Free NSFW Moderation — Pleasantcord"
+        ></meta>
+        <meta
+          property="og:url"
+          content="https://pleasantcord.namchee.dev"
+        ></meta>
         <meta property="og:type" content="website"></meta>
         <meta property="og:description" content={metaDesc}></meta>
         <meta name="twitter:card" content="summary_large_image"></meta>
@@ -90,32 +93,57 @@ function Home(props: React.PropsWithoutRef<HomeProps>): JSX.Element {
             >
               Invite pleasantcord and free your servers from NSFW, effortlessly
             </p>
-            <a
-              href="https://discord.com/api/oauth2/authorize?client_id=750668307555942482&permissions=2147493888&scope=bot%20applications.commands"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="z-1"
-            >
-              <Button
-                theme="primary"
-                className="flex items-center justify-between
+
+            <div className="mt-12
+              flex flex-col items-center
+              space-y-6
+              md:flex-row
+              md:space-x-12 md:space-y-0">
+              <a
+                href="https://discord.com/api/oauth2/authorize?client_id=750668307555942482&permissions=2147493888&scope=bot%20applications.commands"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="z-1"
+              >
+                <Button
+                  theme="primary"
+                  className="flex items-center justify-between
               space-x-2
               px-8 py-3
-              rounded-30px
-              mt-8"
-                type="button"
+              rounded-30px"
+                  type="button"
+                >
+                  <span className="md:text-xl font-medium tracking-tight">
+                    Add to Discord
+                  </span>
+                </Button>
+              </a>
+
+              <a
+                href="https://discord.gg/Pj4aGp8Aky"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="z-1"
               >
-                <DiscordIcon className="w-6 h-auto" />
-                <span className="text-xl font-medium tracking-tight">
-                  Invite Now
-                </span>
-              </Button>
-            </a>
+                <Button
+                  theme="accent"
+                  className="flex items-center justify-between
+              space-x-2
+              px-8 py-3
+              rounded-30px"
+                  type="button"
+                >
+                  <span className="md:text-xl font-medium tracking-tight">
+                    Join Support Server
+                  </span>
+                </Button>
+              </a>
+            </div>
 
             <HomeAccent
               className="w-full min-h-auto
             absolute
-            md:-top-3/12
+            md:-top-4/12
             select-none"
             />
           </section>
@@ -195,9 +223,8 @@ function Home(props: React.PropsWithoutRef<HomeProps>): JSX.Element {
               text-center md:text-left
               mt-2"
               >
-                Customize pleasantcord&apos;s behavior in your
-                servers easily through
-                our intuitive dashboard to your liking.
+                Customize pleasantcord&apos;s behavior in your servers easily
+                through our intuitive dashboard to your liking.
               </p>
             </div>
           </section>

@@ -14,7 +14,7 @@ const themeStyles = {
   focus:outline-none
   focus:(bg-primary-dark ring ring-4 ring-primary ring-opacity-50)`,
   accent: `bg-accent
-  text-content
+  text-background-dark
   rounded-md
   transition-shadow
   transition-colors

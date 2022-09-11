@@ -14,20 +14,23 @@ function Footer(): JSX.Element {
         Made with love by Namchee
       </p>
 
-      <div className="flex space-x-8">
+      <div className="flex flex-col items-center
+        space-y-4
+        md:flex-row
+        md:space-x-8 md:space-y-0">
         <Link href="/terms-and-conditions">
-          <a className="underline">
+          <a className="underline text-center">
             Terms and Conditions
           </a>
         </Link>
         <Link href="/privacy-policy">
-          <a className="underline">
+          <a className="underline text-center">
             Privacy Policy
           </a>
         </Link>
         <Link href="https://github.com/Namchee/pleasantcord">
           <a
-            className="underline"
+            className="underline text-center"
             target="_blank"
             aria-label="GitHub"
             rel="noopener noreferrer">
