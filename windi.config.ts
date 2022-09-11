@@ -51,6 +51,7 @@ export default defineConfig({
         },
         accent: {
           DEFAULT: '#FFA31A',
+          dark: '#F09000',
         },
         content: {
           DEFAULT: '#EDEDEF',
